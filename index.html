@@ -1,0 +1,3823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>KillByte · Premium L7 & L4 Infrastructure</title>
+    <meta name="description" content="KillByte - The most powerful Layer 7 & Layer 4 infrastructure. Engineered for precision, built for dominance.">
+    <meta name="theme-color" content="#050505">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc2626'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-primary: #050505;
+            --bg-secondary: #070707;
+            --bg-tertiary: #0a0a0a;
+            --bg-card: rgba(12, 12, 12, 0.7);
+            --bg-glass: rgba(15, 15, 15, 0.65);
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8a8;
+            --text-tertiary: #555555;
+            --accent-primary: #dc2626;
+            --accent-secondary: #991b1b;
+            --accent-glow: rgba(220, 38, 38, 0.35);
+            --accent-bright: #ff4444;
+            --border: rgba(255, 255, 255, 0.05);
+            --border-light: rgba(255, 255, 255, 0.02);
+            --gradient-primary: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            --gradient-gold: linear-gradient(135deg, #ff4444 0%, #dc2626 50%, #991b1b 100%);
+            --gradient-aurora: linear-gradient(-45deg, rgba(220, 38, 38, 0.4), rgba(153, 27, 27, 0.3), rgba(127, 29, 29, 0.2));
+            --shadow-premium: 0 25px 80px rgba(0, 0, 0, 0.7);
+            --shadow-glow: 0 0 60px rgba(220, 38, 38, 0.15);
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --ease-premium: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; font-size: 16px; background: var(--bg-primary); }
+        body { 
+            font-family: var(--font-primary); 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            line-height: 1.6; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale; 
+            cursor: default; 
+            min-height: 100vh; 
+        }
+        ::selection { background: rgba(220, 38, 38, 0.35); color: white; }
+        
+        /* Background Effects */
+        .bg-base { position: fixed; inset: 0; z-index: 0; background: var(--bg-primary); pointer-events: none; }
+        .grid-layer-fine { 
+            position: fixed; inset: 0; z-index: 1; pointer-events: none; 
+            background: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px); 
+            background-size: 60px 60px; 
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); 
+            -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); 
+        }
+        .grid-layer-large { 
+            position: fixed; inset: 0; z-index: 2; pointer-events: none; 
+            background: linear-gradient(rgba(220, 38, 38, 0.04) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(220, 38, 38, 0.04) 1px, transparent 1px); 
+            background-size: 180px 180px; opacity: 0.7; 
+        }
+        .aurora-container { position: fixed; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+        .aurora-blob { 
+            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.25; 
+            will-change: transform; animation: auroraFloat 25s ease-in-out infinite; 
+        }
+        .aurora-blob:nth-child(1) { 
+            width: 700px; height: 700px; 
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.6) 0%, transparent 70%); 
+            top: -200px; left: -200px; animation-delay: 0s; 
+        }
+        .aurora-blob:nth-child(2) { 
+            width: 500px; height: 500px; 
+            background: radial-gradient(circle, rgba(153, 27, 27, 0.5) 0%, transparent 70%); 
+            bottom: -150px; right: -150px; animation-delay: -8s; 
+        }
+        .aurora-blob:nth-child(3) { 
+            width: 400px; height: 400px; 
+            background: radial-gradient(circle, rgba(127, 29, 29, 0.4) 0%, transparent 70%); 
+            top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -16s; 
+        }
+        @keyframes auroraFloat { 
+            0%, 100% { transform: translate(0, 0) scale(1); } 
+            33% { transform: translate(20px, -20px) scale(1.03); } 
+            66% { transform: translate(-15px, 15px) scale(0.98); } 
+        }
+        .light-sweep { 
+            position: fixed; inset: 0; z-index: 4; pointer-events: none; 
+            background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.02) 50%, transparent 60%); 
+            animation: lightSweep 12s linear infinite; opacity: 0.6; 
+        }
+        @keyframes lightSweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .cursor-spotlight { 
+            position: fixed; width: 500px; height: 500px; 
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.12) 0%, transparent 70%); 
+            border-radius: 50%; pointer-events: none; z-index: 5; 
+            transform: translate(-50%, -50%); transition: opacity 0.4s ease; opacity: 0; 
+            will-change: transform; filter: blur(30px); 
+        }
+        body:hover .cursor-spotlight { opacity: 1; }
+        .noise-overlay { 
+            position: fixed; inset: 0; z-index: 6; pointer-events: none; opacity: 0.02; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); 
+        }
+        .vignette { 
+            position: fixed; inset: 0; z-index: 7; pointer-events: none; 
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%); 
+        }
+        
+        /* Preloader */
+        .preloader { 
+            position: fixed; inset: 0; background: var(--bg-primary); z-index: 10000; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            transition: opacity 0.8s var(--ease-premium), visibility 0.8s; 
+        }
+        .preloader.hidden { opacity: 0; visibility: hidden; }
+        .preloader-content { text-align: center; }
+        .preloader-text { 
+            font-size: clamp(14px, 4vw, 18px); font-weight: 800; 
+            letter-spacing: clamp(4px, 2vw, 8px); text-transform: uppercase; 
+            color: var(--text-primary); margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
+        }
+        .preloader-bar { 
+            width: min(300px, 80vw); height: 2px; 
+            background: rgba(255, 255, 255, 0.05); border-radius: 2px; 
+            overflow: hidden; margin: 0 auto 20px;
+        }
+        .preloader-progress { 
+            height: 100%; background: var(--gradient-primary); width: 0%; 
+            transition: width 0.3s var(--ease-premium); 
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); 
+        }
+        .preloader-status { 
+            font-size: clamp(10px, 2.5vw, 12px); color: var(--text-tertiary); 
+            letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-mono);
+        }
+        
+        /* Navbar */
+        .navbar { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
+            padding: clamp(12px, 3vw, 24px) clamp(15px, 4vw, 50px); 
+            transition: all 0.6s var(--ease-premium); 
+            border-bottom: 1px solid transparent; 
+        }
+        .navbar.scrolled { 
+            background: rgba(5, 5, 5, 0.75); 
+            backdrop-filter: blur(40px) saturate(200%); 
+            -webkit-backdrop-filter: blur(40px) saturate(200%); 
+            border-bottom: 1px solid var(--border); 
+            padding: clamp(10px, 2.5vw, 16px) clamp(15px, 4vw, 50px); 
+        }
+        .navbar::before { 
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; 
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.25), transparent); 
+            opacity: 0; transition: opacity 0.5s; 
+        }
+        .navbar.scrolled::before { opacity: 1; }
+        .nav-container { 
+            max-width: 1600px; margin: 0 auto; 
+            display: flex; align-items: center; justify-content: space-between; gap: 15px; 
+        }
+        .brand { 
+            display: flex; align-items: center; gap: clamp(10px, 2vw, 16px); 
+            text-decoration: none; position: relative; flex-shrink: 0; 
+        }
+        .brand-icon { 
+            width: clamp(40px, 10vw, 52px); height: clamp(40px, 10vw, 52px); 
+            background: rgba(20, 20, 20, 0.8); border-radius: clamp(12px, 3vw, 16px); 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 900; font-size: clamp(16px, 4vw, 20px); 
+            color: var(--accent-primary); position: relative; 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            backdrop-filter: blur(20px); transition: all 0.5s var(--ease-premium); 
+            overflow: hidden; flex-shrink: 0; 
+        }
+        .brand-icon::before { 
+            content: ''; position: absolute; inset: 0; 
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.08), transparent); 
+            opacity: 0; transition: opacity 0.5s; 
+        }
+        .brand:hover .brand-icon { 
+            transform: translateY(-3px) scale(1.02); 
+            border-color: rgba(220, 38, 38, 0.15); 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(220, 38, 38, 0.1); 
+        }
+        .brand:hover .brand-icon::before { opacity: 1; }
+        .brand-text { display: flex; flex-direction: column; min-width: 0; }
+        .brand-name { 
+            font-size: clamp(18px, 4.5vw, 22px); font-weight: 800; 
+            color: var(--text-primary); letter-spacing: -0.5px; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+        }
+        .brand-tag { 
+            font-size: clamp(8px, 2vw, 10px); color: var(--accent-primary); 
+            letter-spacing: clamp(2px, 0.6vw, 3px); text-transform: uppercase; 
+            font-weight: 600; font-family: var(--font-mono); opacity: 0.8; white-space: nowrap; 
+        }
+        
+        .nav-links { 
+            display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); 
+        }
+        .nav-link { 
+            padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 20px); 
+            color: var(--text-secondary); text-decoration: none; 
+            font-size: clamp(12px, 2.2vw, 14px); font-weight: 500; 
+            position: relative; transition: all 0.4s var(--ease-premium); 
+            border-radius: 100px; 
+        }
+        .nav-link::before { 
+            content: ''; position: absolute; inset: 0; 
+            background: rgba(220, 38, 38, 0.1); border-radius: 100px; 
+            opacity: 0; transform: scale(0.8); transition: all 0.4s var(--ease-premium); 
+        }
+        .nav-link:hover, .nav-link.active { 
+            color: var(--accent-primary); 
+        }
+        .nav-link:hover::before, .nav-link.active::before { 
+            opacity: 1; transform: scale(1); 
+        }
+        .nav-link-text { position: relative; z-index: 1; }
+        
+        .nav-actions { 
+            display: flex; align-items: center; gap: clamp(10px, 2vw, 20px); 
+        }
+        
+        /* Language Selector */
+        .language-selector { position: relative; }
+        .lang-btn { 
+            display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); 
+            padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 20px); 
+            background: rgba(20, 20, 20, 0.6); border: 1px solid var(--border); 
+            border-radius: 100px; color: var(--text-secondary); 
+            cursor: pointer; transition: all 0.5s var(--ease-premium); 
+            backdrop-filter: blur(20px); font-size: clamp(12px, 3vw, 13px); 
+            font-weight: 500; min-height: 44px; 
+        }
+        .lang-btn:hover { 
+            border-color: rgba(220, 38, 38, 0.25); color: white; 
+            transform: translateY(-2px); background: rgba(220, 38, 38, 0.06); 
+        }
+        .lang-flag { 
+            width: clamp(18px, 4vw, 20px); height: clamp(13px, 3vw, 15px); 
+            border-radius: 3px; object-fit: cover; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); 
+        }
+        .lang-dropdown { 
+            position: absolute; top: calc(100% + 12px); right: 0; 
+            background: rgba(12, 12, 12, 0.95); border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 20px; padding: 12px; min-width: min(200px, 80vw); 
+            opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.96); 
+            transition: all 0.4s var(--ease-premium); 
+            backdrop-filter: blur(40px) saturate(200%); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); z-index: 1001; 
+        }
+        .language-selector.active .lang-dropdown { 
+            opacity: 1; visibility: visible; transform: translateY(0) scale(1); 
+        }
+        .lang-option { 
+            display: flex; align-items: center; gap: 15px; width: 100%; 
+            padding: 14px 16px; background: none; border: none; 
+            border-radius: 12px; color: var(--text-secondary); 
+            cursor: pointer; transition: all 0.3s var(--ease-premium); 
+            font-size: 14px; font-weight: 500; 
+        }
+        .lang-option:hover { 
+            background: rgba(220, 38, 38, 0.08); color: var(--accent-primary); 
+            transform: translateX(8px); 
+        }
+        
+        .nav-btn { 
+            padding: clamp(10px, 2vw, 12px) clamp(18px, 3vw, 24px); 
+            background: var(--gradient-primary); border: none; 
+            border-radius: 100px; color: white; font-weight: 600; 
+            cursor: pointer; transition: all 0.5s var(--ease-premium); 
+            font-size: clamp(12px, 2.5vw, 14px); display: flex; align-items: center; gap: 8px; 
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3); 
+        }
+        .nav-btn:hover { 
+            transform: translateY(-3px); box-shadow: 0 20px 40px rgba(220, 38, 38, 0.4); 
+        }
+        
+        .menu-toggle { 
+            display: none; flex-direction: column; gap: 5px; 
+            background: none; border: none; cursor: pointer; padding: 10px; 
+        }
+        .menu-toggle span { 
+            width: 25px; height: 2px; background: var(--text-primary); 
+            transition: all 0.3s; 
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu { 
+            position: fixed; inset: 0; background: rgba(5, 5, 5, 0.98); 
+            z-index: 999; display: flex; align-items: center; justify-content: center; 
+            opacity: 0; visibility: hidden; transition: all 0.5s var(--ease-premium); 
+            backdrop-filter: blur(20px); 
+        }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu-links { 
+            display: flex; flex-direction: column; gap: 30px; text-align: center; 
+        }
+        .mobile-link { 
+            font-size: clamp(24px, 6vw, 36px); font-weight: 700; 
+            color: var(--text-primary); text-decoration: none; 
+            transition: all 0.4s var(--ease-premium); 
+        }
+        .mobile-link:hover { color: var(--accent-primary); }
+        
+        /* Main Content */
+        main { position: relative; z-index: 10; padding-top: clamp(80px, 15vh, 120px); }
+        
+        /* Hero Section */
+        .hero { 
+            min-height: 100dvh; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; text-align: center; 
+            padding: clamp(60px, 10vh, 100px) clamp(15px, 4vw, 50px); 
+            position: relative; overflow: hidden; 
+        }
+        .particles-container { 
+            position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; 
+        }
+        .particle { 
+            position: absolute; width: 3px; height: 3px; 
+            background: rgba(220, 38, 38, 0.35); border-radius: 50%; 
+            filter: blur(1px); animation: float 25s infinite ease-in-out; 
+        }
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 28s; }
+        .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: -5s; animation-duration: 32s; width: 2px; height: 2px; }
+        .particle:nth-child(3) { left: 70%; top: 10%; animation-delay: -10s; animation-duration: 26s; }
+        .particle:nth-child(4) { left: 85%; top: 60%; animation-delay: -15s; animation-duration: 30s; width: 2px; height: 2px; }
+        .particle:nth-child(5) { left: 50%; top: 90%; animation-delay: -8s; animation-duration: 27s; }
+        @keyframes float { 
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; } 
+            10% { opacity: 0.5; } 90% { opacity: 0.5; } 
+            50% { transform: translateY(-80px) translateX(40px); } 
+        }
+        
+        .hero-badge { 
+            display: inline-flex; align-items: center; gap: clamp(8px, 2vw, 12px); 
+            padding: clamp(10px, 2.5vw, 14px) clamp(18px, 4vw, 28px); 
+            background: rgba(220, 38, 38, 0.06); border: 1px solid rgba(220, 38, 38, 0.15); 
+            border-radius: 100px; font-size: clamp(10px, 2.5vw, 12px); font-weight: 600; 
+            color: var(--accent-primary); margin-bottom: clamp(30px, 6vh, 50px); 
+            letter-spacing: clamp(2px, 0.6vw, 3px); text-transform: uppercase; 
+            backdrop-filter: blur(20px); position: relative; overflow: hidden; z-index: 2; 
+            animation: fadeInUp 1s var(--ease-premium) 0.2s both; 
+        }
+        .hero-badge::before { 
+            content: ''; position: absolute; inset: 0; 
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.15), transparent); 
+            animation: badgeShimmer 4s infinite; 
+        }
+        @keyframes badgeShimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        
+        .hero-title { 
+            font-size: clamp(32px, 10vw, 110px); font-weight: 900; 
+            line-height: 1.05; margin-bottom: clamp(24px, 5vh, 40px); 
+            letter-spacing: clamp(-2px, -0.3vw, -4px); position: relative; z-index: 2; 
+            animation: fadeInUp 1s var(--ease-premium) 0.4s both; 
+        }
+        .title-line { display: block; }
+        .title-line.gradient { 
+            background: linear-gradient(135deg, #ffffff 0%, #ff4444 25%, #dc2626 50%, #991b1b 75%, #ffffff 100%); 
+            background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; 
+            color: transparent; animation: gradientShift 10s ease infinite; 
+            filter: drop-shadow(0 0 40px rgba(220, 38, 38, 0.25)); 
+        }
+        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        
+        .hero-glow { 
+            position: absolute; width: min(600px, 80vw); height: min(600px, 80vw); 
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 70%); 
+            border-radius: 50%; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); z-index: 0; 
+            animation: heroGlowPulse 5s ease-in-out infinite; pointer-events: none; 
+        }
+        @keyframes heroGlowPulse { 
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; } 
+            50% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.55; } 
+        }
+        
+        .hero-description { 
+            font-size: clamp(15px, 3vw, 20px); color: var(--text-secondary); 
+            max-width: min(700px, 90vw); margin: 0 auto clamp(40px, 6vh, 60px); 
+            line-height: 1.8; position: relative; z-index: 2; 
+            animation: fadeInUp 1s var(--ease-premium) 0.6s both; 
+        }
+        
+        .hero-actions { 
+            display: flex; gap: clamp(16px, 3vw, 24px); margin-bottom: clamp(50px, 8vh, 80px); 
+            position: relative; z-index: 2; animation: fadeInUp 1s var(--ease-premium) 0.8s both; 
+            flex-wrap: wrap; justify-content: center; 
+        }
+        .btn { 
+            padding: clamp(16px, 3vh, 20px) clamp(28px, 4vw, 40px); 
+            border-radius: 16px; font-weight: 600; font-size: clamp(14px, 2.5vw, 16px); 
+            cursor: pointer; transition: all 0.5s var(--ease-premium); 
+            display: inline-flex; align-items: center; gap: 12px; text-decoration: none; 
+            border: none; position: relative; overflow: hidden; 
+        }
+        .btn-primary { 
+            background: var(--gradient-primary); color: white; 
+            box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3); 
+        }
+        .btn-primary:hover { 
+            transform: translateY(-5px) scale(1.02); 
+            box-shadow: 0 25px 60px rgba(220, 38, 38, 0.4); 
+        }
+        .btn-secondary { 
+            background: rgba(20, 20, 20, 0.6); color: var(--text-primary); 
+            border: 1px solid var(--border); backdrop-filter: blur(20px); 
+        }
+        .btn-secondary:hover { 
+            border-color: rgba(220, 38, 38, 0.3); 
+            transform: translateY(-5px); 
+            background: rgba(220, 38, 38, 0.1); 
+        }
+        
+        .hero-stats { 
+            display: flex; gap: clamp(16px, 3vw, 30px); position: relative; z-index: 2; 
+            animation: fadeInUp 1s var(--ease-premium) 1s both; 
+            flex-wrap: wrap; justify-content: center; width: 100%; max-width: min(900px, 95vw); 
+        }
+        .hero-stat { 
+            padding: clamp(24px, 5vw, 35px) clamp(20px, 4vw, 45px); 
+            background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 24px; backdrop-filter: blur(40px) saturate(180%); 
+            transition: all 0.6s var(--ease-premium); position: relative; overflow: hidden; 
+            flex: 1; min-width: min(140px, 40vw); max-width: 280px; 
+        }
+        .hero-stat::before { 
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; 
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.35), transparent); 
+            opacity: 0; transition: opacity 0.5s; 
+        }
+        .hero-stat::after { 
+            content: ''; position: absolute; inset: 0; 
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.04), transparent); 
+            opacity: 0; transition: opacity 0.5s; 
+        }
+        .hero-stat:hover { 
+            transform: translateY(-8px) scale(1.02); border-color: rgba(220, 38, 38, 0.15); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(220, 38, 38, 0.08); 
+        }
+        .hero-stat:hover::before, .hero-stat:hover::after { opacity: 1; }
+        .stat-number { 
+            font-size: clamp(28px, 7vw, 42px); font-weight: 900; 
+            color: var(--text-primary); font-family: var(--font-mono); 
+            display: block; margin-bottom: 8px; position: relative; z-index: 1; 
+        }
+        .stat-suffix { 
+            font-size: clamp(14px, 3vw, 18px); color: var(--accent-primary); 
+            font-weight: 600; margin-left: 4px; 
+        }
+        .stat-label { 
+            font-size: clamp(10px, 2.5vw, 11px); color: var(--text-tertiary); 
+            text-transform: uppercase; letter-spacing: clamp(1.5px, 0.4vw, 2.5px); font-weight: 600; 
+        }
+        
+        /* Sections */
+        .section { 
+            padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); position: relative; 
+        }
+        .section-alt { 
+            background: rgba(7, 7, 7, 0.5); border-top: 1px solid var(--border); 
+            border-bottom: 1px solid var(--border); backdrop-filter: blur(10px); 
+        }
+        .container { max-width: 1400px; margin: 0 auto; width: 100%; }
+        .section-header { 
+            text-align: center; margin-bottom: clamp(50px, 8vh, 100px); 
+        }
+        .section-label { 
+            display: inline-block; padding: clamp(10px, 2vw, 12px) clamp(18px, 3.5vw, 24px); 
+            background: rgba(220, 38, 38, 0.06); border: 1px solid rgba(220, 38, 38, 0.15); 
+            border-radius: 100px; font-size: clamp(10px, 2.2vw, 11px); font-weight: 600; 
+            color: var(--accent-primary); margin-bottom: clamp(18px, 3vh, 25px); 
+            letter-spacing: clamp(2px, 0.5vw, 3px); text-transform: uppercase; 
+            backdrop-filter: blur(20px); 
+        }
+        .section-title { 
+            font-size: clamp(28px, 6vw, 64px); font-weight: 900; 
+            margin-bottom: clamp(18px, 3vh, 25px); letter-spacing: clamp(-1px, -0.2vw, -2px); 
+            line-height: 1.1; 
+        }
+        .section-subtitle { 
+            font-size: clamp(15px, 2.8vw, 18px); color: var(--text-secondary); 
+            max-width: min(600px, 90vw); margin: 0 auto; line-height: 1.8; 
+        }
+        
+        /* Terminal Section - Advanced macOS Terminal */
+        .terminal-section { 
+            padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); position: relative; 
+        }
+        .terminal-wrapper { max-width: 950px; margin: 0 auto; }
+        
+        /* macOS Terminal - Clean Reddish Design */
+        .mac-terminal {
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 
+                0 30px 80px -20px rgba(0, 0, 0, 0.9),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                0 0 80px rgba(255, 51, 51, 0.1);
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Courier New', monospace;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mac-terminal:hover {
+            box-shadow: 
+                0 40px 100px -20px rgba(0, 0, 0, 0.95),
+                0 0 0 1px rgba(255, 51, 51, 0.2),
+                0 0 100px rgba(255, 51, 51, 0.15);
+        }
+
+        .mac-terminal::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 51, 51, 0.03) 0%,
+                transparent 15%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Terminal Header */
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: linear-gradient(180deg, #2d2d2d 0%, #252525 100%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .terminal-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .terminal-btn.close {
+            background: #ff5f57;
+            border: 1px solid #e0443e;
+        }
+
+        .terminal-btn.close:hover {
+            background: #ff3b30;
+            transform: scale(1.1);
+        }
+
+        .terminal-btn.minimize {
+            background: #febc2e;
+            border: 1px solid #dea123;
+        }
+
+        .terminal-btn.minimize:hover {
+            background: #ff9500;
+            transform: scale(1.1);
+        }
+
+        .terminal-btn.maximize {
+            background: #28c840;
+            border: 1px solid #1aab29;
+        }
+
+        .terminal-btn.maximize:hover {
+            background: #28cd41;
+            transform: scale(1.1);
+        }
+
+        /* Hover icons for buttons */
+        .terminal-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .terminal-btn.close:hover::after {
+            content: '×';
+            color: #4d0000;
+            opacity: 1;
+        }
+
+        .terminal-btn.minimize:hover::after {
+            content: '−';
+            color: #965100;
+            opacity: 1;
+        }
+
+        .terminal-btn.maximize:hover::after {
+            content: '+';
+            color: #006500;
+            opacity: 1;
+        }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Inter', -apple-system, sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .terminal-title i {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .terminal-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .demo-badge {
+            padding: 6px 14px;
+            background: rgba(255, 51, 51, 0.15);
+            color: #ff4444;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: demoPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes demoPulse {
+            0%, 100% { 
+                background: rgba(255, 51, 51, 0.15);
+                box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.2);
+            }
+            50% { 
+                background: rgba(255, 51, 51, 0.25);
+                box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+            }
+        }
+
+        /* Terminal Body */
+        .terminal-body {
+            padding: 28px 32px;
+            font-size: 15px;
+            line-height: 1.8;
+            min-height: 420px;
+            max-height: 520px;
+            background: #1a1a1a;
+            position: relative;
+            overflow-y: auto;
+            color: #e0e0e0;
+        }
+
+        /* Custom Scrollbar */
+        .terminal-body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: #3a3a3a;
+            border-radius: 6px;
+            border: 3px solid #1a1a1a;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb:hover {
+            background: #4a4a4a;
+        }
+
+        /* Terminal Content */
+        .terminal-content {
+            margin-bottom: 20px;
+        }
+
+        /* ASCII Art Lines - Clean Design */
+        .ascii-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre;
+            color: #e0e0e0;
+            margin-bottom: 2px;
+        }
+
+        /* Output Lines */
+        .terminal-output-line {
+            margin-bottom: 6px;
+            animation: lineAppear 0.2s ease-out;
+        }
+
+        @keyframes lineAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .command-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .output-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            padding-left: 0;
+            line-height: 1.9;
+            color: #c0c0c0;
+        }
+
+        /* Input Line */
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            animation: inputAppear 0.3s ease-out;
+        }
+
+        @keyframes inputAppear {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Custom Prompt Styling - Like Image */
+        .terminal-prompt {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .prompt-user {
+            background: #7c0a02;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .prompt-separator {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .prompt-host {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .prompt-arrow {
+            color: #ff3333;
+            font-weight: bold;
+            font-size: 14px;
+            margin-left: 6px;
+            letter-spacing: -2px;
+        }
+
+        /* Input and Cursor */
+        .terminal-input {
+            color: #ffffff;
+            min-width: 10px;
+            outline: none;
+            word-break: break-all;
+            font-weight: 500;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #ffffff;
+            animation: cursor-blink 1.1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 3px;
+            border-radius: 1px;
+        }
+
+        @keyframes cursor-blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* ANSI Color Classes */
+        .ansi-red {
+            color: #ff4444 !important;
+        }
+
+        .ansi-red-dark {
+            color: #cc0000 !important;
+        }
+
+        .ansi-green {
+            color: #4ade80 !important;
+        }
+
+        .ansi-yellow {
+            color: #fbbf24 !important;
+        }
+
+        .ansi-blue {
+            color: #60a5fa !important;
+        }
+
+        .ansi-magenta {
+            color: #c084fc !important;
+        }
+
+        .ansi-cyan {
+            color: #22d3ee !important;
+        }
+
+        .ansi-white {
+            color: #ffffff !important;
+        }
+
+        .ansi-gray {
+            color: #9ca3af !important;
+        }
+
+        .ansi-bold {
+            font-weight: 700 !important;
+        }
+
+        /* Command Text */
+        .command-text {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* Terminal Hint */
+        .terminal-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 28px;
+            padding: 16px 28px;
+            background: rgba(255, 51, 51, 0.05);
+            border: 1px solid rgba(255, 51, 51, 0.15);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #9ca3af;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .terminal-hint:hover {
+            background: rgba(255, 51, 51, 0.08);
+            border-color: rgba(255, 51, 51, 0.25);
+        }
+
+        .terminal-hint i {
+            color: #ff4444;
+            font-size: 16px;
+        }
+
+        .terminal-hint code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 4px 10px;
+            border-radius: 6px;
+            color: #ff4444;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .terminal-hint code:hover {
+            background: rgba(255, 68, 68, 0.15);
+        }
+
+        /* Selection */
+        .terminal-body ::selection {
+            background: rgba(255, 68, 68, 0.3);
+            color: #ffffff;
+        }
+
+        /* Animation for new lines */
+        @keyframes lineSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Focus State */
+        .mac-terminal:focus-within {
+            box-shadow: 
+                0 40px 100px -20px rgba(0, 0, 0, 0.95),
+                0 0 0 1px rgba(255, 68, 68, 0.3),
+                0 0 100px rgba(255, 68, 68, 0.15);
+        }
+
+        /* Responsive Terminal */
+        @media (max-width: 768px) {
+            .terminal-section {
+                padding: 60px 24px;
+            }
+            
+            .terminal-body {
+                padding: 20px 24px;
+                font-size: 13px;
+                min-height: 350px;
+            }
+            
+            .terminal-header {
+                padding: 14px 18px;
+            }
+            
+            .terminal-title {
+                font-size: 12px;
+            }
+            
+            .ascii-line {
+                font-size: 11px;
+            }
+            
+            .prompt-user,
+            .prompt-host,
+            .prompt-arrow {
+                font-size: 12px;
+            }
+            
+            .prompt-user {
+                padding: 3px 8px;
+            }
+            
+            .terminal-cursor {
+                height: 16px;
+                width: 8px;
+            }
+            
+            .demo-badge {
+                font-size: 9px;
+                padding: 4px 10px;
+            }
+            
+            .terminal-hint {
+                padding: 14px 20px;
+                font-size: 12px;
+                flex-wrap: wrap;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .terminal-body {
+                font-size: 12px;
+                min-height: 300px;
+            }
+            
+            .ascii-line {
+                font-size: 9px;
+            }
+            
+            .terminal-prompt {
+                gap: 6px;
+            }
+            
+            .prompt-user {
+                padding: 2px 6px;
+                font-size: 11px;
+            }
+            
+            .prompt-host {
+                font-size: 11px;
+            }
+            
+            .prompt-arrow {
+                font-size: 11px;
+                margin-left: 3px;
+            }
+        }
+        
+        /* About Section */
+        .about-section { padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); }
+        .about-grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 8vw, 100px); 
+            align-items: center; max-width: 1400px; margin: 0 auto; 
+        }
+        .about-content { }
+        .about-text { 
+            font-size: clamp(15px, 2.5vw, 17px); color: var(--text-secondary); 
+            line-height: 2; margin-bottom: 24px; 
+        }
+        .about-text strong { color: var(--text-primary); }
+        .highlight { 
+            color: var(--accent-primary); font-weight: 600; 
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.3); 
+        }
+        .about-features { 
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 40px; 
+        }
+        .about-feature { 
+            display: flex; align-items: center; gap: 12px; 
+            padding: 16px 20px; background: rgba(18, 18, 18, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; 
+            color: var(--text-secondary); font-size: 14px; font-weight: 500; 
+            transition: all 0.4s var(--ease-premium); 
+        }
+        .about-feature:hover { 
+            border-color: rgba(220, 38, 38, 0.2); transform: translateX(8px); 
+            color: var(--text-primary); 
+        }
+        .about-feature i { color: var(--accent-primary); font-size: 18px; }
+        
+        .about-visual { }
+        .visual-card { 
+            background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 24px; padding: 30px; backdrop-filter: blur(40px); 
+        }
+        .visual-header { 
+            display: flex; align-items: center; gap: 12px; 
+            margin-bottom: 24px; padding-bottom: 20px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+        }
+        .visual-header i { color: var(--accent-primary); font-size: 20px; }
+        .visual-header span { font-weight: 600; color: var(--text-primary); }
+        .status-item { 
+            display: flex; align-items: center; gap: 12px; margin-bottom: 16px; 
+        }
+        .status-name { 
+            width: 120px; font-size: 13px; color: var(--text-secondary); font-weight: 500; 
+        }
+        .status-bar { 
+            flex: 1; height: 6px; background: rgba(255, 255, 255, 0.05); 
+            border-radius: 3px; overflow: hidden; 
+        }
+        .status-fill { 
+            height: 100%; background: var(--gradient-primary); border-radius: 3px; 
+            transition: width 1s var(--ease-premium); 
+        }
+        .status-fill.low { background: #27c93f; }
+        .status-value { 
+            width: 50px; text-align: right; font-size: 13px; 
+            color: var(--text-primary); font-weight: 600; font-family: var(--font-mono); 
+        }
+        
+        /* Tiers Section */
+        .tiers-section { padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); }
+        .tier-tabs { 
+            display: flex; justify-content: center; gap: 16px; 
+            margin-bottom: 50px; flex-wrap: wrap; 
+        }
+        .tier-tab { 
+            padding: 14px 32px; background: rgba(18, 18, 18, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 100px; 
+            color: var(--text-secondary); font-size: 14px; font-weight: 600; 
+            cursor: pointer; transition: all 0.5s var(--ease-premium); 
+        }
+        .tier-tab:hover, .tier-tab.active { 
+            background: rgba(220, 38, 38, 0.1); border-color: rgba(220, 38, 38, 0.3); 
+            color: var(--accent-primary); 
+        }
+        .tier-contents { position: relative; }
+        .tier-content { 
+            display: none; animation: fadeIn 0.6s var(--ease-premium); 
+        }
+        .tier-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .tier-card { 
+            max-width: 500px; margin: 0 auto; 
+            background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 28px; padding: 40px; backdrop-filter: blur(40px); 
+            position: relative; overflow: hidden; transition: all 0.6s var(--ease-premium); 
+        }
+        .tier-card.featured { 
+            border-color: rgba(220, 38, 38, 0.3); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 60px rgba(220, 38, 38, 0.1); 
+        }
+        .tier-card:hover { 
+            transform: translateY(-10px); border-color: rgba(220, 38, 38, 0.2); 
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 40px rgba(220, 38, 38, 0.15); 
+        }
+        .tier-badge { 
+            position: absolute; top: 20px; right: 20px; 
+            background: var(--gradient-primary); color: white; 
+            padding: 6px 16px; border-radius: 100px; font-size: 11px; 
+            font-weight: 700; letter-spacing: 1px; 
+        }
+        .tier-header { text-align: center; margin-bottom: 30px; }
+        .tier-icon { 
+            width: 70px; height: 70px; background: rgba(220, 38, 38, 0.1); 
+            border-radius: 20px; display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 20px; color: var(--accent-primary); font-size: 28px; 
+            border: 1px solid rgba(220, 38, 38, 0.2); 
+        }
+        .tier-name { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+        .tier-desc { color: var(--text-secondary); font-size: 14px; }
+        .tier-specs { margin-bottom: 30px; }
+        .tier-spec { 
+            display: flex; align-items: center; gap: 12px; 
+            padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.03); 
+            color: var(--text-secondary); font-size: 14px; 
+        }
+        .tier-spec i { color: var(--accent-primary); }
+        .tier-spec strong { color: var(--text-primary); }
+        .tier-price { 
+            text-align: center; font-size: 48px; font-weight: 900; 
+            color: var(--text-primary); margin-bottom: 24px; font-family: var(--font-mono); 
+        }
+
+        
+        /* Plans Section */
+        .plans-section { padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); }
+        .plans-category { 
+            text-align: center; font-size: 14px; color: var(--accent-primary); 
+            text-transform: uppercase; letter-spacing: 3px; margin: 60px 0 30px; 
+            font-weight: 600; 
+        }
+        .plans-category:first-of-type { margin-top: 0; }
+        .plans-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 24px; max-width: 1400px; margin: 0 auto; 
+        }
+        .plan-card { 
+            background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 24px; padding: 30px; cursor: pointer; 
+            transition: all 0.6s var(--ease-premium); backdrop-filter: blur(40px); 
+            position: relative; overflow: hidden; 
+        }
+        .plan-card::before { 
+            content: ''; position: absolute; inset: 0; 
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), transparent); 
+            opacity: 0; transition: opacity 0.5s; 
+        }
+        .plan-card:hover::before { opacity: 1; }
+        .plan-card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            border-color: rgba(220, 38, 38, 0.2); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(220, 38, 38, 0.1); 
+        }
+        .plan-card.featured { 
+            border-color: rgba(220, 38, 38, 0.3); 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(220, 38, 38, 0.1); 
+        }
+        .plan-header { 
+            display: flex; justify-content: space-between; align-items: flex-start; 
+            margin-bottom: 20px; 
+        }
+        .plan-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .plan-badge { 
+            background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); 
+            padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; 
+        }
+        .plan-badge.vip { 
+            background: rgba(220, 38, 38, 0.15); color: var(--accent-primary); 
+        }
+        .plan-price { 
+            font-size: 36px; font-weight: 900; margin-bottom: 20px; 
+            font-family: var(--font-mono); 
+        }
+   
+        .plan-specs { margin-bottom: 24px; }
+        .plan-spec { 
+            display: flex; justify-content: space-between; 
+            padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.03); 
+            font-size: 14px; 
+        }
+        .spec-label { color: var(--text-secondary); }
+        .spec-value { color: var(--text-primary); font-weight: 600; }
+        .plan-btn { 
+            width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; 
+            color: var(--text-primary); font-weight: 600; cursor: pointer; 
+            transition: all 0.4s var(--ease-premium); font-size: 14px; 
+        }
+        .plan-btn:hover { 
+            background: var(--gradient-primary); border-color: transparent; 
+            transform: translateY(-2px); 
+        }
+        
+        /* Addons */
+        .addons-section { max-width: 1200px; margin: 60px auto 0; }
+        .addons-title { 
+            text-align: center; font-size: 14px; color: var(--text-secondary); 
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; 
+        }
+        .addons-grid { 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; 
+        }
+        .addon-chip { 
+            display: flex; align-items: center; gap: 12px; 
+            padding: 16px 24px; background: rgba(18, 18, 18, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 100px; 
+            cursor: pointer; transition: all 0.4s var(--ease-premium); 
+        }
+        .addon-chip:hover { 
+            border-color: rgba(220, 38, 38, 0.3); transform: translateY(-3px); 
+            background: rgba(220, 38, 38, 0.05); 
+        }
+        .addon-chip i { color: var(--accent-primary); }
+        .addon-price { 
+            background: var(--gradient-primary); color: white; 
+            padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; 
+        }
+        
+        /* Enterprise Section */
+        .enterprise-section { padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); }
+        .enterprise-grid { 
+            display: grid; grid-template-columns: repeat(2, 1fr); 
+            gap: 30px; max-width: 1200px; margin: 0 auto; 
+        }
+        .enterprise-card { 
+            background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 28px; padding: 40px; backdrop-filter: blur(40px); 
+            transition: all 0.6s var(--ease-premium); position: relative; overflow: hidden; 
+        }
+        .enterprise-card.ultimate { 
+            border-color: rgba(220, 38, 38, 0.3); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 60px rgba(220, 38, 38, 0.1); 
+        }
+        .enterprise-card:hover { 
+            transform: translateY(-10px); border-color: rgba(220, 38, 38, 0.2); 
+        }
+        .enterprise-header { 
+            display: flex; align-items: center; gap: 20px; margin-bottom: 20px; 
+        }
+        .enterprise-icon { 
+            width: 60px; height: 60px; background: rgba(220, 38, 38, 0.1); 
+            border-radius: 16px; display: flex; align-items: center; justify-content: center; 
+            color: var(--accent-primary); font-size: 24px; 
+            border: 1px solid rgba(220, 38, 38, 0.2); 
+        }
+        .enterprise-name { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+        .enterprise-badge { 
+            background: rgba(220, 38, 38, 0.15); color: var(--accent-primary); 
+            padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; 
+        }
+        .enterprise-desc { 
+            color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; 
+        }
+        .enterprise-price { 
+            font-size: 42px; font-weight: 900; margin-bottom: 24px; font-family: var(--font-mono); 
+        }
+        .enterprise-price span { 
+            font-size: 16px; color: var(--text-secondary); font-weight: 400; 
+        }
+        .enterprise-features { list-style: none; margin-bottom: 30px; }
+        .enterprise-features li { 
+            display: flex; align-items: center; gap: 12px; 
+            padding: 10px 0; color: var(--text-secondary); font-size: 14px; 
+        }
+        .enterprise-features li i { color: var(--accent-primary); }
+        
+        /* Support Section */
+        .support-section { padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); }
+        .support-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 24px; max-width: 1000px; margin: 0 auto 60px; 
+        }
+        .support-card { 
+            background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 24px; padding: 40px 30px; text-align: center; 
+            text-decoration: none; color: inherit; display: block; 
+            transition: all 0.6s var(--ease-premium); backdrop-filter: blur(40px); 
+        }
+        .support-card:hover { 
+            transform: translateY(-10px); border-color: rgba(220, 38, 38, 0.2); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(220, 38, 38, 0.1); 
+        }
+        .support-icon { 
+            width: 70px; height: 70px; background: rgba(220, 38, 38, 0.1); 
+            border-radius: 20px; display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 20px; color: var(--accent-primary); font-size: 28px; 
+            border: 1px solid rgba(220, 38, 38, 0.2); 
+        }
+        .support-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .support-desc { 
+            color: var(--text-secondary); font-size: 14px; margin-bottom: 16px; 
+        }
+        .support-status { 
+            display: inline-flex; align-items: center; gap: 8px; 
+            font-size: 12px; font-weight: 600; 
+        }
+        .support-status.online { color: #27c93f; }
+        .support-status.vip { color: var(--accent-primary); }
+        .status-dot { 
+            width: 8px; height: 8px; background: #27c93f; border-radius: 50%; 
+            animation: pulse 2s infinite; 
+        }
+        @keyframes pulse { 
+            0%, 100% { opacity: 1; } 50% { opacity: 0.5; } 
+        }
+        
+        .channels-section { max-width: 800px; margin: 0 auto; }
+        .channels-title { 
+            text-align: center; font-size: 14px; color: var(--text-secondary); 
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; 
+        }
+        .channels-list { display: flex; flex-direction: column; gap: 12px; }
+        .channel-item { 
+            display: flex; align-items: center; gap: 16px; 
+            padding: 20px 24px; background: rgba(18, 18, 18, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; 
+            text-decoration: none; color: inherit; transition: all 0.4s var(--ease-premium); 
+        }
+        .channel-item:hover { 
+            border-color: rgba(220, 38, 38, 0.2); transform: translateX(10px); 
+            background: rgba(220, 38, 38, 0.03); 
+        }
+        .channel-icon { 
+            width: 48px; height: 48px; background: rgba(220, 38, 38, 0.1); 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; 
+            color: var(--accent-primary); font-size: 20px; 
+        }
+        .channel-info { flex: 1; }
+        .channel-name { font-weight: 600; color: var(--text-primary); display: block; }
+        .channel-desc { font-size: 13px; color: var(--text-secondary); }
+        .channel-arrow { color: var(--text-tertiary); transition: all 0.3s; }
+        .channel-item:hover .channel-arrow { 
+            color: var(--accent-primary); transform: translateX(5px); 
+        }
+        
+        /* Modals & Overlays */
+        .modal-overlay, .redirect-overlay { 
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); 
+            z-index: 10000; display: flex; align-items: center; justify-content: center; 
+            opacity: 0; visibility: hidden; transition: all 0.5s var(--ease-premium); 
+            backdrop-filter: blur(20px); 
+        }
+        .modal-overlay.active, .redirect-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { 
+            background: rgba(12, 12, 12, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 24px; padding: 40px; max-width: 450px; width: 90%; 
+            text-align: center; transform: scale(0.9); transition: transform 0.5s var(--ease-premium); 
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-icon { 
+            width: 80px; height: 80px; background: rgba(220, 38, 38, 0.1); 
+            border-radius: 24px; display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 24px; color: var(--accent-primary); font-size: 32px; 
+            border: 1px solid rgba(220, 38, 38, 0.2); 
+        }
+        .modal-title { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .modal-subtitle { color: var(--text-secondary); margin-bottom: 24px; }
+        .modal-input { 
+            width: 100%; padding: 16px 20px; background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; 
+            color: var(--text-primary); font-size: 16px; margin-bottom: 16px; 
+            outline: none; transition: all 0.3s; 
+        }
+        .modal-input:focus { border-color: var(--accent-primary); }
+        .modal-btn { 
+            width: 100%; padding: 16px; background: var(--gradient-primary); 
+            border: none; border-radius: 12px; color: white; font-weight: 600; 
+            cursor: pointer; transition: all 0.4s; display: flex; align-items: center; 
+            justify-content: center; gap: 8px; 
+        }
+        .modal-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3); }
+        .modal-cancel { 
+            margin-top: 16px; background: none; border: none; 
+            color: var(--text-secondary); cursor: pointer; font-size: 14px; 
+        }
+        .modal-cancel:hover { color: var(--text-primary); }
+        
+        .redirect-content { text-align: center; }
+        .redirect-icon { 
+            width: 100px; height: 100px; background: rgba(220, 38, 38, 0.1); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 30px; color: var(--accent-primary); font-size: 48px; 
+            border: 2px solid rgba(220, 38, 38, 0.3); animation: pulse 2s infinite; 
+        }
+        .redirect-title { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+        .redirect-text { color: var(--text-secondary); margin-bottom: 30px; }
+        .redirect-loader { 
+            width: 200px; height: 4px; background: rgba(255, 255, 255, 0.1); 
+            border-radius: 2px; margin: 0 auto; overflow: hidden; 
+        }
+        .redirect-progress { 
+            height: 100%; background: var(--gradient-primary); width: 0%; 
+            animation: loadProgress 2s ease-in-out forwards; 
+        }
+        @keyframes loadProgress { to { width: 100%; } }
+        
+        /* Visitor Toast */
+        .visitor-toast { 
+            position: fixed; top: 100px; right: 20px; z-index: 9999; 
+            background: rgba(12, 12, 12, 0.95); border: 1px solid rgba(220, 38, 38, 0.2); 
+            border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; 
+            transform: translateX(400px); transition: transform 0.5s var(--ease-premium); 
+            backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); 
+        }
+        .visitor-toast.show { transform: translateX(0); }
+        .toast-icon { 
+            width: 44px; height: 44px; background: rgba(220, 38, 38, 0.1); 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; 
+            color: var(--accent-primary); font-size: 20px; 
+        }
+        .toast-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .toast-info { font-size: 12px; color: var(--text-secondary); font-family: var(--font-mono); }
+        
+        /* Admin Panel */
+        .admin-panel { 
+            position: fixed; inset: 0; background: var(--bg-primary); z-index: 9999; 
+            display: none; grid-template-columns: 280px 1fr; 
+        }
+        .admin-panel.active { display: grid; }
+        .admin-sidebar { 
+            background: rgba(7, 7, 7, 0.8); border-right: 1px solid var(--border); 
+            padding: 30px; display: flex; flex-direction: column; 
+        }
+        .admin-brand { 
+            display: flex; align-items: center; gap: 12px; margin-bottom: 40px; 
+        }
+        .admin-icon { 
+            width: 44px; height: 44px; background: var(--gradient-primary); 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; 
+            color: white; font-size: 20px; 
+        }
+        .admin-brand span { font-weight: 700; font-size: 18px; }
+        .admin-nav { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .admin-nav-item { 
+            display: flex; align-items: center; gap: 12px; 
+            padding: 14px 18px; border-radius: 12px; color: var(--text-secondary); 
+            text-decoration: none; transition: all 0.3s; font-size: 14px; 
+        }
+        .admin-nav-item:hover, .admin-nav-item.active { 
+            background: rgba(220, 38, 38, 0.1); color: var(--accent-primary); 
+        }
+        .admin-logout { 
+            margin-top: auto; padding: 14px; background: rgba(220, 38, 38, 0.1); 
+            border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 12px; 
+            color: var(--accent-primary); cursor: pointer; display: flex; align-items: center; 
+            justify-content: center; gap: 8px; font-weight: 600; transition: all 0.3s; 
+        }
+        .admin-logout:hover { background: rgba(220, 38, 38, 0.2); }
+        .admin-main { padding: 40px; overflow-y: auto; }
+        .admin-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 30px; 
+        }
+        .admin-header h1 { font-size: 28px; font-weight: 800; }
+        .admin-status { 
+            display: flex; align-items: center; gap: 8px; font-size: 14px; color: #27c93f; 
+        }
+        .admin-tab { display: none; }
+        .admin-tab.active { display: block; animation: fadeIn 0.5s; }
+        
+        /* Footer */
+        .footer { 
+            background: var(--bg-primary); border-top: 1px solid var(--border); 
+            padding: clamp(60px, 8vh, 80px) clamp(15px, 4vw, 50px) clamp(40px, 5vh, 60px); 
+            text-align: center; position: relative; 
+        }
+        .footer::before { 
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); 
+            width: min(200px, 50vw); height: 2px; background: var(--gradient-primary); 
+            box-shadow: 0 0 30px var(--accent-primary); 
+        }
+        .footer-content { max-width: 1400px; margin: 0 auto; }
+        .footer-brand { margin-bottom: 20px; }
+        .footer-name { 
+            font-size: 32px; font-weight: 900; 
+            background: var(--gradient-gold); -webkit-background-clip: text; 
+            background-clip: text; color: transparent; 
+        }
+        .footer-text { 
+            color: var(--text-secondary); font-size: 14px; margin-bottom: 30px; 
+        }
+        .footer-links { 
+            display: flex; gap: 30px; justify-content: center; margin-bottom: 30px; 
+        }
+        .footer-links button { 
+            background: none; border: none; color: var(--text-tertiary); 
+            cursor: pointer; font-size: 14px; transition: all 0.3s; 
+        }
+        .footer-links button:hover { color: var(--accent-primary); }
+        .footer-copy { 
+            color: var(--text-tertiary); font-size: 13px; 
+        }
+        .footer-copy a { color: var(--accent-primary); text-decoration: none; }
+        
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+        
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: flex; }
+            .about-grid { grid-template-columns: 1fr; }
+            .enterprise-grid { grid-template-columns: 1fr; }
+            .support-grid { grid-template-columns: 1fr; }
+            .admin-panel { grid-template-columns: 1fr; }
+            .admin-sidebar { display: none; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-stats { flex-direction: column; align-items: center; }
+            .hero-stat { width: 100%; max-width: 300px; }
+            .tier-tabs { flex-direction: column; align-items: center; }
+            .tier-tab { width: 100%; max-width: 300px; }
+            .plans-grid { grid-template-columns: 1fr; }
+            .about-features { grid-template-columns: 1fr; }
+            .addons-grid { flex-direction: column; align-items: center; }
+            .addon-chip { width: 100%; max-width: 300px; justify-content: center; }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-base"></div>
+    <div class="grid-layer-fine"></div>
+    <div class="grid-layer-large"></div>
+    <div class="aurora-container">
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+    </div>
+    <div class="light-sweep"></div>
+    <div class="cursor-spotlight" id="cursorSpotlight"></div>
+    <div class="noise-overlay"></div>
+    <div class="vignette"></div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-text" data-translate="preloaderTitle">KILLBYTE SOLUTIONS</div>
+            <div class="preloader-bar">
+                <div class="preloader-progress" id="preloaderProgress"></div>
+            </div>
+            <div class="preloader-status" id="preloaderStatus" data-translate="preloaderStatus">Initializing systems...</div>
+        </div>
+    </div>
+
+    <!-- Visitor Toast -->
+    <div class="visitor-toast" id="visitorToast">
+        <div class="toast-icon"><i class="fas fa-user-plus"></i></div>
+        <div class="toast-content">
+            <div class="toast-title" data-translate="newVisitor">New Visitor Detected</div>
+            <div class="toast-info" id="visitorInfo">IP: Loading...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#" class="brand">
+            <div class="brand-icon" style="background: none; background-color: transparent;">
+            <img src="logo.png" alt="KillByte" style="width: auto; height: 50px; max-width: 230px; object-fit: contain;">
+            </div>
+            <div class="brand-text">
+                <span class="brand-name">KillByte</span>
+                <span class="brand-tag">Solutions</span>
+            </div>
+        </a>
+
+            <div class="nav-links">
+                <a href="#home" class="nav-link active" data-section="home">
+                    <span class="nav-link-text" data-translate="navHome">Home</span>
+                </a>
+                <a href="#terminal" class="nav-link" data-section="terminal">
+                    <span class="nav-link-text" data-translate="navTerminal">Terminal</span>
+                </a>
+                <a href="#tiers" class="nav-link" data-section="tiers">
+                    <span class="nav-link-text" data-translate="navTiers">Tiers</span>
+                </a>
+                <a href="#plans" class="nav-link" data-section="plans">
+                    <span class="nav-link-text" data-translate="navPlans">Plans</span>
+                </a>
+                <a href="#enterprise" class="nav-link" data-section="enterprise">
+                    <span class="nav-link-text" data-translate="navEnterprise">Enterprise</span>
+                </a>
+                <a href="#support" class="nav-link" data-section="support">
+                    <span class="nav-link-text" data-translate="navSupport">Support</span>
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="language-selector" id="languageSelector">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="lang-flag" id="currentFlag">
+                        <span id="currentLang">EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <button class="lang-option" data-lang="en">
+                            <img src="https://flagcdn.com/w20/gb.png" alt="EN">
+                            <span>English</span>
+                        </button>
+                        <button class="lang-option" data-lang="zh">
+                            <img src="https://flagcdn.com/w20/cn.png" alt="CN">
+                            <span>中文</span>
+                        </button>
+                        <button class="lang-option" data-lang="ru">
+                            <img src="https://flagcdn.com/w20/ru.png" alt="RU">
+                            <span>Русский</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="nav-btn" onclick="openSupport()">
+                    <i class="fas fa-headset"></i>
+                    <span data-translate="support">Support</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-links">
+            <a href="#home" class="mobile-link" onclick="closeMobileMenu()" data-translate="navHome">Home</a>
+            <a href="#terminal" class="mobile-link" onclick="closeMobileMenu()" data-translate="navTerminal">Terminal</a>
+            <a href="#tiers" class="mobile-link" onclick="closeMobileMenu()" data-translate="navTiers">Tiers</a>
+            <a href="#plans" class="mobile-link" onclick="closeMobileMenu()" data-translate="navPlans">Plans</a>
+            <a href="#enterprise" class="mobile-link" onclick="closeMobileMenu()" data-translate="navEnterprise">Enterprise</a>
+            <a href="#support" class="mobile-link" onclick="closeMobileMenu()" data-translate="navSupport">Support</a>
+        </div>
+    </div>
+
+    <!-- Support Redirect Overlay -->
+    <div class="redirect-overlay" id="redirectOverlay">
+        <div class="redirect-content">
+            <div class="redirect-icon">
+                <i class="fab fa-telegram"></i>
+            </div>
+            <h2 class="redirect-title" data-translate="connectingSupport">Connecting to Support</h2>
+            <p class="redirect-text" data-translate="redirecting">Redirecting to @KillByte_Support_Bot...</p>
+            <div class="redirect-loader">
+                <div class="redirect-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2 class="modal-title" data-translate="authorizedAccess">Authorized Access</h2>
+            <p class="modal-subtitle" data-translate="enterCredentials">Enter credentials to access admin panel</p>
+            <input type="password" class="modal-input" id="adminPassword" placeholder="Enter password..." onkeypress="if(event.key==='Enter')adminLogin()">
+            <button class="modal-btn" onclick="adminLogin()">
+                <i class="fas fa-lock"></i>
+                <span data-translate="accessPanel">Access Panel</span>
+            </button>
+            <button class="modal-cancel" onclick="closeAdminModal()" data-translate="cancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-sidebar">
+            <div class="admin-brand">
+                <div class="admin-icon"><i class="fas fa-bolt"></i></div>
+                <span>KillByte Admin</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="#" class="admin-nav-item active" onclick="switchAdminTab('dashboard', this)">
+                    <i class="fas fa-chart-line"></i>
+                    <span data-translate="dashboard">Dashboard</span>
+                </a>
+                <a href="#" class="admin-nav-item" onclick="switchAdminTab('visitors', this)">
+                    <i class="fas fa-users"></i>
+                    <span data-translate="visitors">Visitors</span>
+                </a>
+                <a href="#" class="admin-nav-item" onclick="switchAdminTab('telegram', this)">
+                    <i class="fab fa-telegram"></i>
+                    <span data-translate="telegram">Telegram</span>
+                </a>
+                <a href="#" class="admin-nav-item" onclick="switchAdminTab('settings', this)">
+                    <i class="fas fa-cog"></i>
+                    <span data-translate="settings">Settings</span>
+                </a>
+            </nav>
+            <button class="admin-logout" onclick="adminLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span data-translate="logout">Logout</span>
+            </button>
+        </div>
+        <div class="admin-main">
+            <div class="admin-tab active" id="tab-dashboard">
+                <div class="admin-header">
+                    <h1 data-translate="dashboard">Dashboard</h1>
+                    <div class="admin-status">
+                        <span class="status-dot online"></span>
+                        <span data-translate="systemOnline">System Online</span>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="totalVisitors">0</div>
+                            <div class="stat-label" data-translate="totalVisitors">Total Visitors</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-eye"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="todayVisitors">0</div>
+                            <div class="stat-label" data-translate="todayVisitors">Today's Visitors</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-broadcast-tower"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="telegramStatus">OFF</div>
+                            <div class="stat-label" data-translate="telegramBot">Telegram Bot</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-server"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">240+</div>
+                            <div class="stat-label" data-translate="activeServers">Active servers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="particles-container">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <div class="hero-glow"></div>
+            <div class="hero-badge">
+                <i class="fas fa-crown"></i>
+                <span data-translate="topMarket">Top #1 Market Services</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line" data-translate="killbyteSolutions">KillByte Solutions</span>
+                <span class="title-line gradient" data-translate="powerInfrastructure">Power Infrastructure</span>
+            </h1>
+            <p class="hero-description" data-translate="heroDescription">
+                The most powerful Layer 7 & Layer 4 DDoS infrastructure. 
+                Engineered for precision, built for dominance.
+            </p>
+            <div class="hero-actions">
+                <a href="#plans" class="btn btn-primary">
+                    <span data-translate="viewPlans">View Plans</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <button class="btn btn-secondary" onclick="openSupport()">
+                    <i class="fab fa-telegram"></i>
+                    <span data-translate="getSupport">Get Support</span>
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-number" data-count="630">0</span>
+                    <span class="stat-suffix">Gbps</span>
+                    <div class="stat-label" data-translate="l4Capacity">L4 Capacity</div>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-count="72">0</span>
+                    <span class="stat-suffix">M+</span>
+                    <div class="stat-label" data-translate="l7Requests">L7 Requests/sec</div>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-count="99.9">0</span>
+                    <span class="stat-suffix">%</span>
+                    <div class="stat-label" data-translate="uptime">Uptime</div>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-count="240">0</span>
+                    <span class="stat-suffix">+</span>
+                    <div class="stat-label" data-translate="activeServers">Active servers</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terminal Section - Advanced macOS Terminal -->
+        <section id="terminal" class="terminal-section">
+            <div class="section-header">
+                <span class="section-label" data-translate="systemStatus">System Status</span>
+                <h2 class="section-title" data-translate="liveTerminal">Live Terminal</h2>
+                <p class="section-subtitle" data-translate="realtimeMonitoring">Real-time infrastructure monitoring</p>
+            </div>
+            <div class="terminal-wrapper">
+                <div class="mac-terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="terminal-btn close"></span>
+                            <span class="terminal-btn minimize"></span>
+                            <span class="terminal-btn maximize"></span>
+                        </div>
+                        <div class="terminal-title">
+                            <i class="fas fa-terminal"></i>
+                            <span>KillByte Solutions | User: Guest | Expiry Date: 5/11/2028 | Version: 2.5</span>
+                        </div>
+                        <div class="terminal-actions">
+                            <span class="demo-badge">DEMO</span>
+                        </div>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="terminal-content" id="terminalContent"></div>
+                        <div class="terminal-input-line">
+                            <span class="terminal-prompt">
+                                <span class="prompt-user">Guest</span>
+                                <span class="prompt-separator">●</span>
+                                <span class="prompt-host">KillByte</span>
+                                <span class="prompt-arrow">►►</span>
+                            </span>
+                            <span class="terminal-input" id="terminalInput"></span>
+                            <span class="terminal-cursor" id="terminalCursor"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="terminal-hint">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Type <code>help</code> for available commands • <code>methods</code> for attack vectors • <code>clear</code> to reset</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="about-grid">
+                <div class="about-content">
+                    <span class="section-label" data-translate="aboutUs">About Us</span>
+                    <h2 class="section-title"><span data-translate="weAre">We Are</span> <span class="gradient">KillByte</span></h2>
+                    <p class="about-text" data-translate="aboutText1">
+                        At KillByte, we specialize in providing high-powered DDoS services, particularly 
+                        <strong>Layer 7 (L7)</strong>, with the ability to handle the most complex and targeted attacks. 
+                        We can reach up to <span class="highlight">630 Gbps</span>, delivering immense force to 
+                        overwhelm and disrupt any target.
+                    </p>
+                    <p class="about-text" data-translate="aboutText2">
+                        Our state-of-the-art infrastructure allows us to execute precision strikes with up to 
+                        <span class="highlight">72 million requests per second</span>, ensuring maximum impact 
+                        with unmatched reliability.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <i class="fas fa-bolt"></i>
+                            <span data-translate="instantDeployment">Instant Deployment</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span data-translate="stealthMethods">Stealth Methods</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-globe"></i>
+                            <span data-translate="globalServers">Global servers</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-headset"></i>
+                            <span data-translate="support247">24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="visual-card">
+                        <div class="visual-header">
+                            <i class="fas fa-server"></i>
+                            <span data-translate="infrastructureStatus">Infrastructure Status</span>
+                        </div>
+                        <div class="visual-content">
+                            <div class="status-item">
+                                <span class="status-name" data-translate="l7Power">L7 Power</span>
+                                <div class="status-bar">
+                                    <div class="status-fill" style="width: 95%"></div>
+                                </div>
+                                <span class="status-value">95%</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-name" data-translate="l4Output">L4 Output</span>
+                                <div class="status-bar">
+                                    <div class="status-fill" style="width: 92%"></div>
+                                </div>
+                                <span class="status-value">92%</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-name" data-translate="serverHealth">server Health</span>
+                                <div class="status-bar">
+                                    <div class="status-fill" style="width: 98%"></div>
+                                </div>
+                                <span class="status-value">98%</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-name" data-translate="networkLatency">Network Latency</span>
+                                <div class="status-bar">
+                                    <div class="status-fill low" style="width: 15%"></div>
+                                </div>
+                                <span class="status-value">12ms</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tiers Section -->
+        <section id="tiers" class="tiers-section">
+            <div class="section-header">
+                <span class="section-label" data-translate="performance">Performance</span>
+                <h2 class="section-title" data-translate="powerTiers">Power Tiers</h2>
+                <p class="section-subtitle" data-translate="chooseLevel">Choose your operational level</p>
+            </div>
+            <div class="tier-tabs">
+                <button class="tier-tab active" data-tier="standard" data-translate="standard">Standard</button>
+                <button class="tier-tab" data-tier="vip" data-translate="vip">VIP</button>
+                <button class="tier-tab" data-tier="private" data-translate="private">Private</button>
+            </div>
+            <div class="tier-contents">
+                <div class="tier-content active" id="tier-standard">
+                    <div class="tier-card">
+                        <div class="tier-header">
+                            <div class="tier-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3 class="tier-name" data-translate="standardTier">Standard Tier</h3>
+                            <p class="tier-desc" data-translate="entryLevel">Entry-level power for testing environments</p>
+                        </div>
+                        <div class="tier-specs">
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>1M</strong> <span data-translate="l7Requests">L7 Requests/sec</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>70+</strong> <span data-translate="gbpsL4">Gbps L4 Output</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>1</strong> <span data-translate="concurrentSlot">Concurrent Slot</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span data-translate="standardMethods">Standard Methods</span>
+                            </div>
+                        </div>
+                        <div class="tier-price">$30</div>
+                        <button class="btn btn-primary" onclick="buyPlan('standard')" data-translate="getStarted">Get Started</button>
+                    </div>
+                </div>
+                <div class="tier-content" id="tier-vip">
+                    <div class="tier-card featured">
+                        <div class="tier-badge" data-translate="mostPopular">MOST POPULAR</div>
+                        <div class="tier-header">
+                            <div class="tier-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <h3 class="tier-name" data-translate="vipTier">VIP Tier</h3>
+                            <p class="tier-desc" data-translate="professionalGrade">Professional grade with enhanced capabilities</p>
+                        </div>
+                        <div class="tier-specs">
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>30M</strong> <span data-translate="l7Requests">L7 Requests/sec</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>150+</strong> <span data-translate="gbpsL4">Gbps L4 Output</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>2</strong> <span data-translate="concurrentSlots">Concurrent Slots</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span data-translate="vipMethods">VIP Methods + API Access</span>
+                            </div>
+                        </div>
+                        <div class="tier-price">$65</div>
+                        <button class="btn btn-primary" onclick="buyPlan('vip')" data-translate="getVip">Get VIP</button>
+                    </div>
+                </div>
+                <div class="tier-content" id="tier-private">
+                    <div class="tier-card">
+                        <div class="tier-header">
+                            <div class="tier-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h3 class="tier-name" data-translate="privateTier">Private Tier</h3>
+                            <p class="tier-desc" data-translate="exclusiveAccess">Exclusive access to restricted infrastructure</p>
+                        </div>
+                        <div class="tier-specs">
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>45M</strong> <span data-translate="l7Requests">L7 Requests/sec</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>200+</strong> <span data-translate="gbpsL4">Gbps L4 Output</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span><strong>4</strong> <span data-translate="concurrentSlots">Concurrent Slots</span></span>
+                            </div>
+                            <div class="tier-spec">
+                                <i class="fas fa-check"></i>
+                                <span data-translate="privateServers">Private servers + L7 Bypasses</span>
+                            </div>
+                        </div>
+                        <div class="tier-price">$160</div>
+                        <button class="btn btn-primary" onclick="buyPlan('private')" data-translate="getPrivate">Get Private</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plans Section -->
+        <section id="plans" class="plans-section">
+            <div class="section-header">
+                <span class="section-label" data-translate="pricing">Pricing</span>
+                <h2 class="section-title" data-translate="servicePlans">Service Plans</h2>
+                <p class="section-subtitle" data-translate="flexibleOptions">Flexible options for every requirement</p>
+            </div>
+            
+            <h3 class="plans-category" data-translate="monthlyPlans">Monthly Plans</h3>
+            <div class="plans-grid">
+                <div class="plan-card" onclick="buyPlan('starter')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="starterSurge">Starter Surge</h4>
+                            <span class="plan-badge" data-translate="days7">7 Days</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$30</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slot1">1 Slot</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">60s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card" onclick="buyPlan('edge')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="edgeStrike">Edge Strike</h4>
+                            <span class="plan-badge" data-translate="days30">30 Days</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$65</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slot1">1 Slot</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">120s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card" onclick="buyPlan('dual')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="dualSurge">Dual Surge</h4>
+                            <span class="plan-badge" data-translate="days30">30 Days</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$85</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slots2">2 Slots</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">120s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card featured" onclick="buyPlan('phantom')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="phantomForce">Phantom Force</h4>
+                            <span class="plan-badge vip">VIP</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$160</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slots3">3 Slots</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">200s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card" onclick="buyPlan('shadow')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="shadowBlade">Shadow Blade</h4>
+                            <span class="plan-badge vip">VIP</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$280</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slots4">4 Slots</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">250s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card" onclick="buyPlan('dominion')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="dominionControl">Dominion Control</h4>
+                            <span class="plan-badge vip">VIP+</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$380</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slots4">4 Slots</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">250s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+            </div>
+
+            <h3 class="plans-category" data-translate="dailyBlasts">Daily Blasts</h3>
+            <div class="plans-grid daily">
+                <div class="plan-card" onclick="buyPlan('burst')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="burstEntry">Burst Entry</h4>
+                            <span class="plan-badge" data-translate="daily">Daily</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$15</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slot1">1 Slot</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">120s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card" onclick="buyPlan('daggers')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="dualDaggers">Dual Daggers</h4>
+                            <span class="plan-badge" data-translate="daily">Daily</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$22</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slots2">2 Slots</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">120s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card" onclick="buyPlan('crimson')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="crimsonReaper">Crimson Reaper</h4>
+                            <span class="plan-badge vip">VIP</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$40</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slots2">2 Slots</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">250s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+
+                <div class="plan-card" onclick="buyPlan('overlord')">
+                    <div class="plan-header">
+                        <div class="plan-info">
+                            <h4 class="plan-name" data-translate="overlordStrike">Overlord Strike</h4>
+                            <span class="plan-badge vip">VIP+</span>
+                        </div>
+                    </div>
+                    <div class="plan-price">$160</div>
+                    <div class="plan-specs">
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="concurrent">Concurrent</span>
+                            <span class="spec-value" data-translate="slots2">2 Slots</span>
+                        </div>
+                        <div class="plan-spec">
+                            <span class="spec-label" data-translate="duration">Duration</span>
+                            <span class="spec-value">250s</span>
+                        </div>
+                    </div>
+                    <button class="plan-btn" data-translate="selectPlan">Select Plan</button>
+                </div>
+            </div>
+
+            <div class="addons-section">
+                <h3 class="addons-title" data-translate="addons">Add-ons</h3>
+                <div class="addons-grid">
+                    <div class="addon-chip" onclick="buyAddon('concurrent')">
+                        <i class="fas fa-plus"></i>
+                        <span data-translate="concurrentPlus">+1 Concurrent</span>
+                        <span class="addon-price">$40</span>
+                    </div>
+                    <div class="addon-chip" onclick="buyAddon('duration')">
+                        <i class="fas fa-clock"></i>
+                        <span data-translate="durationPlus">+60s Duration</span>
+                        <span class="addon-price">$10</span>
+                    </div>
+                    <div class="addon-chip" onclick="buyAddon('api')">
+                        <i class="fas fa-code"></i>
+                        <span data-translate="apiGateway">API Gateway</span>
+                        <span class="addon-price">$50</span>
+                    </div>
+                    <div class="addon-chip" onclick="buyAddon('cooldown')">
+                        <i class="fas fa-ban"></i>
+                        <span data-translate="zeroCooldown">Zero Cooldown</span>
+                        <span class="addon-price">$15</span>
+                    </div>
+                    <div class="addon-chip" onclick="buyAddon('private')">
+                        <i class="fas fa-lock"></i>
+                        <span data-translate="privateAccess">Private Access</span>
+                        <span class="addon-price">$80</span>
+                    </div>
+                    <div class="addon-chip" onclick="buyAddon('vip')">
+                        <i class="fas fa-star"></i>
+                        <span data-translate="vipUpgrade">VIP Upgrade</span>
+                        <span class="addon-price">$25</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enterprise Section -->
+        <section id="enterprise" class="enterprise-section">
+            <div class="section-header">
+                <span class="section-label" data-translate="enterprise">Enterprise</span>
+                <h2 class="section-title" data-translate="eliteSolutions">Elite Solutions</h2>
+                <p class="section-subtitle" data-translate="maximumPower">Maximum power for maximum impact</p>
+            </div>
+            <div class="enterprise-grid">
+                <div class="enterprise-card">
+                    <div class="enterprise-header">
+                        <div class="enterprise-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="enterprise-info">
+                            <h3 class="enterprise-name" data-translate="enterpriseReactor">Enterprise Reactor</h3>
+                            <span class="enterprise-badge">$1200/mo</span>
+                        </div>
+                    </div>
+                    <p class="enterprise-desc" data-translate="fullScale">Full-Scale DDoS Domination</p>
+                    <div class="enterprise-price">$1200<span>/month</span></div>
+                    <ul class="enterprise-features">
+                        <li><i class="fas fa-check"></i> <span data-translate="reactorFeature1">35M+ Rq/s Layer 7 Power</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="reactorFeature2">150+ Gbps L4 Flood Capability</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="reactorFeature3">Multi-Target Parallel Handling</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="reactorFeature4">API-Optimized Deployment</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="reactorFeature5">Priority Slot Execution</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="reactorFeature6">Zero Packet Loss</span></li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="buyPlan('reactor')">
+                        <span data-translate="configure">Configure</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="enterprise-card ultimate">
+                    <div class="enterprise-header">
+                        <div class="enterprise-icon">
+                            <i class="fas fa-meteor"></i>
+                        </div>
+                        <div class="enterprise-info">
+                            <h3 class="enterprise-name" data-translate="hellstormProtocol">Hellstorm Protocol</h3>
+                            <span class="enterprise-badge">$1450/mo</span>
+                        </div>
+                    </div>
+                    <p class="enterprise-desc" data-translate="finalEvolution">The Final Evolution</p>
+                    <div class="enterprise-price">$1450<span>/month</span></div>
+                    <ul class="enterprise-features">
+                        <li><i class="fas fa-check"></i> <span data-translate="hellstormFeature1">45M+ Rq/s L7 Floods</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="hellstormFeature2">200+ Gbps Raw L4 Output</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="hellstormFeature3">VIP-Only Private servers</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="hellstormFeature4">Obfuscation Methods</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="hellstormFeature5">Exclusive L7-KILLER Payloads</span></li>
+                        <li><i class="fas fa-check"></i> <span data-translate="hellstormFeature6">Zero-Lag Launch Time</span></li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="buyPlan('hellstorm')">
+                        <span data-translate="configure">Configure</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section id="support" class="support-section">
+            <div class="section-header">
+                <span class="section-label" data-translate="assistance">Assistance</span>
+                <h2 class="section-title" data-translate="getSupport">Get Support</h2>
+                <p class="section-subtitle" data-translate="professionalAssistance">24/7 Professional Assistance</p>
+            </div>
+            <div class="support-grid">
+                <a href="https://t.me/KillByte_Support_Bot" target="_blank" class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="support-title" data-translate="telegramBot">Telegram Bot</h3>
+                    <p class="support-desc" data-translate="automatedOrdering">Automated ordering & instant delivery</p>
+                    <span class="support-status online">
+                        <span class="status-dot"></span>
+                        <span data-translate="online247">24/7 Online</span>
+                    </span>
+                </a>
+                <a href="https://t.me/rankflood" target="_blank" class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="support-title" data-translate="directAdmin">Direct Admin</h3>
+                    <p class="support-desc" data-translate="contactAdmin">Contact @rankflood for sales & support</p>
+                    <span class="support-status vip">VIP Support</span>
+                </a>
+                <button class="support-card" onclick="openSupport()">
+                    <div class="support-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h3 class="support-title" data-translate="supportCenter">Support Center</h3>
+                    <p class="support-desc" data-translate="getHelp">Get help from our support team</p>
+                    <span class="support-status online">
+                        <span class="status-dot"></span>
+                        <span data-translate="onlineNow">Online Now</span>
+                    </span>
+                </button>
+            </div>
+
+            <div class="channels-section">
+                <h3 class="channels-title" data-translate="officialChannels">Official Channels</h3>
+                <div class="channels-list">
+                    <a href="https://t.me/+_Nyb8D6jsHJiY2Qx" target="_blank" class="channel-item">
+                        <div class="channel-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <div class="channel-info">
+                            <span class="channel-name">KillByte Solutions</span>
+                            <span class="channel-desc" data-translate="mainChannel">Main Channel</span>
+                        </div>
+                        <i class="fas fa-chevron-right channel-arrow"></i>
+                    </a>
+                    <a href="https://t.me/addlist/TU8lnQMAZMk0OTU1" target="_blank" class="channel-item">
+                        <div class="channel-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="channel-info">
+                            <span class="channel-name">KillByte Addlist</span>
+                            <span class="channel-desc" data-translate="groupDirectory">Group Directory</span>
+                        </div>
+                        <i class="fas fa-chevron-right channel-arrow"></i>
+                    </a>
+                    <a href="https://t.me/killbytebackup" target="_blank" class="channel-item">
+                        <div class="channel-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="channel-info">
+                            <span class="channel-name">KillByte Backup</span>
+                            <span class="channel-desc" data-translate="contingency">Contingency</span>
+                        </div>
+                        <i class="fas fa-chevron-right channel-arrow"></i>
+                    </a>
+                    <a href="https://t.me/KillBytePowerShow" target="_blank" class="channel-item">
+                        <div class="channel-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="channel-info">
+                            <span class="channel-name">Power Proofs</span>
+                            <span class="channel-desc" data-translate="performanceProof">Performance Proof</span>
+                        </div>
+                        <i class="fas fa-chevron-right channel-arrow"></i>
+                    </a>
+                    <a href="https://t.me/killbytevouch" target="_blank" class="channel-item">
+                        <div class="channel-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="channel-info">
+                            <span class="channel-name">KillByte Vouches</span>
+                            <span class="channel-desc" data-translate="customerReviews">Customer Reviews</span>
+                        </div>
+                        <i class="fas fa-chevron-right channel-arrow"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-name">KillByte</span>
+            </div>
+            <p class="footer-text" data-translate="premiumInfrastructure">Premium infrastructure for elite operators.</p>
+            <div class="footer-links">
+                <button onclick="showTerms()" data-translate="terms">Terms</button>
+                <button onclick="showPrivacy()" data-translate="privacy">Privacy</button>
+                <button onclick="openAdminModal()" data-translate="admin">Admin</button>
+            </div>
+            <p class="footer-copy">
+                &copy; 2026 KillByte Solutions. <span data-translate="allRightsReserved">All rights reserved.</span> | <span data-translate="adminContact">Admin:</span> <a href="https://t.me/rankflood" target="_blank">@rankflood</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // TRANSLATION SYSTEM
+        // ============================================
+        
+        const translations = {
+            en: {
+                // Preloader
+                preloaderTitle: "KILLBYTE SOLUTIONS",
+                preloaderStatus: "Initializing systems...",
+                
+                // Navigation
+                solutions: "Solutions",
+                navHome: "Home",
+                navTerminal: "Terminal",
+                navTiers: "Tiers",
+                navPlans: "Plans",
+                navEnterprise: "Enterprise",
+                navSupport: "Support",
+                support: "Support",
+                
+                // Hero
+                topMarket: "Top #1 Market Services",
+                killbyteSolutions: "KillByte Solutions",
+                powerInfrastructure: "Power Infrastructure",
+                heroDescription: "The most powerful Layer 7 & Layer 4 DDoS infrastructure. Engineered for precision, built for dominance.",
+                viewPlans: "View Plans",
+                getSupport: "Get Support",
+                l4Capacity: "L4 Capacity",
+                l7Requests: "L7 Requests/sec",
+                uptime: "Uptime",
+                activeServers: "Active servers",
+                
+                // Terminal
+                systemStatus: "System Status",
+                liveTerminal: "Live Terminal",
+                realtimeMonitoring: "Real-time infrastructure monitoring",
+                
+                // About
+                aboutUs: "About Us",
+                weAre: "We Are",
+                aboutText1: "At KillByte, we specialize in providing high-powered DDoS services, particularly Layer 7 (L7), with the ability to handle the most complex and targeted attacks. We can reach up to 630 Gbps, delivering immense force to overwhelm and disrupt any target.",
+                aboutText2: "Our state-of-the-art infrastructure allows us to execute precision strikes with up to 72 million requests per second, ensuring maximum impact with unmatched reliability.",
+                instantDeployment: "Instant Deployment",
+                stealthMethods: "Stealth Methods",
+                globalServers: "Global servers",
+                support247: "24/7 Support",
+                infrastructureStatus: "Infrastructure Status",
+                l7Power: "L7 Power",
+                l4Output: "L4 Output",
+                serverHealth: "server Health",
+                networkLatency: "Network Latency",
+                
+                // Tiers
+                performance: "Performance",
+                powerTiers: "Power Tiers",
+                chooseLevel: "Choose your operational level",
+                standard: "Standard",
+                vip: "VIP",
+                private: "Private",
+                standardTier: "Standard Tier",
+                entryLevel: "Entry-level power for testing environments",
+                gbpsL4: "Gbps L4 Output",
+                concurrentSlot: "Concurrent Slot",
+                concurrentSlots: "Concurrent Slots",
+                standardMethods: "Standard Methods",
+                getStarted: "Get Started",
+                mostPopular: "MOST POPULAR",
+                vipTier: "VIP Tier",
+                professionalGrade: "Professional grade with enhanced capabilities",
+                vipMethods: "VIP Methods + API Access",
+                getVip: "Get VIP",
+                privateTier: "Private Tier",
+                exclusiveAccess: "Exclusive access to restricted infrastructure",
+                privateServers: "Private servers + L7 Bypasses",
+                getPrivate: "Get Private",
+                
+                // Plans
+                pricing: "Pricing",
+                servicePlans: "Service Plans",
+                flexibleOptions: "Flexible options for every requirement",
+                monthlyPlans: "Monthly Plans",
+                starterSurge: "Starter Surge",
+                days7: "7 Days",
+                slot1: "1 Slot",
+                concurrent: "Concurrent",
+                duration: "Duration",
+                selectPlan: "Select Plan",
+                edgeStrike: "Edge Strike",
+                days30: "30 Days",
+                dualSurge: "Dual Surge",
+                slots2: "2 Slots",
+                phantomForce: "Phantom Force",
+                slots3: "3 Slots",
+                shadowBlade: "Shadow Blade",
+                slots4: "4 Slots",
+                dominionControl: "Dominion Control",
+                dailyBlasts: "Daily Blasts",
+                burstEntry: "Burst Entry",
+                daily: "Daily",
+                dualDaggers: "Dual Daggers",
+                crimsonReaper: "Crimson Reaper",
+                overlordStrike: "Overlord Strike",
+                
+                // Addons
+                addons: "Add-ons",
+                concurrentPlus: "+1 Concurrent",
+                durationPlus: "+60s Duration",
+                apiGateway: "API Gateway",
+                zeroCooldown: "Zero Cooldown",
+                privateAccess: "Private Access",
+                vipUpgrade: "VIP Upgrade",
+                
+                // Enterprise
+                enterprise: "Enterprise",
+                eliteSolutions: "Elite Solutions",
+                maximumPower: "Maximum power for maximum impact",
+                enterpriseReactor: "Enterprise Reactor",
+                fullScale: "Full-Scale DDoS Domination",
+                reactorFeature1: "35M+ Rq/s Layer 7 Power",
+                reactorFeature2: "150+ Gbps L4 Flood Capability",
+                reactorFeature3: "Multi-Target Parallel Handling",
+                reactorFeature4: "API-Optimized Deployment",
+                reactorFeature5: "Priority Slot Execution",
+                reactorFeature6: "Zero Packet Loss",
+                configure: "Configure",
+                hellstormProtocol: "Hellstorm Protocol",
+                finalEvolution: "The Final Evolution",
+                hellstormFeature1: "45M+ Rq/s L7 Floods",
+                hellstormFeature2: "200+ Gbps Raw L4 Output",
+                hellstormFeature3: "VIP-Only Private servers",
+                hellstormFeature4: "Obfuscation Methods",
+                hellstormFeature5: "Exclusive L7-KILLER Payloads",
+                hellstormFeature6: "Zero-Lag Launch Time",
+                
+                // Support
+                assistance: "Assistance",
+                professionalAssistance: "24/7 Professional Assistance",
+                telegramBot: "Telegram Bot",
+                automatedOrdering: "Automated ordering & instant delivery",
+                online247: "24/7 Online",
+                directAdmin: "Direct Admin",
+                contactAdmin: "Contact @rankflood for sales & support",
+                supportCenter: "Support Center",
+                getHelp: "Get help from our support team",
+                onlineNow: "Online Now",
+                officialChannels: "Official Channels",
+                mainChannel: "Main Channel",
+                groupDirectory: "Group Directory",
+                contingency: "Contingency",
+                performanceProof: "Performance Proof",
+                customerReviews: "Customer Reviews",
+                
+                // Footer
+                premiumInfrastructure: "Premium infrastructure for elite operators.",
+                terms: "Terms",
+                privacy: "Privacy",
+                admin: "Admin",
+                allRightsReserved: "All rights reserved.",
+                adminContact: "Admin",
+                
+                // Modals
+                connectingSupport: "Connecting to Support",
+                redirecting: "Redirecting to @KillByte_Support_Bot...",
+                authorizedAccess: "Authorized Access",
+                enterCredentials: "Enter credentials to access admin panel",
+                accessPanel: "Access Panel",
+                cancel: "Cancel",
+                
+                // Admin
+                dashboard: "Dashboard",
+                visitors: "Visitors",
+                telegram: "Telegram",
+                settings: "Settings",
+                logout: "Logout",
+                systemOnline: "System Online",
+                totalVisitors: "Total Visitors",
+                todayVisitors: "Today's Visitors",
+                telegramBot: "Telegram Bot",
+                
+                // Visitor Toast
+                newVisitor: "New Visitor Detected"
+            },
+            
+            ru: {
+                // Preloader
+                preloaderTitle: "KILLBYTE РЕШЕНИЯ",
+                preloaderStatus: "Инициализация систем...",
+                
+                // Navigation
+                solutions: "Решения",
+                navHome: "Главная",
+                navTerminal: "Терминал",
+                navTiers: "Уровни",
+                navPlans: "Тарифы",
+                navEnterprise: "Корпоративный",
+                navSupport: "Поддержка",
+                support: "Поддержка",
+                
+                // Hero
+                topMarket: "Топ #1 на рынке услуг",
+                killbyteSolutions: "KillByte Решения",
+                powerInfrastructure: "Мощная Инфраструктура",
+                heroDescription: "Самая мощная Layer 7 и Layer 4 DDoS инфраструктура. Создана для точности, построена для доминирования.",
+                viewPlans: "Смотреть Тарифы",
+                getSupport: "Получить Поддержку",
+                l4Capacity: "L4 Мощность",
+                l7Requests: "L7 Запросов/сек",
+                uptime: "Аптайм",
+                activeServers: "Активных серверов",
+                
+                // Terminal
+                systemStatus: "Статус Системы",
+                liveTerminal: "Живой Терминал",
+                realtimeMonitoring: "Мониторинг инфраструктуры в реальном времени",
+                
+                // About
+                aboutUs: "О Нас",
+                weAre: "Мы",
+                aboutText1: "В KillByte мы специализируемся на предоставлении мощных DDoS услуг, особенно Layer 7 (L7), с возможностью обработки самых сложных и целенаправленных атак. Мы можем достичь до 630 Гбит/с, оказывая огромную силу для подавления и нарушения работы любой цели.",
+                aboutText2: "Наша современная инфраструктура позволяет нам выполнять точечные удары до 72 миллионов запросов в секунду, обеспечивая максимальное воздействие с непревзойденной надежностью.",
+                instantDeployment: "Мгновенное Развертывание",
+                stealthMethods: "Скрытые Методы",
+                globalServers: "Глобальные серверы",
+                support247: "Поддержка 24/7",
+                infrastructureStatus: "Статус Инфраструктуры",
+                l7Power: "L7 Мощность",
+                l4Output: "L4 Выход",
+                serverHealth: "Здоровье сервера",
+                networkLatency: "Задержка Сети",
+                
+                // Tiers
+                performance: "Производительность",
+                powerTiers: "Уровни Мощности",
+                chooseLevel: "Выберите свой уровень работы",
+                standard: "Стандарт",
+                vip: "VIP",
+                private: "Приватный",
+                standardTier: "Стандартный Уровень",
+                entryLevel: "Начальный уровень для тестовых сред",
+                gbpsL4: "Гбит/с L4 Выход",
+                concurrentSlot: "Одновременный Слот",
+                concurrentSlots: "Одновременных Слотов",
+                standardMethods: "Стандартные Методы",
+                getStarted: "Начать",
+                mostPopular: "САМЫЙ ПОПУЛЯРНЫЙ",
+                vipTier: "VIP Уровень",
+                professionalGrade: "Профессиональный уровень с расширенными возможностями",
+                vipMethods: "VIP Методы + API Доступ",
+                getVip: "Получить VIP",
+                privateTier: "Приватный Уровень",
+                exclusiveAccess: "Эксклюзивный доступ к ограниченной инфраструктуре",
+                privateServers: "Приватные серверы + L7 Обходы",
+                getPrivate: "Получить Приватный",
+                
+                // Plans
+                pricing: "Цены",
+                servicePlans: "Сервисные Тарифы",
+                flexibleOptions: "Гибкие варианты для любых требований",
+                monthlyPlans: "Ежемесячные Тарифы",
+                starterSurge: "Стартовый Всплеск",
+                days7: "7 Дней",
+                slot1: "1 Слот",
+                concurrent: "Одновременно",
+                duration: "Длительность",
+                selectPlan: "Выбрать Тариф",
+                edgeStrike: "Удар Края",
+                days30: "30 Дней",
+                dualSurge: "Двойной Всплеск",
+                slots2: "2 Слота",
+                phantomForce: "Фантомная Сила",
+                slots3: "3 Слота",
+                shadowBlade: "Теневое Лезвие",
+                slots4: "4 Слота",
+                dominionControl: "Контроль Доминиона",
+                dailyBlasts: "Ежедневные Всплески",
+                burstEntry: "Взрывной Вход",
+                daily: "Ежедневно",
+                dualDaggers: "Двойные Кинжалы",
+                crimsonReaper: "Багровый Жнец",
+                overlordStrike: "Удар Властелина",
+                
+                // Addons
+                addons: "Дополнения",
+                concurrentPlus: "+1 Одновременно",
+                durationPlus: "+60с Длительность",
+                apiGateway: "API Шлюз",
+                zeroCooldown: "Нулевой Кулдаун",
+                privateAccess: "Приватный Доступ",
+                vipUpgrade: "VIP Апгрейд",
+                
+                // Enterprise
+                enterprise: "Корпоративный",
+                eliteSolutions: "Элитные Решения",
+                maximumPower: "Максимальная мощность для максимального воздействия",
+                enterpriseReactor: "Корпоративный Реактор",
+                fullScale: "Полномасштабное DDoS Доминирование",
+                reactorFeature1: "35M+ Rq/s Layer 7 Мощность",
+                reactorFeature2: "150+ Гбит/с L4 Возможности",
+                reactorFeature3: "Параллельная Обработка Множества Целей",
+                reactorFeature4: "API-Оптимизированное Развертывание",
+                reactorFeature5: "Приоритетное Выполнение Слотов",
+                reactorFeature6: "Нулевая Потеря Пакетов",
+                configure: "Настроить",
+                hellstormProtocol: "Протокол Адского Шторма",
+                finalEvolution: "Финальная Эволюция",
+                hellstormFeature1: "45M+ Rq/s L7 Наводнения",
+                hellstormFeature2: "200+ Гбит/с Чистый L4 Выход",
+                hellstormFeature3: "Только VIP Приватные серверы",
+                hellstormFeature4: "Методы Обфускации",
+                hellstormFeature5: "Эксклюзивные L7-KILLER Полезные Нагрузки",
+                hellstormFeature6: "Запуск Без Задержки",
+                
+                // Support
+                assistance: "Помощь",
+                professionalAssistance: "Профессиональная Помощь 24/7",
+                telegramBot: "Telegram Бот",
+                automatedOrdering: "Автоматические заказы и мгновенная доставка",
+                online247: "Онлайн 24/7",
+                directAdmin: "Прямой Админ",
+                contactAdmin: "Свяжитесь с @rankflood для продаж и поддержки",
+                supportCenter: "Центр Поддержки",
+                getHelp: "Получите помощь от нашей команды поддержки",
+                onlineNow: "Онлайн Сейчас",
+                officialChannels: "Официальные Каналы",
+                mainChannel: "Главный Канал",
+                groupDirectory: "Каталог Групп",
+                contingency: "Резервный",
+                performanceProof: "Доказательство Производительности",
+                customerReviews: "Отзывы Клиентов",
+                
+                // Footer
+                premiumInfrastructure: "Премиум инфраструктура для элитных операторов.",
+                terms: "Условия",
+                privacy: "Конфиденциальность",
+                admin: "Админ",
+                allRightsReserved: "Все права защищены.",
+                adminContact: "Админ",
+                
+                // Modals
+                connectingSupport: "Подключение к Поддержке",
+                redirecting: "Перенаправление на @KillByte_Support_Bot...",
+                authorizedAccess: "Авторизованный Доступ",
+                enterCredentials: "Введите учетные данные для доступа к панели администратора",
+                accessPanel: "Доступ к Панели",
+                cancel: "Отмена",
+                
+                // Admin
+                dashboard: "Панель Управления",
+                visitors: "Посетители",
+                telegram: "Telegram",
+                settings: "Настройки",
+                logout: "Выйти",
+                systemOnline: "Система Онлайн",
+                totalVisitors: "Всего Посетителей",
+                todayVisitors: "Посетителей Сегодня",
+                telegramBot: "Telegram Бот",
+                
+                // Visitor Toast
+                newVisitor: "Обнаружен Новый Посетитель"
+            },
+            
+            zh: {
+                // Preloader
+                preloaderTitle: "KILLBYTE 解决方案",
+                preloaderStatus: "正在初始化系统...",
+                
+                // Navigation
+                solutions: "解决方案",
+                navHome: "首页",
+                navTerminal: "终端",
+                navTiers: "等级",
+                navPlans: "套餐",
+                navEnterprise: "企业版",
+                navSupport: "支持",
+                support: "支持",
+                
+                // Hero
+                topMarket: "市场服务排名第一",
+                killbyteSolutions: "KillByte 解决方案",
+                powerInfrastructure: "强大基础设施",
+                heroDescription: "最强大的 Layer 7 和 Layer 4 DDoS 基础设施。为精准而生，为统治而建。",
+                viewPlans: "查看套餐",
+                getSupport: "获取支持",
+                l4Capacity: "L4 容量",
+                l7Requests: "L7 请求/秒",
+                uptime: "正常运行时间",
+                activeServers: "活跃服务器",
+                
+                // Terminal
+                systemStatus: "系统状态",
+                liveTerminal: "实时终端",
+                realtimeMonitoring: "实时基础设施监控",
+                
+                // About
+                aboutUs: "关于我们",
+                weAre: "我们是",
+                aboutText1: "在 KillByte，我们专注于提供高性能 DDoS 服务，特别是 Layer 7 (L7)，能够处理最复杂和有针对性的攻击。我们可以达到高达 630 Gbps，提供巨大的力量来压倒和破坏任何目标。",
+                aboutText2: "我们最先进的基础设施使我们能够以每秒高达 7200 万次请求的精度执行打击，确保以无与伦比的可靠性产生最大影响。",
+                instantDeployment: "即时部署",
+                stealthMethods: "隐形方法",
+                globalServers: "全球服务器",
+                support247: "24/7 支持",
+                infrastructureStatus: "基础设施状态",
+                l7Power: "L7 功率",
+                l4Output: "L4 输出",
+                serverHealth: "服务器健康",
+                networkLatency: "网络延迟",
+                
+                // Tiers
+                performance: "性能",
+                powerTiers: "功率等级",
+                chooseLevel: "选择您的操作级别",
+                standard: "标准",
+                vip: "VIP",
+                private: "私有",
+                standardTier: "标准等级",
+                entryLevel: "测试环境的入门级功率",
+                gbpsL4: "Gbps L4 输出",
+                concurrentSlot: "并发插槽",
+                concurrentSlots: "并发插槽",
+                standardMethods: "标准方法",
+                getStarted: "开始使用",
+                mostPopular: "最受欢迎",
+                vipTier: "VIP 等级",
+                professionalGrade: "具有增强功能的专业级",
+                vipMethods: "VIP 方法 + API 访问",
+                getVip: "获取 VIP",
+                privateTier: "私有等级",
+                exclusiveAccess: "受限基础设施的独占访问",
+                privateServers: "私有服务器 + L7 绕过",
+                getPrivate: "获取私有",
+                
+                // Plans
+                pricing: "定价",
+                servicePlans: "服务套餐",
+                flexibleOptions: "满足各种需求的灵活选项",
+                monthlyPlans: "月度套餐",
+                starterSurge: "入门激增",
+                days7: "7 天",
+                slot1: "1 插槽",
+                concurrent: "并发",
+                duration: "持续时间",
+                selectPlan: "选择套餐",
+                edgeStrike: "边缘打击",
+                days30: "30 天",
+                dualSurge: "双重激增",
+                slots2: "2 插槽",
+                phantomForce: "幻影力量",
+                slots3: "3 插槽",
+                shadowBlade: "影刃",
+                slots4: "4 插槽",
+                dominionControl: "统治控制",
+                dailyBlasts: "每日爆发",
+                burstEntry: "爆发进入",
+                daily: "每日",
+                dualDaggers: "双匕首",
+                crimsonReaper: "猩红收割者",
+                overlordStrike: "霸主打击",
+                
+                // Addons
+                addons: "附加组件",
+                concurrentPlus: "+1 并发",
+                durationPlus: "+60秒 持续时间",
+                apiGateway: "API 网关",
+                zeroCooldown: "零冷却",
+                privateAccess: "私有访问",
+                vipUpgrade: "VIP 升级",
+                
+                // Enterprise
+                enterprise: "企业版",
+                eliteSolutions: "精英解决方案",
+                maximumPower: "最大功率产生最大影响",
+                enterpriseReactor: "企业反应堆",
+                fullScale: "全规模 DDoS 统治",
+                reactorFeature1: "35M+ Rq/s Layer 7 功率",
+                reactorFeature2: "150+ Gbps L4 洪水能力",
+                reactorFeature3: "多目标并行处理",
+                reactorFeature4: "API 优化部署",
+                reactorFeature5: "优先插槽执行",
+                reactorFeature6: "零数据包丢失",
+                configure: "配置",
+                hellstormProtocol: "地狱风暴协议",
+                finalEvolution: "最终进化",
+                hellstormFeature1: "45M+ Rq/s L7 洪水",
+                hellstormFeature2: "200+ Gbps 原始 L4 输出",
+                hellstormFeature3: "仅限 VIP 的私有服务器",
+                hellstormFeature4: "混淆方法",
+                hellstormFeature5: "独家 L7-KILLER 载荷",
+                hellstormFeature6: "零延迟启动时间",
+                
+                // Support
+                assistance: "协助",
+                professionalAssistance: "24/7 专业协助",
+                telegramBot: "Telegram 机器人",
+                automatedOrdering: "自动订购和即时交付",
+                online247: "24/7 在线",
+                directAdmin: "直接管理员",
+                contactAdmin: "联系 @rankflood 获取销售和支持",
+                supportCenter: "支持中心",
+                getHelp: "从我们的支持团队获取帮助",
+                onlineNow: "现在在线",
+                officialChannels: "官方频道",
+                mainChannel: "主频道",
+                groupDirectory: "群组目录",
+                contingency: "应急",
+                performanceProof: "性能证明",
+                customerReviews: "客户评价",
+                
+                // Footer
+                premiumInfrastructure: "为精英操作员提供的优质基础设施。",
+                terms: "条款",
+                privacy: "隐私",
+                admin: "管理员",
+                allRightsReserved: "版权所有。",
+                adminContact: "管理员",
+                
+                // Modals
+                connectingSupport: "连接到支持",
+                redirecting: "正在重定向到 @KillByte_Support_Bot...",
+                authorizedAccess: "授权访问",
+                enterCredentials: "输入凭据以访问管理面板",
+                accessPanel: "访问面板",
+                cancel: "取消",
+                
+                // Admin
+                dashboard: "仪表板",
+                visitors: "访客",
+                telegram: "Telegram",
+                settings: "设置",
+                logout: "退出",
+                systemOnline: "系统在线",
+                totalVisitors: "总访客",
+                todayVisitors: "今日访客",
+                telegramBot: "Telegram 机器人",
+                
+                // Visitor Toast
+                newVisitor: "检测到新访客"
+            }
+        };
+
+        // Current language
+        let currentLang = 'en';
+
+        // Language mapping for URL parameters
+        const langMapping = {
+            'en': ['en', 'english', 'eng'],
+            'ru': ['ru', 'rus', 'russia', 'russian'],
+            'zh': ['zh', 'chinese', 'china', 'cn']
+        };
+
+        // Initialize language from URL or default
+        function initLanguage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            
+            if (langParam) {
+                const normalizedLang = normalizeLanguage(langParam.toLowerCase());
+                if (normalizedLang) {
+                    currentLang = normalizedLang;
+                }
+            }
+            
+            applyLanguage(currentLang);
+            updateLanguageUI(currentLang);
+        }
+
+        // Normalize language code
+        function normalizeLanguage(lang) {
+            for (const [key, values] of Object.entries(langMapping)) {
+                if (values.includes(lang)) {
+                    return key;
+                }
+            }
+            return null;
+        }
+
+        // Apply translations
+        function applyLanguage(lang) {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    // Check if element has child elements that shouldn't be overwritten
+                    if (el.children.length > 0 && el.querySelector('strong, span.highlight, i')) {
+                        // For elements with mixed content, only translate text nodes
+                        translateMixedContent(el, translations[lang][key]);
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Handle mixed content translation
+        function translateMixedContent(element, translation) {
+            // Create a temporary element to parse the translation
+            const temp = document.createElement('div');
+            temp.innerHTML = translation;
+            
+            // If translation has HTML, use it directly
+            if (temp.innerHTML !== temp.textContent) {
+                element.innerHTML = translation;
+                return;
+            }
+            
+            // Otherwise, replace only text nodes
+            const walker = document.createTreeWalker(
+                element,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                if (node.textContent.trim()) {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Replace the first non-empty text node with translation
+            if (textNodes.length > 0) {
+                textNodes[0].textContent = translation;
+            }
+        }
+
+        // Update language UI elements
+        function updateLanguageUI(lang) {
+            const flagMap = {
+                'en': 'gb',
+                'ru': 'ru',
+                'zh': 'cn'
+            };
+            
+            const langMap = {
+                'en': 'EN',
+                'ru': 'RU',
+                'zh': 'CN'
+            };
+            
+            const flag = document.getElementById('currentFlag');
+            const langText = document.getElementById('currentLang');
+            
+            if (flag) flag.src = `https://flagcdn.com/w20/${flagMap[lang]}.png`;
+            if (langText) langText.textContent = langMap[lang];
+        }
+
+        // Change language function
+        function changeLanguage(lang) {
+            currentLang = lang;
+            applyLanguage(lang);
+            updateLanguageUI(lang);
+            
+            // Update URL without reloading
+            const url = new URL(window.location);
+            url.searchParams.set('lang', lang);
+            window.history.pushState({}, '', url);
+            
+            // Close dropdown
+            document.getElementById('languageSelector').classList.remove('active');
+        }
+
+        // ============================================
+        // TERMINAL SYSTEM
+        // ============================================
+        
+        const Terminal = {
+            input: '',
+            history: [],
+            historyIndex: -1,
+            isTyping: false,
+            content: null,
+            inputEl: null,
+            cursorEl: null,
+            bodyEl: null,
+            initialized: false,
+            username: 'Guest',
+            hostname: 'KillByte',
+            version: '2.5'
+        };
+
+        // ASCII Art Logo
+        const ASCII_LOGO = [
+            { text: '<span class="ansi-red">      __  ___ </span>', delay: 50 },
+            { text: '<span class="ansi-red">     |  |/  / </span>  <span class="ansi-bold">KillByte Solutions</span> (v2.5)', delay: 50 },
+            { text: '<span class="ansi-red">     |  \'  /  </span>  Developed by <span class="ansi-red">@RankFlood</span>', delay: 50 },
+            { text: '<span class="ansi-red">     |    <   </span>  Join our Telegram channel: <span class="ansi-red">https://t.me/KillByteSolution</span>', delay: 50 },
+            { text: '<span class="ansi-red">     |  .  \\  </span>  Type <span class="ansi-red">"help"</span> to view the command list', delay: 50 },
+            { text: '<span class="ansi-red">     |__|\\__\\ </span>', delay: 50 },
+            { text: '', delay: 50 }
+        ];
+
+        // Command Definitions
+        const COMMANDS = {
+            help: {
+                description: 'Display available commands',
+                execute: () => {
+                    return `
+<span class="ansi-red ansi-bold">COMMANDS OVERVIEW:</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">clear</span><span class="ansi-gray">: Resets the terminal and clears the workspace.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">help</span><span class="ansi-gray">: Displays this help menu for navigation and guidance.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">methods</span><span class="ansi-gray">: Lists all available attack methods with detailed descriptions.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">myinfo</span><span class="ansi-gray">: View your account details, statistics, and subscription info.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">server</span><span class="ansi-gray">: Check the live botnet server status and uptime.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">passwd</span><span class="ansi-gray">: Securely update or reset your account password.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">themes</span><span class="ansi-gray">: Customize the terminal appearance to fit your style.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">ongoing</span><span class="ansi-gray">: Monitor the live progress of ongoing operations.</span>
+
+<span class="ansi-red ansi-bold">HOW TO EXECUTE ATTACKS:</span>
+<span class="ansi-gray"> 1. Select an attack method and enter the command (e.g.,</span> <span class="ansi-red">http-exploit</span><span class="ansi-gray">).</span>
+<span class="ansi-gray"> 2. Provide the following required parameters:</span>
+<span class="ansi-gray">    </span><span class="ansi-white">- host</span><span class="ansi-gray">: Target URL or IP.</span>
+<span class="ansi-gray">    </span><span class="ansi-white">- port</span><span class="ansi-gray">: Target port (e.g., 80, 443).</span>
+<span class="ansi-gray">    </span><span class="ansi-white">- time</span><span class="ansi-gray">: Duration of the attack (in seconds).</span>
+<span class="ansi-gray">    </span><span class="ansi-white">- rate</span><span class="ansi-gray">: Rate of attack (e.g., 1000 RPS).</span>
+<span class="ansi-gray">    </span><span class="ansi-white">- cache</span><span class="ansi-gray">: Use cache (true/false) - Optional.</span>
+<span class="ansi-gray"> 3. Example:</span> <span class="ansi-red">http-exploit</span> <span class="ansi-white">host=example.com port=80 time=60 rate=1000 cache=true</span><span class="ansi-gray">.</span>
+<span class="ansi-gray"> 4. Press enter to execute.</span>
+
+<span class="ansi-red ansi-bold">TIPS & SHORTCUTS:</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">TAB Autocomplete</span><span class="ansi-gray">: Press TAB to autocomplete commands.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">Ctrl + C</span><span class="ansi-gray">: Interrupt and exit the current operation.</span>
+<span class="ansi-gray"> - Use</span> <span class="ansi-red">methods</span><span class="ansi-gray"> to explore all available options.</span>
+
+<span class="ansi-red ansi-bold">SUPPORT:</span>
+<span class="ansi-gray"> - For more help, contact our support team or refer to the user manual.</span>
+<span class="ansi-gray"> - Ensure you are using valid credentials to avoid errors.</span>
+                    `.trim();
+                }
+            },
+            methods: {
+                description: 'List all attack methods',
+                execute: () => {
+                    return `
+<span class="ansi-gray"> ── Attack Vectors (Private Access) ──</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">c-flood</span>       <span class="ansi-gray">Massive flood attack – 48M RPS, full backend/CDN bypass.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">c-bypass</span>      <span class="ansi-gray">High RPS method with advanced CDN bypass capabilities.</span>
+
+<span class="ansi-gray"> ── Attack Vectors (VIP Access) ──</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">overload</span>      <span class="ansi-gray">HTTP flood attack – 12M RPS, instantly overwhelms backend & CDN.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">rapidreset</span>    <span class="ansi-gray">Session resetter – drops HTTP sessions via TCP RST.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">http-exploit</span>  <span class="ansi-gray">Protocol abuse engine – malformed requests crash parsers.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">spectre</span>       <span class="ansi-gray">JS bypass – simulates browser logic to evade anti-bot defenses.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">h-flood</span>       <span class="ansi-gray">Hybrid HTTP flood – mixed GET/POST/HEAD + HTTP/2 streams.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">ovh</span>           <span class="ansi-gray">OVH bypass – breaks OVH game & VAC firewall stacks.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">udp</span>           <span class="ansi-gray">Raw UDP flood – 1.5M+ PPS for bandwidth saturation.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">tcp</span>           <span class="ansi-gray">SYN/RST flooder – rapidly crashes port handlers.</span>
+
+<span class="ansi-gray"> ── Attack Vectors (Non-VIP Access) ──</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">dns</span>           <span class="ansi-gray">DNS spammer – floods resolvers with random queries.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">browser</span>       <span class="ansi-gray">Basic browser flood – GET/HEAD spoofing with rotating headers.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">floodcore</span>     <span class="ansi-gray">Standard HTTP flood – reliable POST/GET for weak endpoints.</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">!</span><span class="ansi-red">game</span>          <span class="ansi-gray">Game disruptor – injects latency and crashes real-time sessions.</span>
+
+<span class="ansi-gray"> ── Quick Tips ──</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">TAB key</span>     <span class="ansi-gray">= Auto-complete any command</span>
+<span class="ansi-gray"> -</span> <span class="ansi-red">Ctrl + C</span> <span class="ansi-gray">= Exit session immediately</span>
+<span class="ansi-gray"> - Syntax:</span> <span class="ansi-white">!method host port time rate=32</span>
+                    `.trim();
+                }
+            },
+            clear: {
+                description: 'Clear terminal screen',
+                execute: () => {
+                    return '__CLEAR__';
+                }
+            },
+            myinfo: {
+                description: 'Show user account info',
+                execute: () => {
+                    return `
+<span class="ansi-red ansi-bold">ACCOUNT INFORMATION:</span>
+<span class="ansi-gray"> Username: </span><span class="ansi-white">${Terminal.username}</span>
+<span class="ansi-gray"> Status: </span><span class="ansi-green">● Online</span>
+<span class="ansi-gray"> Plan: </span><span class="ansi-white">Demo Access</span>
+<span class="ansi-gray"> Expiry: </span><span class="ansi-white">5/11/2028</span>
+<span class="ansi-gray"> Max Time: </span><span class="ansi-white">60 seconds</span>
+<span class="ansi-gray"> Concurrents: </span><span class="ansi-white">1</span>
+<span class="ansi-gray"> Cooldown: </span><span class="ansi-white">60 seconds</span>
+                    `.trim();
+                }
+            },
+            server: {
+                description: 'Check server status',
+                execute: () => {
+                    return `
+<span class="ansi-red ansi-bold">SERVER STATUS:</span>
+<span class="ansi-gray"> L7 Nodes: </span><span class="ansi-green">● Online</span> <span class="ansi-gray">(240 active)</span>
+<span class="ansi-gray"> L4 Nodes: </span><span class="ansi-green">● Online</span> <span class="ansi-gray">(180 active)</span>
+<span class="ansi-gray"> API Status: </span><span class="ansi-green">● Operational</span>
+<span class="ansi-gray"> Uptime: </span><span class="ansi-white">99.98%</span>
+<span class="ansi-gray"> Load Average: </span><span class="ansi-white">23%</span>
+<span class="ansi-gray"> Last Update: </span><span class="ansi-white">${new Date().toLocaleString()}</span>
+                    `.trim();
+                }
+            },
+            passwd: {
+                description: 'Change password',
+                execute: () => {
+                    return '<span class="ansi-yellow">⚠ This is a demo terminal. Password change unavailable.</span>';
+                }
+            },
+            themes: {
+                description: 'Change terminal theme',
+                execute: () => {
+                    return `
+<span class="ansi-red ansi-bold">AVAILABLE THEMES:</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">dark</span> <span class="ansi-gray">(current)</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">light</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">matrix</span>
+<span class="ansi-gray"> -</span> <span class="ansi-white">ocean</span>
+<span class="ansi-gray">Use</span> <span class="ansi-red">theme [name]</span> <span class="ansi-gray">to switch themes.</span>
+                    `.trim();
+                }
+            },
+            ongoing: {
+                description: 'Show ongoing attacks',
+                execute: () => {
+                    return '<span class="ansi-gray">No ongoing operations. Type</span> <span class="ansi-red">methods</span> <span class="ansi-gray">to start.</span>';
+                }
+            },
+            whoami: {
+                description: 'Show current user',
+                execute: () => {
+                    return Terminal.username;
+                }
+            },
+            date: {
+                description: 'Show current date',
+                execute: () => {
+                    return new Date().toString();
+                }
+            },
+            ls: {
+                description: 'List files',
+                execute: () => {
+                    return '<span class="ansi-blue">README.md</span>  <span class="ansi-blue">config.json</span>  <span class="ansi-green">src/</span>  <span class="ansi-green">assets/</span>';
+                }
+            }
+        };
+
+        // Initialize Terminal
+        function initTerminal() {
+            Terminal.content = document.getElementById('terminalContent');
+            Terminal.inputEl = document.getElementById('terminalInput');
+            Terminal.cursorEl = document.getElementById('terminalCursor');
+            Terminal.bodyEl = document.getElementById('terminalBody');
+
+            if (!Terminal.content || !Terminal.inputEl || !Terminal.cursorEl) return;
+
+            // Clear and show initial content
+            clearTerminal();
+            
+            // Focus terminal on click
+            Terminal.bodyEl.addEventListener('click', () => {
+                document.body.focus();
+            });
+
+            // Keyboard event listener
+            document.addEventListener('keydown', handleKeyInput);
+
+            Terminal.initialized = true;
+        }
+
+        // Keyboard Handling
+        function handleKeyInput(e) {
+            // Only handle if terminal is visible
+            const terminalSection = document.getElementById('terminal');
+            if (!terminalSection) return;
+            
+            const rect = terminalSection.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            
+            if (!isVisible) return;
+
+            // Ignore if user is typing in an input field elsewhere
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            // Handle special keys
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                executeCommand(Terminal.input);
+                Terminal.input = '';
+                Terminal.inputEl.textContent = '';
+                return;
+            }
+
+            if (e.key === 'Backspace') {
+                e.preventDefault();
+                Terminal.input = Terminal.input.slice(0, -1);
+                updateInput();
+                return;
+            }
+
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                navigateHistory(-1);
+                return;
+            }
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                navigateHistory(1);
+                return;
+            }
+
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                autocomplete();
+                return;
+            }
+
+            if (e.key === 'Escape') {
+                Terminal.input = '';
+                updateInput();
+                return;
+            }
+
+            // Handle regular character input
+            if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                e.preventDefault();
+                Terminal.input += e.key;
+                updateInput();
+            }
+        }
+
+        function updateInput() {
+            Terminal.inputEl.textContent = Terminal.input;
+            scrollToBottom();
+        }
+
+        function navigateHistory(direction) {
+            if (Terminal.history.length === 0) return;
+
+            Terminal.historyIndex += direction;
+
+            if (Terminal.historyIndex < 0) {
+                Terminal.historyIndex = -1;
+                Terminal.input = '';
+            } else if (Terminal.historyIndex >= Terminal.history.length) {
+                Terminal.historyIndex = Terminal.history.length - 1;
+            } else {
+                Terminal.input = Terminal.history[Terminal.history.length - 1 - Terminal.historyIndex];
+            }
+
+            updateInput();
+        }
+
+        function autocomplete() {
+            const input = Terminal.input.toLowerCase();
+            if (!input) return;
+
+            const matches = Object.keys(COMMANDS).filter(cmd => cmd.startsWith(input));
+            
+            if (matches.length === 1) {
+                Terminal.input = matches[0];
+                updateInput();
+            } else if (matches.length > 1) {
+                // Show possible completions
+                addOutput(`<span class="ansi-gray">${matches.join('  ')}</span>`, '');
+            }
+        }
+
+        // Command Execution
+        function executeCommand(input) {
+            const trimmed = input.trim();
+            
+            if (!trimmed) {
+                addOutput('', '');
+                return;
+            }
+
+            // Add to history
+            Terminal.history.push(trimmed);
+            if (Terminal.history.length > 50) {
+                Terminal.history.shift();
+            }
+            Terminal.historyIndex = -1;
+
+            // Parse command
+            const parts = trimmed.split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+
+            // Show the command that was entered
+            addOutput('', trimmed);
+
+            // Execute
+            if (COMMANDS[cmd]) {
+                const result = COMMANDS[cmd].execute();
+                
+                if (result === '__CLEAR__') {
+                    clearTerminal();
+                } else {
+                    addOutput(result, null);
+                }
+            } else {
+                addOutput(`<span class="ansi-red">Command not found: ${cmd}</span>. <span class="ansi-gray">Type 'help' for available commands.</span>`, null);
+            }
+        }
+
+        // Output Handling
+        function addOutput(html, command) {
+            const line = document.createElement('div');
+            line.className = 'terminal-output-line';
+
+            if (command !== null) {
+                // This is a command line
+                line.innerHTML = `
+                    <div class="command-line">
+                        <span class="terminal-prompt">
+                            <span class="prompt-user">${Terminal.username}</span>
+                            <span class="prompt-separator">●</span>
+                            <span class="prompt-host">${Terminal.hostname}</span>
+                            <span class="prompt-arrow">►►</span>
+                        </span>
+                        <span class="command-text">${escapeHtml(command || '')}</span>
+                    </div>
+                `;
+            } else {
+                // This is output
+                line.innerHTML = `<div class="output-text">${html}</div>`;
+            }
+
+            Terminal.content.appendChild(line);
+            scrollToBottom();
+        }
+
+        function clearTerminal() {
+            Terminal.content.innerHTML = '';
+            showAsciiArt();
+        }
+
+        function showAsciiArt() {
+            let delay = 0;
+            ASCII_LOGO.forEach((line, index) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = 'ascii-line';
+                    div.innerHTML = line.text;
+                    Terminal.content.appendChild(div);
+                    scrollToBottom();
+                }, delay);
+                delay += line.delay;
+            });
+        }
+
+        function scrollToBottom() {
+            if (Terminal.bodyEl) {
+                Terminal.bodyEl.scrollTop = Terminal.bodyEl.scrollHeight;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============================================
+        // MAIN APP INITIALIZATION
+        // ============================================
+
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const progress = document.getElementById('preloaderProgress');
+            const status = document.getElementById('preloaderStatus');
+            const statuses = ['Initializing core...', 'Loading modules...', 'Connecting...', 'Ready'];
+            let current = 0;
+            
+            const interval = setInterval(() => {
+                current += Math.random() * 15;
+                if (current > 100) current = 100;
+                progress.style.width = current + '%';
+                
+                if (current < 30) status.textContent = translations[currentLang].preloaderStatus || statuses[0];
+                else if (current < 60) status.textContent = 'Loading modules...';
+                else if (current < 90) status.textContent = 'Connecting...';
+                else status.textContent = 'Ready';
+                
+                if (current === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => preloader.classList.add('hidden'), 500);
+                }
+            }, 100);
+            
+            // Initialize language and terminal
+            initLanguage();
+            initTerminal();
+        });
+
+        // Mouse Spotlight
+        const spotlight = document.getElementById('cursorSpotlight');
+        if (!window.matchMedia('(pointer: coarse)').matches) {
+            document.addEventListener('mousemove', (e) => {
+                spotlight.style.left = e.clientX + 'px';
+                spotlight.style.top = e.clientY + 'px';
+            });
+        }
+
+        // Navbar Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+        function closeMobileMenu() { mobileMenu.classList.remove('active'); }
+
+        // Language Selector
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        const languageSelector = document.getElementById('languageSelector');
+        
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageSelector.classList.toggle('active');
+        });
+        
+        document.querySelectorAll('.lang-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                const lang = opt.dataset.lang;
+                changeLanguage(lang);
+            });
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!languageSelector.contains(e.target)) languageSelector.classList.remove('active');
+        });
+
+        // Tier Tabs
+        document.querySelectorAll('.tier-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tier-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tier-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('tier-' + tab.dataset.tier).classList.add('active');
+            });
+        });
+
+        // Counter Animation
+        const animateCounter = (el, target, duration = 2000) => {
+            const start = performance.now();
+            const isFloat = target % 1 !== 0;
+            const step = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 4);
+                const current = target * ease;
+                el.textContent = isFloat ? current.toFixed(1) : Math.floor(current);
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = target + (el.dataset.suffix || '');
+            };
+            requestAnimationFrame(step);
+        };
+
+        // Intersection Observer for counters
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseFloat(entry.target.dataset.count);
+                    animateCounter(entry.target, target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-number[data-count]').forEach(el => observer.observe(el));
+
+        // Support Functions
+        function openSupport() {
+            const overlay = document.getElementById('redirectOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => {
+                window.open('https://t.me/KillByte_Support_Bot', '_blank');
+                overlay.classList.remove('active');
+            }, 2000);
+        }
+
+        function buyPlan(plan) {
+            const message = encodeURIComponent(`I'm interested in ${plan} plan`);
+            window.open(`https://t.me/rankflood?text=${message}`, '_blank');
+        }
+
+        function buyAddon(addon) {
+            const message = encodeURIComponent(`I'm interested in ${addon} addon`);
+            window.open(`https://t.me/rankflood?text=${message}`, '_blank');
+        }
+
+        // Admin Functions
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'admin123') {
+                document.getElementById('adminModal').classList.remove('active');
+                document.getElementById('adminPanel').classList.add('active');
+            } else {
+                alert('Invalid password');
+            }
+        }
+
+        function adminLogout() {
+            document.getElementById('adminPanel').classList.remove('active');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function switchAdminTab(tab, el) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            el.classList.add('active');
+        }
+
+        // Visitor Toast
+        function showVisitorToast() {
+            const toast = document.getElementById('visitorToast');
+            const info = document.getElementById('visitorInfo');
+            
+            fetch('https://api.ipify.org?format=json')
+                .then(r => r.json())
+                .then(data => {
+                    info.textContent = `IP: ${data.ip}`;
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 5000);
+                })
+                .catch(() => {
+                    info.textContent = 'IP: Hidden';
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 5000);
+                });
+        }
+
+        // Show visitor toast after 3 seconds
+        setTimeout(showVisitorToast, 3000);
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + sectionId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        function showTerms() {
+            const terms = {
+                en: 'Terms of Service:\n\n1. All services are for authorized testing only\n2. Users are responsible for compliance with local laws\n3. No refunds after delivery\n4. Support via Telegram only',
+                ru: 'Условия обслуживания:\n\n1. Все услуги предназначены только для авторизованного тестирования\n2. Пользователи несут ответственность за соблюдение местных законов\n3. Возврат средств после доставки невозможен\n4. Поддержка только через Telegram',
+                zh: '服务条款：\n\n1. 所有服务仅用于授权测试\n2. 用户有责任遵守当地法律\n3. 交付后不予退款\n4. 仅通过 Telegram 提供支持'
+            };
+            alert(terms[currentLang] || terms.en);
+        }
+
+        function showPrivacy() {
+            const privacy = {
+                en: 'Privacy Policy:\n\n1. We collect minimal data for service operation\n2. No logs are kept of attack targets\n3. IP addresses are processed securely\n4. Data is never shared with third parties',
+                ru: 'Политика конфиденциальности:\n\n1. Мы собираем минимальные данные для работы сервиса\n2. Логи целей атак не сохраняются\n3. IP-адреса обрабатываются безопасно\n4. Данные никогда не передаются третьим лицам',
+                zh: '隐私政策：\n\n1. 我们收集最少的数据用于服务运营\n2. 不保留攻击目标的日志\n3. IP 地址被安全处理\n4. 数据永远不会与第三方共享'
+            };
+            alert(privacy[currentLang] || privacy.en);
+        }
+    </script>
+</body>
+</html>

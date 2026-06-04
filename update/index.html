@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>KillByte 3.0 – Upcoming Major Update</title>
+    <meta name="description" content="KillByte Solution 3.0 – The next evolution in Layer 7 & Layer 4 infrastructure. May 5, 2026.">
+    <meta name="theme-color" content="#050505">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc2626'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #050505;
+            --bg-secondary: #070707;
+            --bg-tertiary: #0a0a0a;
+            --bg-card: rgba(12, 12, 12, 0.7);
+            --bg-glass: rgba(15, 15, 15, 0.65);
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8a8;
+            --text-tertiary: #555555;
+            --accent-primary: #dc2626;
+            --accent-secondary: #991b1b;
+            --accent-glow: rgba(220, 38, 38, 0.35);
+            --accent-bright: #ff4444;
+            --border: rgba(255, 255, 255, 0.05);
+            --border-light: rgba(255, 255, 255, 0.02);
+            --gradient-primary: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            --gradient-gold: linear-gradient(135deg, #ff4444 0%, #dc2626 50%, #991b1b 100%);
+            --shadow-premium: 0 25px 80px rgba(0, 0, 0, 0.7);
+            --shadow-glow: 0 0 60px rgba(220, 38, 38, 0.15);
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --ease-premium: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; font-size: 16px; background: var(--bg-primary); }
+        body { font-family: var(--font-primary); background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; cursor: default; min-height: 100vh; }
+        ::selection { background: rgba(220, 38, 38, 0.35); color: white; }
+        .bg-base { position: fixed; inset: 0; z-index: 0; background: var(--bg-primary); pointer-events: none; }
+        .grid-layer-fine { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); }
+        .grid-layer-large { position: fixed; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(rgba(220, 38, 38, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(220, 38, 38, 0.04) 1px, transparent 1px); background-size: 180px 180px; opacity: 0.7; }
+        .aurora-container { position: fixed; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+        .aurora-blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.25; will-change: transform; animation: auroraFloat 25s ease-in-out infinite; }
+        .aurora-blob:nth-child(1) { width: 700px; height: 700px; background: radial-gradient(circle, rgba(220, 38, 38, 0.6) 0%, transparent 70%); top: -200px; left: -200px; animation-delay: 0s; }
+        .aurora-blob:nth-child(2) { width: 500px; height: 500px; background: radial-gradient(circle, rgba(153, 27, 27, 0.5) 0%, transparent 70%); bottom: -150px; right: -150px; animation-delay: -8s; }
+        .aurora-blob:nth-child(3) { width: 400px; height: 400px; background: radial-gradient(circle, rgba(127, 29, 29, 0.4) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -16s; }
+        @keyframes auroraFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(20px, -20px) scale(1.03); } 66% { transform: translate(-15px, 15px) scale(0.98); } }
+        .light-sweep { position: fixed; inset: 0; z-index: 4; pointer-events: none; background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.02) 50%, transparent 60%); animation: lightSweep 12s linear infinite; opacity: 0.6; }
+        @keyframes lightSweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .cursor-spotlight { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(220, 38, 38, 0.12) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 5; transform: translate(-50%, -50%); transition: opacity 0.4s ease; opacity: 0; will-change: transform; filter: blur(30px); }
+        body:hover .cursor-spotlight { opacity: 1; }
+        .noise-overlay { position: fixed; inset: 0; z-index: 6; pointer-events: none; opacity: 0.02; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        .vignette { position: fixed; inset: 0; z-index: 7; pointer-events: none; background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%); }
+        .preloader { position: fixed; inset: 0; background: var(--bg-primary); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s var(--ease-premium), visibility 0.8s; }
+        .preloader.hidden { opacity: 0; visibility: hidden; }
+        .preloader-content { text-align: center; }
+        .preloader-text { font-size: clamp(14px, 4vw, 18px); font-weight: 800; letter-spacing: clamp(4px, 2vw, 8px); text-transform: uppercase; color: var(--text-primary); margin-bottom: 30px; text-shadow: 0 0 30px rgba(220, 38, 38, 0.5); }
+        .preloader-bar { width: min(300px, 80vw); height: 2px; background: rgba(255, 255, 255, 0.05); border-radius: 2px; overflow: hidden; margin: 0 auto 20px; }
+        .preloader-progress { height: 100%; background: var(--gradient-primary); width: 0%; transition: width 0.3s var(--ease-premium); box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); }
+        .preloader-status { font-size: clamp(10px, 2.5vw, 12px); color: var(--text-tertiary); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-mono); }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: clamp(12px, 3vw, 24px) clamp(15px, 4vw, 50px); transition: all 0.6s var(--ease-premium); border-bottom: 1px solid transparent; }
+        .navbar.scrolled { background: rgba(5, 5, 5, 0.75); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-bottom: 1px solid var(--border); padding: clamp(10px, 2.5vw, 16px) clamp(15px, 4vw, 50px); }
+        .navbar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.25), transparent); opacity: 0; transition: opacity 0.5s; }
+        .navbar.scrolled::before { opacity: 1; }
+        .nav-container { max-width: 1600px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        .brand { display: flex; align-items: center; gap: clamp(10px, 2vw, 16px); text-decoration: none; position: relative; flex-shrink: 0; }
+        .brand-icon { width: clamp(40px, 10vw, 52px); height: clamp(40px, 10vw, 52px); background: rgba(20, 20, 20, 0.8); border-radius: clamp(12px, 3vw, 16px); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: clamp(16px, 4vw, 20px); color: var(--accent-primary); position: relative; border: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(20px); transition: all 0.5s var(--ease-premium); overflow: hidden; flex-shrink: 0; }
+        .brand-icon::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(220, 38, 38, 0.08), transparent); opacity: 0; transition: opacity 0.5s; }
+        .brand:hover .brand-icon { transform: translateY(-3px) scale(1.02); border-color: rgba(220, 38, 38, 0.15); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(220, 38, 38, 0.1); }
+        .brand:hover .brand-icon::before { opacity: 1; }
+        .brand-text { display: flex; flex-direction: column; min-width: 0; }
+        .brand-name { font-size: clamp(18px, 4.5vw, 22px); font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .brand-tag { font-size: clamp(8px, 2vw, 10px); color: var(--accent-primary); letter-spacing: clamp(2px, 0.6vw, 3px); text-transform: uppercase; font-weight: 600; font-family: var(--font-mono); opacity: 0.8; white-space: nowrap; }
+        .nav-links { display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); }
+        .nav-link { padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 20px); color: var(--text-secondary); text-decoration: none; font-size: clamp(12px, 2.2vw, 14px); font-weight: 500; position: relative; transition: all 0.4s var(--ease-premium); border-radius: 100px; }
+        .nav-link::before { content: ''; position: absolute; inset: 0; background: rgba(220, 38, 38, 0.1); border-radius: 100px; opacity: 0; transform: scale(0.8); transition: all 0.4s var(--ease-premium); }
+        .nav-link:hover, .nav-link.active { color: var(--accent-primary); }
+        .nav-link:hover::before, .nav-link.active::before { opacity: 1; transform: scale(1); }
+        .nav-link-text { position: relative; z-index: 1; }
+        .nav-actions { display: flex; align-items: center; gap: clamp(10px, 2vw, 20px); }
+        .language-selector { position: relative; }
+        .lang-btn { display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 20px); background: rgba(20, 20, 20, 0.6); border: 1px solid var(--border); border-radius: 100px; color: var(--text-secondary); cursor: pointer; transition: all 0.5s var(--ease-premium); backdrop-filter: blur(20px); font-size: clamp(12px, 3vw, 13px); font-weight: 500; min-height: 44px; }
+        .lang-btn:hover { border-color: rgba(220, 38, 38, 0.25); color: white; transform: translateY(-2px); background: rgba(220, 38, 38, 0.06); }
+        .lang-flag { width: clamp(18px, 4vw, 20px); height: clamp(13px, 3vw, 15px); border-radius: 3px; object-fit: cover; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+        .lang-dropdown { position: absolute; top: calc(100% + 12px); right: 0; background: rgba(12, 12, 12, 0.95); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 12px; min-width: min(200px, 80vw); opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.96); transition: all 0.4s var(--ease-premium); backdrop-filter: blur(40px) saturate(200%); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); z-index: 1001; }
+        .language-selector.active .lang-dropdown { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .lang-option { display: flex; align-items: center; gap: 15px; width: 100%; padding: 14px 16px; background: none; border: none; border-radius: 12px; color: var(--text-secondary); cursor: pointer; transition: all 0.3s var(--ease-premium); font-size: 14px; font-weight: 500; }
+        .lang-option:hover { background: rgba(220, 38, 38, 0.08); color: var(--accent-primary); transform: translateX(8px); }
+        .nav-btn { padding: clamp(10px, 2vw, 12px) clamp(18px, 3vw, 24px); background: var(--gradient-primary); border: none; border-radius: 100px; color: white; font-weight: 600; cursor: pointer; transition: all 0.5s var(--ease-premium); font-size: clamp(12px, 2.5vw, 14px); display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3); }
+        .nav-btn:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(220, 38, 38, 0.4); }
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 10px; }
+        .menu-toggle span { width: 25px; height: 2px; background: var(--text-primary); transition: all 0.3s; }
+        .mobile-menu { position: fixed; inset: 0; background: rgba(5, 5, 5, 0.98); z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.5s var(--ease-premium); backdrop-filter: blur(20px); }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu-links { display: flex; flex-direction: column; gap: 30px; text-align: center; }
+        .mobile-link { font-size: clamp(24px, 6vw, 36px); font-weight: 700; color: var(--text-primary); text-decoration: none; transition: all 0.4s var(--ease-premium); }
+        .mobile-link:hover { color: var(--accent-primary); }
+        main { position: relative; z-index: 10; padding-top: clamp(80px, 15vh, 120px); }
+        .hero { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: clamp(60px, 10vh, 100px) clamp(15px, 4vw, 50px); position: relative; overflow: hidden; }
+        .particles-container { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+        .particle { position: absolute; width: 3px; height: 3px; background: rgba(220, 38, 38, 0.35); border-radius: 50%; filter: blur(1px); animation: float 25s infinite ease-in-out; }
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 28s; }
+        .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: -5s; animation-duration: 32s; width: 2px; height: 2px; }
+        .particle:nth-child(3) { left: 70%; top: 10%; animation-delay: -10s; animation-duration: 26s; }
+        .particle:nth-child(4) { left: 85%; top: 60%; animation-delay: -15s; animation-duration: 30s; width: 2px; height: 2px; }
+        .particle:nth-child(5) { left: 50%; top: 90%; animation-delay: -8s; animation-duration: 27s; }
+        @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.5; } 50% { transform: translateY(-80px) translateX(40px); } }
+        .hero-badge { display: inline-flex; align-items: center; gap: clamp(8px, 2vw, 12px); padding: clamp(10px, 2.5vw, 14px) clamp(18px, 4vw, 28px); background: rgba(220, 38, 38, 0.06); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 100px; font-size: clamp(10px, 2.5vw, 12px); font-weight: 600; color: var(--accent-primary); margin-bottom: clamp(30px, 6vh, 50px); letter-spacing: clamp(2px, 0.6vw, 3px); text-transform: uppercase; backdrop-filter: blur(20px); position: relative; overflow: hidden; z-index: 2; animation: fadeInUp 1s var(--ease-premium) 0.2s both; }
+        .hero-badge::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.15), transparent); animation: badgeShimmer 4s infinite; }
+        @keyframes badgeShimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .hero-title { font-size: clamp(28px, 8vw, 72px); font-weight: 900; line-height: 1.1; margin-bottom: clamp(24px, 5vh, 40px); letter-spacing: clamp(-1px, -0.2vw, -2px); position: relative; z-index: 2; animation: fadeInUp 1s var(--ease-premium) 0.4s both; }
+        .title-line { display: block; }
+        .title-line.gradient { background: linear-gradient(135deg, #ffffff 0%, #ff4444 25%, #dc2626 50%, #991b1b 75%, #ffffff 100%); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: gradientShift 10s ease infinite; filter: drop-shadow(0 0 40px rgba(220, 38, 38, 0.25)); }
+        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .hero-glow { position: absolute; width: min(600px, 80vw); height: min(600px, 80vw); background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 70%); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; animation: heroGlowPulse 5s ease-in-out infinite; pointer-events: none; }
+        @keyframes heroGlowPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; } 50% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.55; } }
+        .hero-description { font-size: clamp(15px, 3vw, 20px); color: var(--text-secondary); max-width: min(700px, 90vw); margin: 0 auto clamp(40px, 6vh, 60px); line-height: 1.8; position: relative; z-index: 2; animation: fadeInUp 1s var(--ease-premium) 0.6s both; }
+        .countdown-container { display: flex; gap: clamp(12px, 3vw, 24px); margin-bottom: clamp(40px, 6vh, 60px); position: relative; z-index: 2; animation: fadeInUp 1s var(--ease-premium) 0.8s both; flex-wrap: wrap; justify-content: center; }
+        .countdown-unit { display: flex; flex-direction: column; align-items: center; padding: clamp(20px, 4vw, 30px) clamp(16px, 3vw, 24px); background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; backdrop-filter: blur(40px); min-width: clamp(80px, 18vw, 120px); transition: all 0.5s var(--ease-premium); position: relative; overflow: hidden; }
+        .countdown-unit::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.35), transparent); opacity: 0; transition: opacity 0.5s; }
+        .countdown-unit:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(220, 38, 38, 0.15); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(220, 38, 38, 0.08); }
+        .countdown-unit:hover::before { opacity: 1; }
+        .countdown-number { font-size: clamp(32px, 7vw, 56px); font-weight: 900; color: var(--text-primary); font-family: var(--font-mono); line-height: 1; margin-bottom: 8px; text-shadow: 0 0 30px rgba(220, 38, 38, 0.3); }
+        .countdown-label { font-size: clamp(10px, 2vw, 12px); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        .countdown-separator { font-size: clamp(32px, 7vw, 56px); font-weight: 900; color: var(--accent-primary); align-self: center; animation: separatorPulse 2s ease-in-out infinite; }
+        @keyframes separatorPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+        .hero-actions { display: flex; gap: clamp(16px, 3vw, 24px); position: relative; z-index: 2; animation: fadeInUp 1s var(--ease-premium) 1s both; flex-wrap: wrap; justify-content: center; }
+        .btn { padding: clamp(16px, 3vh, 20px) clamp(28px, 4vw, 40px); border-radius: 16px; font-weight: 600; font-size: clamp(14px, 2.5vw, 16px); cursor: pointer; transition: all 0.5s var(--ease-premium); display: inline-flex; align-items: center; gap: 12px; text-decoration: none; border: none; position: relative; overflow: hidden; }
+        .btn-primary { background: var(--gradient-primary); color: white; box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3); }
+        .btn-primary:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 25px 60px rgba(220, 38, 38, 0.4); }
+        .btn-secondary { background: rgba(20, 20, 20, 0.6); color: var(--text-primary); border: 1px solid var(--border); backdrop-filter: blur(20px); }
+        .btn-secondary:hover { border-color: rgba(220, 38, 38, 0.3); transform: translateY(-5px); background: rgba(220, 38, 38, 0.1); }
+        .section { padding: clamp(80px, 12vh, 160px) clamp(15px, 4vw, 50px); position: relative; }
+        .section-alt { background: rgba(7, 7, 7, 0.5); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); backdrop-filter: blur(10px); }
+        .container { max-width: 1400px; margin: 0 auto; width: 100%; }
+        .section-header { text-align: center; margin-bottom: clamp(50px, 8vh, 100px); }
+        .section-label { display: inline-block; padding: clamp(10px, 2vw, 12px) clamp(18px, 3.5vw, 24px); background: rgba(220, 38, 38, 0.06); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 100px; font-size: clamp(10px, 2.2vw, 11px); font-weight: 600; color: var(--accent-primary); margin-bottom: clamp(18px, 3vh, 25px); letter-spacing: clamp(2px, 0.5vw, 3px); text-transform: uppercase; backdrop-filter: blur(20px); }
+        .section-title { font-size: clamp(28px, 6vw, 64px); font-weight: 900; margin-bottom: clamp(18px, 3vh, 25px); letter-spacing: clamp(-1px, -0.2vw, -2px); line-height: 1.1; }
+        .section-subtitle { font-size: clamp(15px, 2.8vw, 18px); color: var(--text-secondary); max-width: min(600px, 90vw); margin: 0 auto; line-height: 1.8; }
+        .announcement-card { max-width: 1000px; margin: 0 auto; background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 28px; padding: clamp(30px, 5vw, 50px); backdrop-filter: blur(40px); position: relative; overflow: hidden; transition: all 0.6s var(--ease-premium); }
+        .announcement-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.35), transparent); }
+        .announcement-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(220, 38, 38, 0.04), transparent); opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+        .announcement-card:hover::after { opacity: 1; }
+        .announcement-card:hover { border-color: rgba(220, 38, 38, 0.15); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(220, 38, 38, 0.08); }
+        .announcement-title { font-size: clamp(24px, 5vw, 42px); font-weight: 900; margin-bottom: clamp(20px, 4vh, 30px); text-align: center; line-height: 1.2; }
+        .announcement-title .gradient { background: linear-gradient(135deg, #ffffff 0%, #ff4444 25%, #dc2626 50%, #991b1b 75%, #ffffff 100%); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: gradientShift 10s ease infinite; filter: drop-shadow(0 0 40px rgba(220, 38, 38, 0.25)); }
+        .announcement-body { font-size: clamp(14px, 2.2vw, 16px); color: var(--text-secondary); line-height: 1.9; margin-bottom: clamp(30px, 5vh, 40px); }
+        .announcement-body p { margin-bottom: 20px; }
+        .announcement-body strong { color: var(--text-primary); font-weight: 600; }
+        .announcement-body .highlight { color: var(--accent-primary); font-weight: 600; text-shadow: 0 0 20px rgba(220, 38, 38, 0.3); }
+        .features-section { margin-top: clamp(40px, 6vh, 60px); }
+        .features-title { font-size: clamp(18px, 3.5vw, 28px); font-weight: 800; margin-bottom: clamp(24px, 4vh, 32px); text-align: center; background: var(--gradient-gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(16px, 3vw, 24px); }
+        .feature-item { display: flex; align-items: flex-start; gap: clamp(12px, 2vw, 16px); padding: clamp(16px, 3vw, 24px); background: rgba(18, 18, 18, 0.3); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 16px; transition: all 0.5s var(--ease-premium); position: relative; overflow: hidden; }
+        .feature-item::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gradient-primary); opacity: 0; transition: opacity 0.5s; }
+        .feature-item:hover { transform: translateX(8px); border-color: rgba(220, 38, 38, 0.1); background: rgba(220, 38, 38, 0.03); }
+        .feature-item:hover::before { opacity: 1; }
+        .feature-icon { width: clamp(40px, 8vw, 48px); height: clamp(40px, 8vw, 48px); background: rgba(220, 38, 38, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent-primary); font-size: clamp(16px, 3.5vw, 20px); border: 1px solid rgba(220, 38, 38, 0.2); flex-shrink: 0; transition: all 0.4s var(--ease-premium); }
+        .feature-item:hover .feature-icon { transform: scale(1.1); box-shadow: 0 0 20px rgba(220, 38, 38, 0.2); }
+        .feature-content { flex: 1; }
+        .feature-title { font-size: clamp(14px, 2.5vw, 16px); font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+        .feature-desc { font-size: clamp(12px, 2vw, 14px); color: var(--text-secondary); line-height: 1.7; }
+        .release-badge { display: inline-flex; align-items: center; gap: 12px; padding: clamp(12px, 2.5vw, 16px) clamp(20px, 4vw, 32px); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 100px; font-size: clamp(14px, 2.5vw, 18px); font-weight: 700; color: var(--accent-primary); margin: clamp(20px, 4vh, 30px) auto 0; display: flex; justify-content: center; width: fit-content; animation: fadeInUp 1s var(--ease-premium) 1.2s both; backdrop-filter: blur(20px); }
+        .release-badge i { font-size: clamp(16px, 3vw, 20px); }
+        .stats-bar { display: flex; gap: clamp(16px, 3vw, 30px); justify-content: center; flex-wrap: wrap; margin-top: clamp(30px, 5vh, 50px); animation: fadeInUp 1s var(--ease-premium) 1.4s both; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; padding: clamp(16px, 3vw, 24px) clamp(20px, 4vw, 32px); background: rgba(18, 18, 18, 0.3); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 16px; min-width: clamp(120px, 25vw, 180px); transition: all 0.5s var(--ease-premium); }
+        .stat-item:hover { transform: translateY(-5px); border-color: rgba(220, 38, 38, 0.1); }
+        .stat-value { font-size: clamp(24px, 5vw, 36px); font-weight: 900; color: var(--text-primary); font-family: var(--font-mono); line-height: 1; }
+        .stat-value span { color: var(--accent-primary); font-size: clamp(14px, 3vw, 18px); }
+        .stat-label { font-size: clamp(10px, 2vw, 11px); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 2px; margin-top: 8px; font-weight: 600; }
+        .channels-section { max-width: 800px; margin: 0 auto; }
+        .channels-title { text-align: center; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; }
+        .channels-list { display: flex; flex-direction: column; gap: 12px; }
+        .channel-item { display: flex; align-items: center; gap: 16px; padding: 20px 24px; background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; text-decoration: none; color: inherit; transition: all 0.4s var(--ease-premium); }
+        .channel-item:hover { border-color: rgba(220, 38, 38, 0.2); transform: translateX(10px); background: rgba(220, 38, 38, 0.03); }
+        .channel-icon { width: 48px; height: 48px; background: rgba(220, 38, 38, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent-primary); font-size: 20px; }
+        .channel-info { flex: 1; }
+        .channel-name { font-weight: 600; color: var(--text-primary); display: block; }
+        .channel-desc { font-size: 13px; color: var(--text-secondary); }
+        .channel-arrow { color: var(--text-tertiary); transition: all 0.3s; }
+        .channel-item:hover .channel-arrow { color: var(--accent-primary); transform: translateX(5px); }
+        .admin-contact { text-align: center; margin-top: clamp(30px, 5vh, 50px); padding: clamp(20px, 3vh, 30px); background: rgba(18, 18, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; max-width: 400px; margin-left: auto; margin-right: auto; animation: fadeInUp 1s var(--ease-premium) 0.8s both; }
+        .admin-contact-label { font-size: 12px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .admin-contact-link { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 12px; color: var(--accent-primary); text-decoration: none; font-weight: 700; font-size: 16px; transition: all 0.4s var(--ease-premium); }
+        .admin-contact-link:hover { background: rgba(220, 38, 38, 0.15); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2); }
+        .visitor-toast { position: fixed; top: 100px; right: 20px; z-index: 9999; background: rgba(12, 12, 12, 0.95); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; transform: translateX(400px); transition: transform 0.5s var(--ease-premium); backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
+        .visitor-toast.show { transform: translateX(0); }
+        .toast-icon { width: 44px; height: 44px; background: rgba(220, 38, 38, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent-primary); font-size: 20px; }
+        .toast-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .toast-info { font-size: 12px; color: var(--text-secondary); font-family: var(--font-mono); }
+        .footer { background: var(--bg-primary); border-top: 1px solid var(--border); padding: clamp(60px, 8vh, 80px) clamp(15px, 4vw, 50px) clamp(40px, 5vh, 60px); text-align: center; position: relative; }
+        .footer::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: min(200px, 50vw); height: 2px; background: var(--gradient-primary); box-shadow: 0 0 30px var(--accent-primary); }
+        .footer-content { max-width: 1400px; margin: 0 auto; }
+        .footer-brand { margin-bottom: 20px; }
+        .footer-name { font-size: 32px; font-weight: 900; background: var(--gradient-gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .footer-text { color: var(--text-secondary); font-size: 14px; margin-bottom: 30px; }
+        .footer-links { display: flex; gap: 30px; justify-content: center; margin-bottom: 30px; }
+        .footer-links a, .footer-links button { background: none; border: none; color: var(--text-tertiary); cursor: pointer; font-size: 14px; transition: all 0.3s; text-decoration: none; font-family: inherit; }
+        .footer-links a:hover, .footer-links button:hover { color: var(--accent-primary); }
+        .footer-copy { color: var(--text-tertiary); font-size: 13px; }
+        .footer-copy a { color: var(--accent-primary); text-decoration: none; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+        @media (max-width: 1024px) { .nav-links { display: none; } .menu-toggle { display: flex; } }
+        @media (max-width: 768px) { .countdown-container { gap: 8px; } .countdown-unit { min-width: 70px; padding: 16px 12px; } .countdown-separator { display: none; } .features-grid { grid-template-columns: 1fr; } .stats-bar { flex-direction: column; align-items: center; } .stat-item { width: 100%; max-width: 300px; } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    </style>
+</head>
+<body>
+    <div class="bg-base"></div>
+    <div class="grid-layer-fine"></div>
+    <div class="grid-layer-large"></div>
+    <div class="aurora-container">
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+    </div>
+    <div class="light-sweep"></div>
+    <div class="cursor-spotlight" id="cursorSpotlight"></div>
+    <div class="noise-overlay"></div>
+    <div class="vignette"></div>
+
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-text" data-translate="preloaderTitle">KILLBYTE 3.0</div>
+            <div class="preloader-bar">
+                <div class="preloader-progress" id="preloaderProgress"></div>
+            </div>
+            <div class="preloader-status" id="preloaderStatus" data-translate="preloaderStatus">Initializing systems...</div>
+        </div>
+    </div>
+
+    <div class="visitor-toast" id="visitorToast">
+        <div class="toast-icon"><i class="fas fa-user-plus"></i></div>
+        <div class="toast-content">
+            <div class="toast-title" data-translate="newVisitor">New Visitor Detected</div>
+            <div class="toast-info" id="visitorInfo">IP: Loading...</div>
+        </div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="brand">
+                <div class="brand-text">
+                    <span class="brand-name">KillByte</span>
+                    <span class="brand-tag">Solutions</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#home" class="nav-link"><span class="nav-link-text" data-translate="navHome">Home</span></a>
+                <a href="index.html#terminal" class="nav-link"><span class="nav-link-text" data-translate="navTerminal">Terminal</span></a>
+                <a href="index.html#tiers" class="nav-link"><span class="nav-link-text" data-translate="navTiers">Tiers</span></a>
+                <a href="index.html#plans" class="nav-link"><span class="nav-link-text" data-translate="navPlans">Plans</span></a>
+                <a href="index.html#enterprise" class="nav-link"><span class="nav-link-text" data-translate="navEnterprise">Enterprise</span></a>
+                <a href="index.html#support" class="nav-link"><span class="nav-link-text" data-translate="navSupport">Support</span></a>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector" id="languageSelector">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="lang-flag" id="currentFlag">
+                        <span id="currentLang">EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <button class="lang-option" data-lang="en"><img src="https://flagcdn.com/w20/gb.png" alt="EN"><span>English</span></button>
+                        <button class="lang-option" data-lang="ru"><img src="https://flagcdn.com/w20/ru.png" alt="RU"><span>Русский</span></button>
+                        <button class="lang-option" data-lang="zh"><img src="https://flagcdn.com/w20/cn.png" alt="CN"><span>中文</span></button>
+                    </div>
+                </div>
+                <button class="nav-btn" onclick="openSupport()"><i class="fas fa-headset"></i><span data-translate="support">Support</span></button>
+                <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-links">
+            <a href="index.html#home" class="mobile-link" onclick="closeMobileMenu()" data-translate="navHome">Home</a>
+            <a href="index.html#terminal" class="mobile-link" onclick="closeMobileMenu()" data-translate="navTerminal">Terminal</a>
+            <a href="index.html#tiers" class="mobile-link" onclick="closeMobileMenu()" data-translate="navTiers">Tiers</a>
+            <a href="index.html#plans" class="mobile-link" onclick="closeMobileMenu()" data-translate="navPlans">Plans</a>
+            <a href="index.html#enterprise" class="mobile-link" onclick="closeMobileMenu()" data-translate="navEnterprise">Enterprise</a>
+            <a href="index.html#support" class="mobile-link" onclick="closeMobileMenu()" data-translate="navSupport">Support</a>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="particles-container">
+                <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+            </div>
+            <div class="hero-glow"></div>
+            <div class="hero-badge">
+                <i class="fas fa-rocket"></i>
+                <span data-translate="majorUpdate">Major Update Incoming</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line" data-translate="killbyte30">KillByte Solution 3.0</span>
+                <span class="title-line gradient" data-translate="upcomingUpdate">Upcoming Major Update</span>
+            </h1>
+            <p class="hero-description" data-translate="heroDescription">The next evolution in Layer 7 & Layer 4 infrastructure. Engineered for maximum performance, precision, and dominance.</p>
+            <div class="countdown-container" id="countdownContainer">
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="countdownDays">00</span>
+                    <span class="countdown-label" data-translate="days">Days</span>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="countdownHours">00</span>
+                    <span class="countdown-label" data-translate="hours">Hours</span>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="countdownMinutes">00</span>
+                    <span class="countdown-label" data-translate="minutes">Minutes</span>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="countdownSeconds">00</span>
+                    <span class="countdown-label" data-translate="seconds">Seconds</span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="#announcement" class="btn btn-primary"><span data-translate="readMore">Read Announcement</span><i class="fas fa-arrow-down"></i></a>
+                <a href="index.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i><span data-translate="backToHome">Back to Home</span></a>
+            </div>
+        </section>
+
+        <section id="announcement" class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label" data-translate="announcementLabel">Announcement</span>
+                    <h2 class="section-title" data-translate="whatsComing">What's Coming in 3.0</h2>
+                    <p class="section-subtitle" data-translate="announcementSubtitle">A comprehensive overview of the upcoming infrastructure evolution</p>
+                </div>
+                <div class="announcement-card">
+                    <h3 class="announcement-title"><span class="gradient" data-translate="announcementTitle">KillByte Solution 3.0 – Upcoming Major Update</span></h3>
+                    <div class="announcement-body">
+                        <p data-translate="announcementP1">Since 2024, KillByte has established itself as a powerful and trusted <span class="highlight">dd0s</span> platform, recognized for delivering exceptional performance across both Layer 7 and Layer 4 attack infrastructure. Current operational capabilities exceed <strong>420M+ RPS</strong> on Layer 7 and <strong>1.2Tbps+</strong> on Layer 4, positioning KillByte among the most potent platforms in the sector.</p>
+                        <p data-translate="announcementP2">We are pleased to announce the forthcoming release of KillByte Solution 3.0, a significant evolution of our <span class="highlight">dd0s</span> infrastructure. This update introduces substantial enhancements to Layer 7 and Layer 4 attack capabilities, advanced bypass technology, and a considerably expanded server network.</p>
+                        <p data-translate="announcementP3">KillByte 3.0 represents a major leap in power and reliability, engineered for professionals who demand maximum performance, precision, and operational consistency.</p>
+                    </div>
+                    <div class="features-section">
+                        <h4 class="features-title" data-translate="featuresTitle">WHAT'S COMING IN KILLBYTE 3.0</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                                <div class="feature-content">
+                                    <div class="feature-title" data-translate="feature1Title">New Private Layer 7 Method – !c-browser</div>
+                                    <div class="feature-desc" data-translate="feature1Desc">Advanced browser-based traffic simulation incorporating full JavaScript execution, TLS fingerprint randomization, and behavioral emulation. Delivers strong bypass capabilities against Cloudflare, dd0s-Guard, vShield, and all major WAF and CDN implementations.</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                                <div class="feature-content">
+                                    <div class="feature-title" data-translate="feature2Title">Layer 7 Method Optimization</div>
+                                    <div class="feature-desc" data-translate="feature2Desc">All existing Layer 7 methods have been fully optimized for improved bypass rates and higher sustained RPS output.</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon"><i class="fas fa-server"></i></div>
+                                <div class="feature-content">
+                                    <div class="feature-title" data-translate="feature3Title">Layer 4 Infrastructure Rebuild</div>
+                                    <div class="feature-desc" data-translate="feature3Desc">Complete reconstruction of all UDP, TCP, SYN, and amplification methods. Upgraded spoof server architecture delivers higher packet generation, enhanced source IP randomization, and superior bandwidth saturation.</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon"><i class="fas fa-network-wired"></i></div>
+                                <div class="feature-content">
+                                    <div class="feature-title" data-translate="feature4Title">Expanded Server Network</div>
+                                    <div class="feature-desc" data-translate="feature4Desc">21 new Layer 7 dedicated servers (40 cores each) for massive parallel attack processing. 12 new Layer 4 spoof servers for advanced source IP randomization and high PPS output.</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+                                <div class="feature-content">
+                                    <div class="feature-title" data-translate="feature5Title">Full Method Integration</div>
+                                    <div class="feature-desc" data-translate="feature5Desc">All existing methods will be updated to leverage the new infrastructure. Every method will deliver significantly improved performance.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="release-badge"><i class="fas fa-calendar-alt"></i><span data-translate="releaseDate">Release Date: May 5, 2026</span></div>
+                    <div class="stats-bar">
+                        <div class="stat-item"><span class="stat-value">420<span>M+</span></span><span class="stat-label" data-translate="l7Rps">L7 RPS</span></div>
+                        <div class="stat-item"><span class="stat-value">1.2<span>Tbps+</span></span><span class="stat-label" data-translate="l4Capacity">L4 Capacity</span></div>
+                        <div class="stat-item"><span class="stat-value">33<span>+</span></span><span class="stat-label" data-translate="newServers">New Servers</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="support" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label" data-translate="stayConnected">Stay Connected</span>
+                    <h2 class="section-title" data-translate="officialChannels">Official Channels</h2>
+                    <p class="section-subtitle" data-translate="channelsSubtitle">Join our community and stay updated on the latest developments</p>
+                </div>
+                <div class="channels-section">
+                    <div class="channels-list">
+                        <a href="https://t.me/+_Nyb8D6jsHJiY2Qx" target="_blank" class="channel-item">
+                            <div class="channel-icon"><i class="fab fa-telegram"></i></div>
+                            <div class="channel-info"><span class="channel-name">KillByte Solutions</span><span class="channel-desc" data-translate="mainChannel">Main Channel</span></div>
+                            <i class="fas fa-chevron-right channel-arrow"></i>
+                        </a>
+                        <a href="https://t.me/addlist/TU8lnQMAZMk0OTU1" target="_blank" class="channel-item">
+                            <div class="channel-icon"><i class="fas fa-list"></i></div>
+                            <div class="channel-info"><span class="channel-name">KillByte Addlist</span><span class="channel-desc" data-translate="groupDirectory">Group Directory</span></div>
+                            <i class="fas fa-chevron-right channel-arrow"></i>
+                        </a>
+                        <a href="https://t.me/killbytebackup" target="_blank" class="channel-item">
+                            <div class="channel-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="channel-info"><span class="channel-name">KillByte Backup</span><span class="channel-desc" data-translate="contingency">Contingency</span></div>
+                            <i class="fas fa-chevron-right channel-arrow"></i>
+                        </a>
+                        <a href="https://t.me/KillBytePowerShow" target="_blank" class="channel-item">
+                            <div class="channel-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="channel-info"><span class="channel-name">Power Proofs</span><span class="channel-desc" data-translate="performanceProof">Performance Proof</span></div>
+                            <i class="fas fa-chevron-right channel-arrow"></i>
+                        </a>
+                        <a href="https://t.me/killbytevouch" target="_blank" class="channel-item">
+                            <div class="channel-icon"><i class="fas fa-star"></i></div>
+                            <div class="channel-info"><span class="channel-name">KillByte Vouches</span><span class="channel-desc" data-translate="customerReviews">Customer Reviews</span></div>
+                            <i class="fas fa-chevron-right channel-arrow"></i>
+                        </a>
+                    </div>
+                    <div class="admin-contact">
+                        <div class="admin-contact-label" data-translate="adminContact">Admin Contact</div>
+                        <a href="https://t.me/rankflood" target="_blank" class="admin-contact-link"><i class="fab fa-telegram"></i>@rankflood</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand"><span class="footer-name">KillByte</span></div>
+            <p class="footer-text" data-translate="footerText">Premium infrastructure for elite operators.</p>
+            <div class="footer-links">
+                <a href="index.html" data-translate="backToHome">Back to Home</a>
+                <button onclick="showTerms()" data-translate="terms">Terms</button>
+                <button onclick="showPrivacy()" data-translate="privacy">Privacy</button>
+            </div>
+            <p class="footer-copy">&copy; 2026 KillByte Solutions. <span data-translate="allRightsReserved">All rights reserved.</span> | <span data-translate="admin">Admin:</span> <a href="https://t.me/rankflood" target="_blank">@rankflood</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                preloaderTitle: "KILLBYTE 3.0", preloaderStatus: "Initializing systems...", newVisitor: "New Visitor Detected",
+                navHome: "Home", navTerminal: "Terminal", navTiers: "Tiers", navPlans: "Plans", navEnterprise: "Enterprise", navSupport: "Support", support: "Support",
+                majorUpdate: "Major Update Incoming", killbyte30: "KillByte Solution 3.0", upcomingUpdate: "Upcoming Major Update",
+                heroDescription: "The next evolution in Layer 7 & Layer 4 infrastructure. Engineered for maximum performance, precision, and dominance.",
+                days: "Days", hours: "Hours", minutes: "Minutes", seconds: "Seconds", readMore: "Read Announcement", backToHome: "Back to Home",
+                announcementLabel: "Announcement", whatsComing: "What's Coming in 3.0", announcementSubtitle: "A comprehensive overview of the upcoming infrastructure evolution",
+                announcementTitle: "KillByte Solution 3.0 – Upcoming Major Update",
+                announcementP1: "Since 2024, KillByte has established itself as a powerful and trusted dd0s platform, recognized for delivering exceptional performance across both Layer 7 and Layer 4 attack infrastructure. Current operational capabilities exceed 420M+ RPS on Layer 7 and 1.2Tbps+ on Layer 4, positioning KillByte among the most potent platforms in the sector.",
+                announcementP2: "We are pleased to announce the forthcoming release of KillByte Solution 3.0, a significant evolution of our dd0s infrastructure. This update introduces substantial enhancements to Layer 7 and Layer 4 attack capabilities, advanced bypass technology, and a considerably expanded server network.",
+                announcementP3: "KillByte 3.0 represents a major leap in power and reliability, engineered for professionals who demand maximum performance, precision, and operational consistency.",
+                featuresTitle: "WHAT'S COMING IN KILLBYTE 3.0",
+                feature1Title: "New Private Layer 7 Method – !c-browser",
+                feature1Desc: "Advanced browser-based traffic simulation incorporating full JavaScript execution, TLS fingerprint randomization, and behavioral emulation. Delivers strong bypass capabilities against Cloudflare, dd0s-Guard, vShield, and all major WAF and CDN implementations.",
+                feature2Title: "Layer 7 Method Optimization",
+                feature2Desc: "All existing Layer 7 methods have been fully optimized for improved bypass rates and higher sustained RPS output.",
+                feature3Title: "Layer 4 Infrastructure Rebuild",
+                feature3Desc: "Complete reconstruction of all UDP, TCP, SYN, and amplification methods. Upgraded spoof server architecture delivers higher packet generation, enhanced source IP randomization, and superior bandwidth saturation.",
+                feature4Title: "Expanded Server Network",
+                feature4Desc: "21 new Layer 7 dedicated servers (40 cores each) for massive parallel attack processing. 12 new Layer 4 spoof servers for advanced source IP randomization and high PPS output.",
+                feature5Title: "Full Method Integration",
+                feature5Desc: "All existing methods will be updated to leverage the new infrastructure. Every method will deliver significantly improved performance.",
+                releaseDate: "Release Date: May 5, 2026", l7Rps: "L7 RPS", l4Capacity: "L4 Capacity", newServers: "New Servers",
+                stayConnected: "Stay Connected", officialChannels: "Official Channels", channelsSubtitle: "Join our community and stay updated on the latest developments",
+                mainChannel: "Main Channel", groupDirectory: "Group Directory", contingency: "Contingency", performanceProof: "Performance Proof", customerReviews: "Customer Reviews",
+                adminContact: "Admin Contact", footerText: "Premium infrastructure for elite operators.", terms: "Terms", privacy: "Privacy", admin: "Admin", allRightsReserved: "All rights reserved."
+            },
+            ru: {
+                preloaderTitle: "KILLBYTE 3.0", preloaderStatus: "Инициализация систем...", newVisitor: "Обнаружен Новый Посетитель",
+                navHome: "Главная", navTerminal: "Терминал", navTiers: "Уровни", navPlans: "Тарифы", navEnterprise: "Корпоративный", navSupport: "Поддержка", support: "Поддержка",
+                majorUpdate: "Грядет Крупное Обновление", killbyte30: "KillByte Solution 3.0", upcomingUpdate: "Предстоящее Крупное Обновление",
+                heroDescription: "Следующая эволюция инфраструктуры Layer 7 и Layer 4. Создана для максимальной производительности, точности и доминирования.",
+                days: "Дней", hours: "Часов", minutes: "Минут", seconds: "Секунд", readMore: "Читать Объявление", backToHome: "На Главную",
+                announcementLabel: "Объявление", whatsComing: "Что Нового в 3.0", announcementSubtitle: "Подробный обзор предстоящей эволюции инфраструктуры",
+                announcementTitle: "KillByte Solution 3.0 – Предстоящее Крупное Обновление",
+                announcementP1: "С 2024 года KillByte зарекомендовал себя как мощная и надежная dd0s-платформа, признанная за исключительную производительность как инфраструктуры Layer 7, так и Layer 4. Текущие операционные возможности превышают 420M+ RPS на Layer 7 и 1.2Tbps+ на Layer 4, что позиционирует KillByte среди самых мощных платформ в секторе.",
+                announcementP2: "Мы рады объявить о предстоящем выпуске KillByte Solution 3.0 — значительной эволюции нашей dd0s-инфраструктуры. Это обновление вносит существенные улучшения в возможности атак Layer 7 и Layer 4, передовые технологии обхода и значительно расширенную сеть серверов.",
+                announcementP3: "KillByte 3.0 представляет собой серьезный скачок в мощности и надежности, созданный для профессионалов, которым требуется максимальная производительность, точность и операционная стабильность.",
+                featuresTitle: "ЧТО НОВОГО В KILLBYTE 3.0",
+                feature1Title: "Новый Приватный Метод Layer 7 – !c-browser",
+                feature1Desc: "Продвинутая симуляция браузерного трафика с полным выполнением JavaScript, рандомизацией TLS-отпечатков и поведенческой эмуляцией. Обеспечивает мощные возможности обхода Cloudflare, dd0s-Guard, vShield и всех основных реализаций WAF и CDN.",
+                feature2Title: "Оптимизация Методов Layer 7",
+                feature2Desc: "Все существующие методы Layer 7 были полностью оптимизированы для улучшения показателей обхода и более высокого устойчивого RPS.",
+                feature3Title: "Перестройка Инфраструктуры Layer 4",
+                feature3Desc: "Полная реконструкция всех методов UDP, TCP, SYN и усиления. Обновленная архитектура спуф-серверов обеспечивает более высокую генерацию пакетов, улучшенную рандомизацию исходных IP и превосходное насыщение пропускной способности.",
+                feature4Title: "Расширенная Сеть Серверов",
+                feature4Desc: "21 новый выделенный сервер Layer 7 (по 40 ядер каждый) для массивной параллельной обработки атак. 12 новых спуф-серверов Layer 4 для продвинутой рандомизации исходных IP и высокого PPS.",
+                feature5Title: "Полная Интеграция Методов",
+                feature5Desc: "Все существующие методы будут обновлены для использования новой инфраструктуры. Каждый метод продемонстрирует значительно улучшенную производительность.",
+                releaseDate: "Дата Выпуска: 5 Мая 2026", l7Rps: "L7 RPS", l4Capacity: "L4 Мощность", newServers: "Новых Серверов",
+                stayConnected: "Оставайтесь на Связи", officialChannels: "Официальные Каналы", channelsSubtitle: "Присоединяйтесь к нашему сообществу и следите за последними разработками",
+                mainChannel: "Главный Канал", groupDirectory: "Каталог Групп", contingency: "Резервный", performanceProof: "Доказательство Производительности", customerReviews: "Отзывы Клиентов",
+                adminContact: "Контакт Администратора", footerText: "Премиум инфраструктура для элитных операторов.", terms: "Условия", privacy: "Конфиденциальность", admin: "Админ", allRightsReserved: "Все права защищены."
+            },
+            zh: {
+                preloaderTitle: "KILLBYTE 3.0", preloaderStatus: "正在初始化系统...", newVisitor: "检测到新访客",
+                navHome: "首页", navTerminal: "终端", navTiers: "等级", navPlans: "套餐", navEnterprise: "企业版", navSupport: "支持", support: "支持",
+                majorUpdate: "重大更新即将到来", killbyte30: "KillByte Solution 3.0", upcomingUpdate: "即将推出的重大更新",
+                heroDescription: "Layer 7 和 Layer 4 基础设施的下一次进化。为最大性能、精度和统治力而设计。",
+                days: "天", hours: "小时", minutes: "分钟", seconds: "秒", readMore: "阅读公告", backToHome: "返回首页",
+                announcementLabel: "公告", whatsComing: "3.0 新功能", announcementSubtitle: "即将推出的基础设施演进的全面概述",
+                announcementTitle: "KillByte Solution 3.0 – 即将推出的重大更新",
+                announcementP1: "自2024年以来，KillByte 已确立了自己作为一个强大且值得信赖的 dd0s 平台的地位，因在 Layer 7 和 Layer 4 攻击基础设施方面提供卓越性能而获得认可。当前运营能力在 Layer 7 上超过 420M+ RPS，在 Layer 4 上超过 1.2Tbps+，使 KillByte 成为该领域最强大的平台之一。",
+                announcementP2: "我们很高兴宣布即将发布 KillByte Solution 3.0，这是我们 dd0s 基础设施的重大演进。此更新引入了对 Layer 7 和 Layer 4 攻击能力、高级绕过技术和大幅扩展的服务器网络的实质性增强。",
+                announcementP3: "KillByte 3.0 代表了功率和可靠性的重大飞跃，专为需要最大性能、精度和运营一致性的专业人士而设计。",
+                featuresTitle: "KILLBYTE 3.0 新功能",
+                feature1Title: "新的私有 Layer 7 方法 – !c-browser",
+                feature1Desc: "先进的基于浏览器的流量模拟，包含完整的 JavaScript 执行、TLS 指纹随机化和行为模拟。提供针对 Cloudflare、dd0s-Guard、vShield 和所有主要 WAF 及 CDN 实现的强大绕过能力。",
+                feature2Title: "Layer 7 方法优化",
+                feature2Desc: "所有现有的 Layer 7 方法都已完全优化，以提高绕过率和更高的持续 RPS 输出。",
+                feature3Title: "Layer 4 基础设施重建",
+                feature3Desc: "完全重建所有 UDP、TCP、SYN 和放大方法。升级的欺骗服务器架构提供更高的数据包生成、增强的源 IP 随机化和卓越的带宽饱和。",
+                feature4Title: "扩展的服务器网络",
+                feature4Desc: "21 台新的 Layer 7 专用服务器（每台 40 核），用于大规模并行攻击处理。12 台新的 Layer 4 欺骗服务器，用于高级源 IP 随机化和高 PPS 输出。",
+                feature5Title: "完整方法集成",
+                feature5Desc: "所有现有方法都将更新以利用新基础设施。每种方法都将提供显著改进的性能。",
+                releaseDate: "发布日期：2026年5月5日", l7Rps: "L7 RPS", l4Capacity: "L4 容量", newServers: "新服务器",
+                stayConnected: "保持联系", officialChannels: "官方频道", channelsSubtitle: "加入我们的社区，了解最新动态",
+                mainChannel: "主频道", groupDirectory: "群组目录", contingency: "应急", performanceProof: "性能证明", customerReviews: "客户评价",
+                adminContact: "管理员联系方式", footerText: "为精英操作员提供的优质基础设施。", terms: "条款", privacy: "隐私", admin: "管理员", allRightsReserved: "版权所有。"
+            }
+        };
+
+        let currentLang = 'en';
+        const langMapping = { 'en': ['en', 'english', 'eng'], 'ru': ['ru', 'rus', 'russia', 'russian'], 'zh': ['zh', 'chinese', 'china', 'cn'] };
+
+        function normalizeLanguage(lang) { for (const [key, values] of Object.entries(langMapping)) { if (values.includes(lang)) return key; } return null; }
+        function initLanguage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            if (langParam) { const normalized = normalizeLanguage(langParam.toLowerCase()); if (normalized) currentLang = normalized; }
+            applyLanguage(currentLang); updateLanguageUI(currentLang);
+        }
+        function applyLanguage(lang) {
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    if (el.children.length > 0 && el.querySelector('strong, span.highlight')) {
+                        const temp = document.createElement('div'); temp.innerHTML = translations[lang][key];
+                        if (temp.innerHTML !== temp.textContent) { el.innerHTML = translations[lang][key]; return; }
+                        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+                        const textNodes = []; let node;
+                        while (node = walker.nextNode()) { if (node.textContent.trim()) textNodes.push(node); }
+                        if (textNodes.length > 0) textNodes[0].textContent = translations[lang][key];
+                    } else { el.textContent = translations[lang][key]; }
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+        function updateLanguageUI(lang) {
+            const flagMap = { 'en': 'gb', 'ru': 'ru', 'zh': 'cn' };
+            const langMap = { 'en': 'EN', 'ru': 'RU', 'zh': 'CN' };
+            const flag = document.getElementById('currentFlag'); const langText = document.getElementById('currentLang');
+            if (flag) flag.src = `https://flagcdn.com/w20/${flagMap[lang]}.png`; if (langText) langText.textContent = langMap[lang];
+        }
+        function changeLanguage(lang) {
+            currentLang = lang; applyLanguage(lang); updateLanguageUI(lang);
+            const url = new URL(window.location); url.searchParams.set('lang', lang); window.history.pushState({}, '', url);
+            document.getElementById('languageSelector').classList.remove('active');
+        }
+
+        function updateCountdown() {
+            const target = new Date('2026-05-05T00:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+            if (diff <= 0) { document.getElementById('countdownDays').textContent = '00'; document.getElementById('countdownHours').textContent = '00'; document.getElementById('countdownMinutes').textContent = '00'; document.getElementById('countdownSeconds').textContent = '00'; return; }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('countdownDays').textContent = String(days).padStart(2, '0');
+            document.getElementById('countdownHours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('countdownMinutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('countdownSeconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        function openSupport() { window.open('https://t.me/KillByte_Support_Bot', '_blank'); }
+        function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('active'); }
+
+        function showVisitorToast() {
+            const toast = document.getElementById('visitorToast'); const info = document.getElementById('visitorInfo');
+            fetch('https://api.ipify.org?format=json').then(r => r.json()).then(data => { info.textContent = `IP: ${data.ip}`; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 5000); }).catch(() => { info.textContent = 'IP: Hidden'; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 5000); });
+        }
+
+        function showTerms() {
+            const terms = { en: 'Terms of Service:\n\n1. All services are for authorized testing only\n2. Users are responsible for compliance with local laws\n3. No refunds after delivery\n4. Support via Telegram only', ru: 'Условия обслуживания:\n\n1. Все услуги предназначены только для авторизованного тестирования\n2. Пользователи несут ответственность за соблюдение местных законов\n3. Возврат средств после доставки невозможен\n4. Поддержка только через Telegram', zh: '服务条款：\n\n1. 所有服务仅用于授权测试\n2. 用户有责任遵守当地法律\n3. 交付后不予退款\n4. 仅通过 Telegram 提供支持' };
+            alert(terms[currentLang] || terms.en);
+        }
+        function showPrivacy() {
+            const privacy = { en: 'Privacy Policy:\n\n1. We collect minimal data for service operation\n2. No logs are kept of attack targets\n3. IP addresses are processed securely\n4. Data is never shared with third parties', ru: 'Политика конфиденциальности:\n\n1. Мы собираем минимальные данные для работы сервиса\n2. Логи целей атак не сохраняются\n3. IP-адреса обрабатываются безопасно\n4. Данные никогда не передаются третьим лицам', zh: '隐私政策：\n\n1. 我们收集最少的数据用于服务运营\n2. 不保留攻击目标的日志\n3. IP 地址被安全处理\n4. 数据永远不会与第三方共享' };
+            alert(privacy[currentLang] || privacy.en);
+        }
+
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader'); const progress = document.getElementById('preloaderProgress'); const status = document.getElementById('preloaderStatus');
+            const statuses = ['Initializing core...', 'Loading modules...', 'Connecting...', 'Ready']; let current = 0;
+            const interval = setInterval(() => {
+                current += Math.random() * 15; if (current > 100) current = 100; progress.style.width = current + '%';
+                if (current < 30) status.textContent = translations[currentLang].preloaderStatus || statuses[0];
+                else if (current < 60) status.textContent = 'Loading modules...';
+                else if (current < 90) status.textContent = 'Connecting...';
+                else status.textContent = 'Ready';
+                if (current === 100) { clearInterval(interval); setTimeout(() => preloader.classList.add('hidden'), 500); }
+            }, 100);
+            initLanguage(); updateCountdown(); setInterval(updateCountdown, 1000); setTimeout(showVisitorToast, 3000);
+        });
+
+        const spotlight = document.getElementById('cursorSpotlight');
+        if (!window.matchMedia('(pointer: coarse)').matches) {
+            document.addEventListener('mousemove', (e) => { spotlight.style.left = e.clientX + 'px'; spotlight.style.top = e.clientY + 'px'; });
+        }
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => { if (window.scrollY > 100) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled'); });
+
+        const menuToggle = document.getElementById('menuToggle'); const mobileMenu = document.getElementById('mobileMenu');
+        menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+
+        const langBtn = document.getElementById('langBtn'); const langDropdown = document.getElementById('langDropdown'); const languageSelector = document.getElementById('languageSelector');
+        langBtn.addEventListener('click', (e) => { e.stopPropagation(); languageSelector.classList.toggle('active'); });
+        document.querySelectorAll('.lang-option').forEach(opt => { opt.addEventListener('click', () => { const lang = opt.dataset.lang; changeLanguage(lang); }); });
+        document.addEventListener('click', (e) => { if (!languageSelector.contains(e.target)) languageSelector.classList.remove('active'); });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        });
+    </script>
+</body>
+</html>

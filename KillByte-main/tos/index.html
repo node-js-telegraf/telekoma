@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KillByte · Terms of Service</title>
+    <meta name="description" content="KillByte - Terms of Service and Usage Policies">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* ========== MAIN.CSS ========== */
+        :root {
+            --primary: #ff3333;
+            --primary-dark: #cc0000;
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(15, 15, 15, 0.95);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background Canvas */
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 51, 51, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 51, 51, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ff3333, #990000);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tag {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover .nav-link-line,
+        .nav-link.active .nav-link-line {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: relative;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 51, 51, 0.1);
+            border-color: rgba(255, 51, 51, 0.3);
+        }
+
+        .lang-flag {
+            width: 20px;
+            height: 15px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: #151515;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px;
+            min-width: 150px;
+            display: none;
+            z-index: 100;
+        }
+
+        .lang-dropdown.active {
+            display: block;
+        }
+
+        .lang-option {
+            width: 100%;
+            padding: 10px;
+            background: none;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .lang-option.active {
+            background: rgba(255, 51, 51, 0.1);
+            color: var(--primary);
+        }
+
+        .lang-option img {
+            width: 24px;
+            height: 18px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
+        /* Buttons */
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 8px 20px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 51, 51, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .support-btn {
+            background: rgba(255, 51, 51, 0.1);
+            border-color: rgba(255, 51, 51, 0.3);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff3333, #cc0000);
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 51, 51, 0.2);
+        }
+
+        /* Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: #151515;
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .mobile-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            text-align: center;
+        }
+
+        .footer-brand {
+            margin-bottom: 20px;
+        }
+
+        .footer-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #ff3333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links button:hover {
+            color: var(--primary);
+        }
+
+        .footer-copy {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-btn span {
+                display: none;
+            }
+
+            .nav-btn i {
+                margin: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* ========== TOS-SPECIFIC STYLES ========== */
+        .tos-container {
+            max-width: 1000px;
+            margin: 140px auto 80px;
+            padding: 0 30px;
+        }
+
+        .tos-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .tos-header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #ff3333 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tos-header .last-updated {
+            color: #9a9a9a;
+            font-size: 1rem;
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tos-card {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .tos-section {
+            margin-bottom: 40px;
+        }
+
+        .tos-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .tos-section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tos-section-title i {
+            color: #ff3333;
+            font-size: 1.2rem;
+            width: 28px;
+        }
+
+        .tos-text {
+            color: #b0b0b0;
+            line-height: 1.8;
+            font-size: 1rem;
+            padding-left: 38px;
+        }
+
+        .tos-text p {
+            margin-bottom: 15px;
+        }
+
+        .tos-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tos-list li {
+            color: #b0b0b0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.6;
+        }
+
+        .tos-list li i {
+            color: #ff3333;
+            font-size: 0.9rem;
+            margin-top: 4px;
+            min-width: 18px;
+        }
+
+        .tos-badge {
+            display: inline-block;
+            background: rgba(255, 51, 51, 0.1);
+            color: #ff3333;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 51, 51, 0.2);
+            margin-left: 10px;
+        }
+
+        .tos-warning {
+            background: rgba(255, 51, 51, 0.05);
+            border-left: 3px solid #ff3333;
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .tos-warning p {
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .tos-warning small {
+            color: #9a9a9a;
+            font-size: 0.9rem;
+        }
+
+        .acceptance-text {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #9a9a9a;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .tos-container {
+                margin-top: 100px;
+                padding: 0 20px;
+            }
+            .tos-header h1 {
+                font-size: 2.5rem;
+            }
+            .tos-card {
+                padding: 30px;
+            }
+            .tos-section-title {
+                font-size: 1.2rem;
+            }
+            .tos-text {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Canvas -->
+    <canvas id="bgCanvas" class="bg-canvas"></canvas>
+
+    <!-- Grid Overlay -->
+    <div class="grid-overlay"></div>
+
+    <!-- Noise Texture -->
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="https://killbyte.cc" class="brand">
+                <div class="brand-icon" style="background: none; background-color: transparent;">
+                    <img src="logo.png" alt="KillByte" style="width: auto; height: 50px; max-width: 230px; object-fit: contain;">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">KillByte</span>
+                    <span class="brand-tag" id="navBrandTag">Solutions</span>
+                </div>
+            </a>
+
+            <div class="nav-links">
+                <a href="https://killbyte.cc#home" class="nav-link" data-section="home">
+                    <span class="nav-link-text" id="navHome">Home</span>
+                    <span class="nav-link-line"></span>
+                </a>
+                <a href="https://killbyte.cc#terminal" class="nav-link" data-section="terminal">
+                    <span class="nav-link-text" id="navTerminal">Terminal</span>
+                    <span class="nav-link-line"></span>
+                </a>
+                <a href="https://killbyte.cc#tiers" class="nav-link" data-section="tiers">
+                    <span class="nav-link-text" id="navTiers">Tiers</span>
+                    <span class="nav-link-line"></span>
+                </a>
+                <a href="https://killbyte.cc#plans" class="nav-link" data-section="plans">
+                    <span class="nav-link-text" id="navPlans">Plans</span>
+                    <span class="nav-link-line"></span>
+                </a>
+                <a href="https://killbyte.cc#enterprise" class="nav-link" data-section="enterprise">
+                    <span class="nav-link-text" id="navEnterprise">Enterprise</span>
+                    <span class="nav-link-line"></span>
+                </a>
+                <a href="https://killbyte.cc#support" class="nav-link" data-section="support">
+                    <span class="nav-link-text" id="navSupport">Support</span>
+                    <span class="nav-link-line"></span>
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Language Selector -->
+                <div class="language-selector">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="https://flagcdn.com/w20/gb.png" alt="English" class="lang-flag">
+                        <span id="langBtnText">EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <button class="lang-option active" data-lang="en">
+                            <img src="https://flagcdn.com/w20/gb.png" alt="English">
+                            <span>English</span>
+                        </button>
+                        <button class="lang-option" data-lang="cn">
+                            <img src="https://flagcdn.com/w20/cn.png" alt="Chinese">
+                            <span>中文</span>
+                        </button>
+                        <button class="lang-option" data-lang="ru">
+                            <img src="https://flagcdn.com/w20/ru.png" alt="Russian">
+                            <span>Русский</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="nav-btn support-btn" onclick="window.location.href='https://killbyte.cc#support'">
+                    <i class="fas fa-headset"></i>
+                    <span id="navSupportBtn">Support</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-links">
+            <a href="https://killbyte.cc#home" class="mobile-link" id="mobileHome">Home</a>
+            <a href="https://killbyte.cc#terminal" class="mobile-link" id="mobileTerminal">Terminal</a>
+            <a href="https://killbyte.cc#tiers" class="mobile-link" id="mobileTiers">Tiers</a>
+            <a href="https://killbyte.cc#plans" class="mobile-link" id="mobilePlans">Plans</a>
+            <a href="https://killbyte.cc#enterprise" class="mobile-link" id="mobileEnterprise">Enterprise</a>
+            <a href="https://killbyte.cc#support" class="mobile-link" id="mobileSupport">Support</a>
+        </div>
+    </div>
+
+    <!-- Main TOS Content -->
+    <main>
+        <div class="tos-container">
+            <div class="tos-header">
+                <h1 id="tosTitle">Terms of Service</h1>
+                <span class="last-updated" id="lastUpdated">Last Updated: March 2026</span>
+            </div>
+
+            <div class="tos-card">
+                <!-- Introduction -->
+                <div class="tos-section">
+                    <div class="tos-section-title">
+                        <i class="fas fa-gavel"></i>
+                        <span id="section1Title">1. Acceptance of Terms</span>
+                    </div>
+                    <div class="tos-text">
+                        <p id="section1Text">By accessing or using KillByte services, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our services. These terms constitute a legally binding agreement between you and KillByte Solutions.</p>
+                    </div>
+                </div>
+
+                <!-- Acceptable Use -->
+                <div class="tos-section">
+                    <div class="tos-section-title">
+                        <i class="fas fa-shield-alt"></i>
+                        <span id="section2Title">2. Acceptable Use Policy</span>
+                    </div>
+                    <div class="tos-text">
+                        <p id="section2Text">KillByte provides infrastructure services for authorized security testing and educational purposes only. Any use of our services for illegal activities is strictly prohibited.</p>
+                    </div>
+                    <ul class="tos-list">
+                        <li><i class="fas fa-times-circle"></i> <span id="rule1">No attacks on government institutions, military networks, or critical infrastructure</span> <span class="tos-badge" id="badge1">INSTANT BAN</span></li>
+                        <li><i class="fas fa-times-circle"></i> <span id="rule2">No unauthorized network intrusion or stress testing</span></li>
+                        <li><i class="fas fa-times-circle"></i> <span id="rule3">No violation of any applicable local, national, or international laws</span></li>
+                        <li><i class="fas fa-times-circle"></i> <span id="rule4">No use of our infrastructure for illegal activities</span></li>
+                    </ul>
+                </div>
+
+                <!-- Account Rules -->
+                <div class="tos-section">
+                    <div class="tos-section-title">
+                        <i class="fas fa-user-lock"></i>
+                        <span id="section3Title">3. Account Rules</span>
+                    </div>
+                    <ul class="tos-list">
+                        <li><i class="fas fa-ban"></i> <strong><span id="rule5Title">No Account Sharing:</span></strong> <span id="rule5Text">Accounts are personal and non-transferable. Sharing credentials = permanent ban.</span></li>
+                        <li><i class="fas fa-ban"></i> <strong><span id="rule6Title">No Dstat Usage:</span></strong> <span id="rule6Text">Dstat is not permitted. It shows misleading power values and reduces actual botnet performance.</span></li>
+                        <li><i class="fas fa-ban"></i> <strong><span id="rule7Title">No Spamming:</span></strong> <span id="rule7Text">Repeatedly attacking the same target is allowed, but excessive flooding that leads to complaints = blacklist.</span></li>
+                        <li><i class="fas fa-ban"></i> <strong><span id="rule8Title">No System Bypassing:</span></strong> <span id="rule8Text">Attempting to bypass security, exploit vulnerabilities, or gain unauthorized access = instant termination.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Staff and Conduct -->
+                <div class="tos-section">
+                    <div class="tos-section-title">
+                        <i class="fas fa-comment-slash"></i>
+                        <span id="section4Title">4. Staff Harassment</span>
+                    </div>
+                    <div class="tos-text">
+                        <p id="section4Text">Disrespecting staff, harassment, threats, or making false accusations will not be tolerated.</p>
+                    </div>
+                    <ul class="tos-list">
+                        <li><i class="fas fa-skull"></i> <span id="rule9">Result: Immediate blacklist and permanent ban</span></li>
+                        <li><i class="fas fa-gavel"></i> <span id="rule10">No warnings - zero tolerance policy</span></li>
+                    </ul>
+                </div>
+
+                <!-- Payments -->
+                <div class="tos-section">
+                    <div class="tos-section-title">
+                        <i class="fas fa-credit-card"></i>
+                        <span id="section5Title">5. Payments and Refunds</span>
+                    </div>
+                    <ul class="tos-list">
+                        <li><i class="fas fa-times"></i> <strong><span id="rule11Title">No Refunds:</span></strong> <span id="rule11Text">All sales are final. No refunds provided under any circumstances.</span></li>
+                        <li><i class="fas fa-clock"></i> <strong><span id="rule12Title">Lifetime Policy:</span></strong> <span id="rule12Text">Lifetime plans remain active for entire project duration. If service shuts down and reopens, lifetime users regain access automatically.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Terms Changes -->
+                <div class="tos-section">
+                    <div class="tos-section-title">
+                        <i class="fas fa-file-signature"></i>
+                        <span id="section6Title">6. Changes to Terms</span>
+                    </div>
+                    <div class="tos-text">
+                        <p id="section6Text">By purchasing or using the service, you agree that these Terms of Service may be changed at any time, without notice. Your continued use constitutes automatic acceptance of any changes.</p>
+                    </div>
+                </div>
+
+                <!-- Staff Rights -->
+                <div class="tos-section">
+                    <div class="tos-section-title">
+                        <i class="fas fa-user-tie"></i>
+                        <span id="section7Title">7. Staff Rights</span>
+                    </div>
+                    <div class="tos-text">
+                        <p id="section7Text">KillByte staff reserves the right to suspend, ban, or blacklist any user without detailed explanation to protect platform integrity and security.</p>
+                    </div>
+                </div>
+
+                <!-- Warning Box -->
+                <div class="tos-warning">
+                    <p><i class="fas fa-exclamation-triangle" style="color: #ff3333; margin-right: 10px;"></i> <span id="warningText">Breaking any rule results in immediate suspension or ban. No exceptions.</span></p>
+                    <small id="warningSmall">We maintain a zero-tolerance policy for violations. Our record remains clean because we enforce these rules strictly.</small>
+                </div>
+
+                <!-- Acceptance -->
+                <div class="acceptance-text">
+                    <i class="fas fa-check-circle" style="color: #ff3333; margin-right: 8px;"></i>
+                    <span id="acceptanceText">By purchasing or using KillByte services, you automatically accept all terms stated above.</span>
+                </div>
+            </div>
+
+            <!-- Back to Home -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="https://killbyte.cc" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px;">
+                    <i class="fas fa-arrow-left"></i>
+                    <span id="backButton">Back to Home</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-name">KillByte</span>
+            </div>
+            <p class="footer-text" id="footerText">Premium infrastructure for elite operators.</p>
+            <div class="footer-links">
+                <button onclick="window.location.href='tos.html'" id="footerTerms">Terms</button>
+                <button onclick="showPrivacy()" id="footerPrivacy">Privacy</button>
+                <button onclick="openAdminModal()" id="footerAdmin">Admin</button>
+            </div>
+            <p class="footer-copy" id="footerCopy">
+                &copy; 2026 KillByte Solutions. All rights reserved. | Admin: @rankflood
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // COMPLETE PAGE TRANSLATIONS - EVERYTHING included
+        const translations = {
+            en: {
+                // Navigation
+                navBrandTag: "Solutions",
+                navHome: "Home",
+                navTerminal: "Terminal",
+                navTiers: "Tiers",
+                navPlans: "Plans",
+                navEnterprise: "Enterprise",
+                navSupport: "Support",
+                navSupportBtn: "Support",
+                langBtnText: "EN",
+                
+                // Mobile menu
+                mobileHome: "Home",
+                mobileTerminal: "Terminal",
+                mobileTiers: "Tiers",
+                mobilePlans: "Plans",
+                mobileEnterprise: "Enterprise",
+                mobileSupport: "Support",
+                
+                // TOS Page
+                tosTitle: "Terms of Service",
+                lastUpdated: "Last Updated: March 2026",
+                
+                // Section 1
+                section1Title: "1. Acceptance of Terms",
+                section1Text: "By accessing or using KillByte services, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our services. These terms constitute a legally binding agreement between you and KillByte Solutions.",
+                
+                // Section 2
+                section2Title: "2. Acceptable Use Policy",
+                section2Text: "KillByte provides infrastructure services for authorized security testing and educational purposes only. Any use of our services for illegal activities is strictly prohibited.",
+                rule1: "No attacks on government institutions, military networks, or critical infrastructure",
+                badge1: "INSTANT BAN",
+                rule2: "No unauthorized network intrusion or stress testing",
+                rule3: "No violation of any applicable local, national, or international laws",
+                rule4: "No use of our infrastructure for illegal activities",
+                
+                // Section 3
+                section3Title: "3. Account Rules",
+                rule5Title: "No Account Sharing:",
+                rule5Text: "Accounts are personal and non-transferable. Sharing credentials = permanent ban.",
+                rule6Title: "No Dstat Usage:",
+                rule6Text: "Dstat is not permitted. It shows misleading power values and reduces actual botnet performance.",
+                rule7Title: "No Spamming:",
+                rule7Text: "Repeatedly attacking the same target is allowed, but excessive flooding that leads to complaints = blacklist.",
+                rule8Title: "No System Bypassing:",
+                rule8Text: "Attempting to bypass security, exploit vulnerabilities, or gain unauthorized access = instant termination.",
+                
+                // Section 4
+                section4Title: "4. Staff Harassment",
+                section4Text: "Disrespecting staff, harassment, threats, or making false accusations will not be tolerated.",
+                rule9: "Result: Immediate blacklist and permanent ban",
+                rule10: "No warnings - zero tolerance policy",
+                
+                // Section 5
+                section5Title: "5. Payments and Refunds",
+                rule11Title: "No Refunds:",
+                rule11Text: "All sales are final. No refunds provided under any circumstances.",
+                rule12Title: "Lifetime Policy:",
+                rule12Text: "Lifetime plans remain active for entire project duration. If service shuts down and reopens, lifetime users regain access automatically.",
+                
+                // Section 6
+                section6Title: "6. Changes to Terms",
+                section6Text: "By purchasing or using the service, you agree that these Terms of Service may be changed at any time, without notice. Your continued use constitutes automatic acceptance of any changes.",
+                
+                // Section 7
+                section7Title: "7. Staff Rights",
+                section7Text: "KillByte staff reserves the right to suspend, ban, or blacklist any user without detailed explanation to protect platform integrity and security.",
+                
+                // Warning
+                warningText: "Breaking any rule results in immediate suspension or ban. No exceptions.",
+                warningSmall: "We maintain a zero-tolerance policy for violations. Our record remains clean because we enforce these rules strictly.",
+                
+                // Acceptance
+                acceptanceText: "By purchasing or using KillByte services, you automatically accept all terms stated above.",
+                
+                // Back button
+                backButton: "Back to Home",
+                
+                // Footer
+                footerText: "Premium infrastructure for elite operators.",
+                footerTerms: "Terms",
+                footerPrivacy: "Privacy",
+                footerAdmin: "Admin",
+                footerCopy: "© 2026 KillByte Solutions. All rights reserved. | Admin: @rankflood"
+            },
+            cn: {
+                // Navigation
+                navBrandTag: "解决方案",
+                navHome: "主页",
+                navTerminal: "终端",
+                navTiers: "层级",
+                navPlans: "套餐",
+                navEnterprise: "企业",
+                navSupport: "支持",
+                navSupportBtn: "支持",
+                langBtnText: "中文",
+                
+                // Mobile menu
+                mobileHome: "主页",
+                mobileTerminal: "终端",
+                mobileTiers: "层级",
+                mobilePlans: "套餐",
+                mobileEnterprise: "企业",
+                mobileSupport: "支持",
+                
+                // TOS Page
+                tosTitle: "服务条款",
+                lastUpdated: "最后更新: 2026年3月",
+                
+                // Section 1
+                section1Title: "1. 接受条款",
+                section1Text: "通过访问或使用KillByte服务，您同意受这些服务条款的约束。如果您不同意这些条款的任何部分，则不得使用我们的服务。这些条款构成您与KillByte Solutions之间具有法律约束力的协议。",
+                
+                // Section 2
+                section2Title: "2. 可接受使用政策",
+                section2Text: "KillByte仅提供用于授权安全测试和教育目的的基础设施服务。严禁将我们的服务用于非法活动。",
+                rule1: "不得攻击政府机构、军事网络或关键基础设施",
+                badge1: "立即封禁",
+                rule2: "不得进行未经授权的网络入侵或压力测试",
+                rule3: "不得违反任何适用的地方、国家或国际法律",
+                rule4: "不得将我们的基础设施用于非法活动",
+                
+                // Section 3
+                section3Title: "3. 账户规则",
+                rule5Title: "禁止共享账户：",
+                rule5Text: "账户是个人所有且不可转让。共享凭证 = 永久封禁。",
+                rule6Title: "禁止使用Dstat：",
+                rule6Text: "不允许使用Dstat。它会显示误导性的功率值并降低实际的僵尸网络性能。",
+                rule7Title: "禁止垃圾邮件：",
+                rule7Text: "允许重复攻击同一目标，但导致投诉的过度攻击 = 列入黑名单。",
+                rule8Title: "禁止绕过系统：",
+                rule8Text: "试图绕过安全措施、利用漏洞或未经授权访问 = 立即终止。",
+                
+                // Section 4
+                section4Title: "4. 骚扰工作人员",
+                section4Text: "不尊重工作人员、骚扰、威胁或虚假指控将不被容忍。",
+                rule9: "结果：立即列入黑名单并永久封禁",
+                rule10: "没有警告 - 零容忍政策",
+                
+                // Section 5
+                section5Title: "5. 付款和退款",
+                rule11Title: "不予退款：",
+                rule11Text: "所有销售均为最终销售。在任何情况下均不提供退款。",
+                rule12Title: "终身政策：",
+                rule12Text: "终身计划在整个项目期间保持有效。如果服务关闭后重新开放，终身用户将自动恢复访问权限。",
+                
+                // Section 6
+                section6Title: "6. 条款变更",
+                section6Text: "通过购买或使用服务，您同意这些服务条款可能随时更改，恕不另行通知。您继续使用即构成自动接受任何变更。",
+                
+                // Section 7
+                section7Title: "7. 工作人员权利",
+                section7Text: "KillByte工作人员保留暂停、封禁或列入黑名单任何用户的权利，无需详细解释，以保护平台的完整性和安全性。",
+                
+                // Warning
+                warningText: "违反任何规则都将导致立即暂停或封禁。没有例外。",
+                warningSmall: "我们对违规行为实行零容忍政策。我们的记录保持清白，因为我们严格执行这些规则。",
+                
+                // Acceptance
+                acceptanceText: "通过购买或使用KillByte服务，您自动接受上述所有条款。",
+                
+                // Back button
+                backButton: "返回主页",
+                
+                // Footer
+                footerText: "为精英操作员提供的高级基础设施。",
+                footerTerms: "条款",
+                footerPrivacy: "隐私",
+                footerAdmin: "管理",
+                footerCopy: "© 2026 KillByte Solutions。保留所有权利。 | 管理员: @rankflood"
+            },
+            ru: {
+                // Navigation
+                navBrandTag: "Решения",
+                navHome: "Главная",
+                navTerminal: "Терминал",
+                navTiers: "Уровни",
+                navPlans: "Планы",
+                navEnterprise: "Для бизнеса",
+                navSupport: "Поддержка",
+                navSupportBtn: "Поддержка",
+                langBtnText: "РУС",
+                
+                // Mobile menu
+                mobileHome: "Главная",
+                mobileTerminal: "Терминал",
+                mobileTiers: "Уровни",
+                mobilePlans: "Планы",
+                mobileEnterprise: "Для бизнеса",
+                mobileSupport: "Поддержка",
+                
+                // TOS Page
+                tosTitle: "Условия обслуживания",
+                lastUpdated: "Последнее обновление: Март 2026",
+                
+                // Section 1
+                section1Title: "1. Принятие условий",
+                section1Text: "Получая доступ или используя услуги KillByte, вы соглашаетесь соблюдать настоящие Условия обслуживания. Если вы не согласны с какой-либо частью этих условий, вы не можете пользоваться нашими услугами. Настоящие условия представляют собой юридически обязывающее соглашение между вами и KillByte Solutions.",
+                
+                // Section 2
+                section2Title: "2. Политика допустимого использования",
+                section2Text: "KillByte предоставляет инфраструктурные услуги только для авторизованного тестирования безопасности и образовательных целей. Любое использование наших услуг для незаконной деятельности строго запрещено.",
+                rule1: "Запрещены атаки на правительственные учреждения, военные сети или критическую инфраструктуру",
+                badge1: "МГНОВЕННЫЙ БАН",
+                rule2: "Запрещено несанкционированное вторжение в сеть или стресс-тестирование",
+                rule3: "Запрещено нарушение любых применимых местных, национальных или международных законов",
+                rule4: "Запрещено использование нашей инфраструктуры для незаконной деятельности",
+                
+                // Section 3
+                section3Title: "3. Правила аккаунта",
+                rule5Title: "Запрещен обмен аккаунтами:",
+                rule5Text: "Аккаунты являются личными и не подлежат передаче. Обмен учетными данными = постоянный бан.",
+                rule6Title: "Запрещено использование Dstat:",
+                rule6Text: "Dstat не разрешен. Он показывает вводящие в заблуждение значения мощности и снижает фактическую производительность ботнета.",
+                rule7Title: "Запрещен спам:",
+                rule7Text: "Разрешено многократное атакование одной цели, но чрезмерный флуд, ведущий к жалобам = черный список.",
+                rule8Title: "Запрещен обход системы:",
+                rule8Text: "Попытка обойти защиту, использовать уязвимости или получить несанкционированный доступ = немедленное прекращение.",
+                
+                // Section 4
+                section4Title: "4. Домогательство к персоналу",
+                section4Text: "Неуважение к персоналу, домогательства, угрозы или ложные обвинения не допускаются.",
+                rule9: "Результат: Немедленный черный список и постоянный бан",
+                rule10: "Без предупреждений - политика абсолютной нетерпимости",
+                
+                // Section 5
+                section5Title: "5. Платежи и возвраты",
+                rule11Title: "Без возвратов:",
+                rule11Text: "Все продажи являются окончательными. Возврат средств не производится ни при каких обстоятельствах.",
+                rule12Title: "Политика пожизненного доступа:",
+                rule12Text: "Пожизненные планы остаются активными на весь срок существования проекта. Если сервис закрывается и затем открывается вновь, пользователи с пожизненным доступом автоматически восстанавливают его.",
+                
+                // Section 6
+                section6Title: "6. Изменение условий",
+                section6Text: "Приобретая или используя сервис, вы соглашаетесь с тем, что настоящие Условия обслуживания могут быть изменены в любое время без уведомления. Ваше дальнейшее использование составляет автоматическое принятие любых изменений.",
+                
+                // Section 7
+                section7Title: "7. Права персонала",
+                section7Text: "Персонал KillByte оставляет за собой право приостановить, забанить или внести в черный список любого пользователя без подробного объяснения для защиты целостности и безопасности платформы.",
+                
+                // Warning
+                warningText: "Нарушение любого правила приводит к немедленной приостановке или бану. Без исключений.",
+                warningSmall: "Мы придерживаемся политики абсолютной нетерпимости к нарушениям. Наша репутация остается чистой, потому что мы строго соблюдаем эти правила.",
+                
+                // Acceptance
+                acceptanceText: "Приобретая или используя услуги KillByte, вы автоматически принимаете все вышеуказанные условия.",
+                
+                // Back button
+                backButton: "Вернуться на главную",
+                
+                // Footer
+                footerText: "Премиальная инфраструктура для элитных операторов.",
+                footerTerms: "Условия",
+                footerPrivacy: "Конфиденциальность",
+                footerAdmin: "Админ",
+                footerCopy: "© 2026 KillByte Solutions. Все права защищены. | Админ: @rankflood"
+            }
+        };
+
+        // Language selector
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            langDropdown.classList.remove('active');
+        });
+
+        langDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Function to update ALL page content based on language
+        function updateLanguage(lang) {
+            const t = translations[lang];
+            
+            // Update Navigation
+            document.getElementById('navBrandTag').textContent = t.navBrandTag;
+            document.getElementById('navHome').textContent = t.navHome;
+            document.getElementById('navTerminal').textContent = t.navTerminal;
+            document.getElementById('navTiers').textContent = t.navTiers;
+            document.getElementById('navPlans').textContent = t.navPlans;
+            document.getElementById('navEnterprise').textContent = t.navEnterprise;
+            document.getElementById('navSupport').textContent = t.navSupport;
+            document.getElementById('navSupportBtn').textContent = t.navSupportBtn;
+            document.getElementById('langBtnText').textContent = t.langBtnText;
+            
+            // Update Mobile Menu
+            document.getElementById('mobileHome').textContent = t.mobileHome;
+            document.getElementById('mobileTerminal').textContent = t.mobileTerminal;
+            document.getElementById('mobileTiers').textContent = t.mobileTiers;
+            document.getElementById('mobilePlans').textContent = t.mobilePlans;
+            document.getElementById('mobileEnterprise').textContent = t.mobileEnterprise;
+            document.getElementById('mobileSupport').textContent = t.mobileSupport;
+            
+            // Update TOS Page - ALL TOS ELEMENTS
+            document.getElementById('tosTitle').textContent = t.tosTitle;
+            document.getElementById('lastUpdated').textContent = t.lastUpdated;
+            
+            // Section 1
+            document.getElementById('section1Title').textContent = t.section1Title;
+            document.getElementById('section1Text').textContent = t.section1Text;
+            
+            // Section 2
+            document.getElementById('section2Title').textContent = t.section2Title;
+            document.getElementById('section2Text').textContent = t.section2Text;
+            document.getElementById('rule1').textContent = t.rule1;
+            document.getElementById('badge1').textContent = t.badge1;
+            document.getElementById('rule2').textContent = t.rule2;
+            document.getElementById('rule3').textContent = t.rule3;
+            document.getElementById('rule4').textContent = t.rule4;
+            
+            // Section 3
+            document.getElementById('section3Title').textContent = t.section3Title;
+            document.getElementById('rule5Title').textContent = t.rule5Title;
+            document.getElementById('rule5Text').textContent = t.rule5Text;
+            document.getElementById('rule6Title').textContent = t.rule6Title;
+            document.getElementById('rule6Text').textContent = t.rule6Text;
+            document.getElementById('rule7Title').textContent = t.rule7Title;
+            document.getElementById('rule7Text').textContent = t.rule7Text;
+            document.getElementById('rule8Title').textContent = t.rule8Title;
+            document.getElementById('rule8Text').textContent = t.rule8Text;
+            
+            // Section 4
+            document.getElementById('section4Title').textContent = t.section4Title;
+            document.getElementById('section4Text').textContent = t.section4Text;
+            document.getElementById('rule9').textContent = t.rule9;
+            document.getElementById('rule10').textContent = t.rule10;
+            
+            // Section 5
+            document.getElementById('section5Title').textContent = t.section5Title;
+            document.getElementById('rule11Title').textContent = t.rule11Title;
+            document.getElementById('rule11Text').textContent = t.rule11Text;
+            document.getElementById('rule12Title').textContent = t.rule12Title;
+            document.getElementById('rule12Text').textContent = t.rule12Text;
+            
+            // Section 6
+            document.getElementById('section6Title').textContent = t.section6Title;
+            document.getElementById('section6Text').textContent = t.section6Text;
+            
+            // Section 7
+            document.getElementById('section7Title').textContent = t.section7Title;
+            document.getElementById('section7Text').textContent = t.section7Text;
+            
+            // Warning and Acceptance
+            document.getElementById('warningText').textContent = t.warningText;
+            document.getElementById('warningSmall').textContent = t.warningSmall;
+            document.getElementById('acceptanceText').textContent = t.acceptanceText;
+            document.getElementById('backButton').textContent = t.backButton;
+            
+            // Update Footer
+            document.getElementById('footerText').textContent = t.footerText;
+            document.getElementById('footerTerms').textContent = t.footerTerms;
+            document.getElementById('footerPrivacy').textContent = t.footerPrivacy;
+            document.getElementById('footerAdmin').textContent = t.footerAdmin;
+            document.getElementById('footerCopy').textContent = t.footerCopy;
+        }
+
+        // Initialize with default language (English) or saved preference
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if there's a saved language preference
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            
+            // Find and activate the correct language option
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                if (opt.dataset.lang === savedLang) {
+                    opt.classList.add('active');
+                    
+                    // Update the language button
+                    const flag = opt.querySelector('img').src;
+                    const text = opt.querySelector('span').textContent;
+                    langBtn.querySelector('img').src = flag;
+                    langBtn.querySelector('span').textContent = text;
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+            
+            // Apply the translation
+            updateLanguage(savedLang);
+        });
+
+        // Language options with save preference
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const lang = option.dataset.lang;
+                document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                // Update button
+                const flag = option.querySelector('img').src;
+                const text = option.querySelector('span').textContent;
+                langBtn.querySelector('img').src = flag;
+                langBtn.querySelector('span').textContent = text;
+                
+                langDropdown.classList.remove('active');
+                
+                // Save preference
+                localStorage.setItem('preferredLanguage', lang);
+                
+                // Update ALL content including TOS
+                updateLanguage(lang);
+            });
+        });
+
+        // Admin modal functions
+        function openAdminModal() {
+            const currentLang = document.querySelector('.lang-option.active').dataset.lang;
+            if (currentLang === 'cn') {
+                alert('管理员访问受限。联系 @rankflood 获取访问权限。');
+            } else if (currentLang === 'ru') {
+                alert('Доступ администратора ограничен. Свяжитесь с @rankflood для получения доступа.');
+            } else {
+                alert('Admin access restricted. Contact @rankflood for access.');
+            }
+        }
+
+        function showPrivacy() {
+            const currentLang = document.querySelector('.lang-option.active').dataset.lang;
+            if (currentLang === 'cn') {
+                alert('隐私政策 - 我们重视您的隐私。联系 @rankflood 了解详情。');
+            } else if (currentLang === 'ru') {
+                alert('Политика конфиденциальности - Мы ценим вашу конфиденциальность. Свяжитесь с @rankflood для получения информации.');
+            } else {
+                alert('Privacy Policy - We value your privacy. Contact @rankflood for details.');
+            }
+        }
+
+        // Simple canvas background animation
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw random particles
+            for (let i = 0; i < 50; i++) {
+                ctx.fillStyle = `rgba(255, 51, 51, ${Math.random() * 0.1})`;
+                ctx.beginPath();
+                ctx.arc(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    Math.random() * 2,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+            
+            requestAnimationFrame(draw);
+        }
+        
+        draw();
+    </script>
+</body>
+</html>
