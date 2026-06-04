@@ -1,0 +1,178 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 | KillByte</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:#050505;
+    color:#fff;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Grid Background */
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size:40px 40px;
+    z-index:-2;
+}
+
+/* Center Glow */
+body::after{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at center,
+    rgba(255,255,255,.05),
+    transparent 70%);
+    z-index:-1;
+}
+
+.container{
+    text-align:center;
+    padding:20px;
+}
+
+.logo{
+    font-size:14px;
+    letter-spacing:6px;
+    color:#8a8a8a;
+    margin-bottom:25px;
+}
+
+.error{
+    position:relative;
+    font-size:180px;
+    font-weight:800;
+    line-height:1;
+    letter-spacing:-8px;
+}
+
+/* Reflection */
+.error::after{
+    content:'404';
+    position:absolute;
+    left:0;
+    top:100%;
+    width:100%;
+    transform:scaleY(-1);
+    opacity:.05;
+    filter:blur(2px);
+}
+
+/* Shine Animation */
+.error::before{
+    content:'';
+    position:absolute;
+    top:-50%;
+    left:-100%;
+    width:50%;
+    height:250%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.08),
+        transparent
+    );
+    transform:rotate(20deg);
+    animation:shine 5s linear infinite;
+}
+
+@keyframes shine{
+    100%{
+        left:200%;
+    }
+}
+
+.title{
+    margin-top:25px;
+    font-size:32px;
+    font-weight:700;
+}
+
+.desc{
+    margin-top:12px;
+    color:#8f8f8f;
+    max-width:500px;
+    line-height:1.8;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:35px;
+    padding:14px 28px;
+    text-decoration:none;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.02);
+    border-radius:12px;
+    transition:.3s;
+    backdrop-filter:blur(10px);
+}
+
+.btn:hover{
+    background:#fff;
+    color:#000;
+    transform:translateY(-3px);
+}
+
+.footer{
+    position:fixed;
+    bottom:25px;
+    width:100%;
+    text-align:center;
+    color:#5a5a5a;
+    font-size:13px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="logo">KILLBYTE SOLUTIONS</div>
+
+    <div class="error">404</div>
+
+    <div class="title">Page Not Found</div>
+
+    <div class="desc">
+        The page you're looking for doesn't exist,
+        has been moved, or is temporarily unavailable.
+    </div>
+
+    <a href="/" class="btn">
+        Return Home
+    </a>
+
+</div>
+
+<div class="footer">
+    © 2026 KillByte Solutions
+</div>
+
+</body>
+</html>
+```
