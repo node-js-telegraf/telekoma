@@ -1,0 +1,17 @@
+{
+    "site_title": "KillByte Solutions",
+    "meta_description": "Enterprise-grade L7 & L4 stress testing platform. 550M+ req\/s, 1.2TB L4 performance.",
+    "meta_keywords": "stress testing, layer 7, layer 4, ddos, bypass, killbyte",
+    "blacklist": [
+        "gov",
+        "edu",
+        ".gov",
+        ".edu",
+        "dvfbg",
+        "fdgb"
+    ],
+    "default_concurrent": 1,
+    "default_duration": 60,
+    "maintenance": false,
+    "api_base": "http:\/\/0.0.0.0:5000\/api"
+}

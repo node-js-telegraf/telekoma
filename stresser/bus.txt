@@ -1,0 +1,3 @@
+root|usnexus1111|750|860000|owner|30-12-2030|active|1|
+usnexus|usnexus1111|0|0|free|30-12-2030|active|1|db
+admin|stabbed|0|0|free|30-12-2030|active|0|

